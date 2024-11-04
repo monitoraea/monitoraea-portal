@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import Loop from '../../components/LoopFacilitators';
 import bg from './bg.png';
 import './style.scss';
@@ -14,6 +14,9 @@ function Facilitadores({ staleTime = 3600000 /* 1h */ }) {
           {/* <div className="title">Facilitadores</div> */}
         </div>
       </div>
+
+      <Nav />
+
       <section id='novidades'>
         <div className="width-limiter">
           <div className="section-header">

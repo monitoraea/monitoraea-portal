@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Nav from '../../components/nav/nav';
 import imgplaceholder from './placeholder.png';
 import './style.scss';
 /* import { Link } from 'react-router-dom';  */
@@ -102,6 +103,9 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
           </div>
         </div>
       </div>
+
+      <Nav />
+
       <section>
         <div className="width-limiter">
           <div className="project-body">

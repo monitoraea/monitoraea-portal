@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import bg from './bg.png';
 import { Link } from 'react-router-dom';
 import logoanppea from './logo-anppea.png';
@@ -17,6 +17,9 @@ function Monitora() {
           <div className="title">Sistema Brasileiro de Monitoramento e Avaliação de Políticas Públicas e Projetos de Educação Ambiental</div>
         </div>
       </div>
+
+      <Nav />
+
       <section id="sobre">
         <div className="width-limiter">
           <div className="title-xl">MonitoraEA</div>

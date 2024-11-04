@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import Slider from '../../components/slider/slider';
+import { useState } from 'react';
+import Nav from '../../components/nav/nav';
+import bg from './bg.png';
 import Loop from '../../components/ContentByType/Loop';
 
 import { useParams } from 'react-router-dom';
@@ -41,7 +42,16 @@ function Novidades({ staleTime=3600000 /* 1h */, limit = 16 }) {
 
   return (
     <>
-      <Slider portal={portal} />
+      <div className="banner">
+        <img className="bg" src={bg} alt="" />
+        <div className="backdrop"></div>
+        <div className="content">
+          <div className="title">NOVO</div>
+        </div>
+      </div>
+
+      <Nav />
+
       <section id='novidades'>
         <div className="width-limiter">
 

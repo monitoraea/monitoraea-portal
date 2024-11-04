@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import imgplaceholder from './placeholder.png';
 import bg from './bg.png';
 
@@ -23,6 +23,9 @@ function CIEA() {
             <div className="title">Comissões Interinstitucional de Educação Ambiental</div>
           </div>
         </div>
+
+        <Nav />
+
         <section id="sobre">
         <div className="width-limiter">
           <p className="p-xl"><DynamicContent keyRef="ciea.intro" /></p>

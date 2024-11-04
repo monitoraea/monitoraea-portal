@@ -1,4 +1,3 @@
-import React from 'react';
 import './app.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -7,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 import axios from 'axios';
-import Nav from './components/nav/nav';
 import Footer from './components/footer/footer';
 import Home from './pages/Home/Home';
 import Facilitadores from './pages/Facilitadores/Facilitadores';
@@ -37,7 +35,6 @@ function App() {
   return (<QueryClientProvider client={queryClient}>
     <Router>
       <ScrollToTop />
-      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/facilitadores" element={<Facilitadores />} />

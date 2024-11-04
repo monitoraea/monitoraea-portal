@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import { Link } from 'react-router-dom';
 import imgplaceholder from './placeholder.png';
 import bg from './bg.png';
@@ -27,6 +27,7 @@ function PPPZCM() {
           <div className="title">M&A de Iniciativas Vinculadas ao PPPZCM</div>
         </div>
       </div>
+      <Nav />
       <section id="sobre">
         <div className="width-limiter">
           <div className="about-pppzcm">

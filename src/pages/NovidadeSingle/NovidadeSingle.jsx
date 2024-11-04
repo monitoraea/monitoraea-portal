@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import imgplaceholder from './placeholder.png';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -31,6 +31,9 @@ function NovidadeSingle({ staleTime = 3600000 /* 1h */ }) {
           {data.type !== 'page' && <div className="date">{dayjs(data.publishedAt).format('DD/MM/YYYY')} às {dayjs(data.publishedAt).format('HH:mm')}</div>}
         </div>
       </div>
+
+      <Nav />
+
       <section>
         <div className="width-limiter">
           <div className="info">

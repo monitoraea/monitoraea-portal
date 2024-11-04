@@ -1,4 +1,4 @@
-import React from 'react';
+import Nav from '../../components/nav/nav';
 import bg from './bg.png';
 import './style.scss';
 
@@ -15,6 +15,9 @@ function Anppea() {
           <div className="title">Articulação Nacional de Políticas Públicas de Educação Ambiental</div>
         </div>
       </div>
+
+      <Nav />
+
       <section id="sobre">
         <div className="width-limiter">
           <div className="title-xl">ANPPEA</div>

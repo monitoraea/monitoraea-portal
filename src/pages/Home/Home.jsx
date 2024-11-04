@@ -1,5 +1,5 @@
-import React from 'react';
-import Slider from '../../components/slider/slider';
+import Nav from '../../components/nav/nav';
+import bg from './bg.png';
 import { Link } from 'react-router-dom';
 import imgplaceholder from './placeholder.png';
 import logoanppea from './logo-anppea.png';
@@ -18,7 +18,14 @@ import { content_types } from '../../utils';
 function Home() {
   return (
     <>
-      <Slider />
+      <div className="banner">
+        <img className="bg" src={bg} alt="" />
+        <div className="backdrop"></div>
+        <div className="content">
+          <div className="title">NOVO</div>
+        </div>
+      </div>
+      <Nav />
       <section id="sobre">
         <div className="width-limiter">
           <div className="section-header">
@@ -112,7 +119,7 @@ function Home() {
 
       <MapGeneral />
 
-      {['news','learning'].map(c => <ContentByType
+      {['news', 'learning'].map(c => <ContentByType
         key={c}
         id={content_types[c][2]}
         contentType={c}
