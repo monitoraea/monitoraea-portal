@@ -86,15 +86,13 @@ function Nav() {
     <>
       <div className="nav">
         <div className="brand">
-          <Link to="/">
-            <img src={logomonitoraea} alt="" />
-          </Link>
+          {/* TODO */}
         </div>
 
         {!!menu && isDesktop && (
           <>
             <ul className="menu">
-
+              <li className="menu-item"><Link to="/">Inicio</Link></li>
               {menu.map(i => <li key={i.id} className="menu-item">
                 <MenuItem data={i} />
 
@@ -110,18 +108,7 @@ function Nav() {
 
             </ul>
             <div className="access">
-              <div className="access-item">
-                <button className="btn-link" onClick={() => redirectTo('colabora')}>
-                  <div className="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
-                      <path d="M11.667 0.5H15.2225C15.694 0.5 16.1462 0.687301 16.4796 1.0207C16.813 1.3541 17.0003 1.80628 17.0003 2.27778V14.7222C17.0003 15.1937 16.813 15.6459 16.4796 15.9793C16.1462 16.3127 15.694 16.5 15.2225 16.5H11.667" stroke="#599559" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M7.22266 12.9446L11.6671 8.50011L7.22266 4.05566" stroke="#599559" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M11.6667 8.5H1" stroke="#599559" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  Acessar área logada
-                </button>
-              </div>
+              {/* TODO */}
             </div>
 
           </>

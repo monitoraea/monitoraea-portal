@@ -7,11 +7,13 @@
   height: 4rem;
   justify-content: space-between;
   align-items: center;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
+  font-weight: 100;
+  font-style: normal;
   position: sticky;
   top: 0;
   z-index: 999;
-  background-color: $white;
+  background-color: $indigo;
   box-shadow: $shadow-1;
 
   .brand {
@@ -26,18 +28,19 @@
 
     .menu-item {
       position: relative;
-      font-weight: 600;
+      font-weight: 400;
+      font-size: 1.1rem;
       
       a, .contact {
         padding: 0 1rem;
         text-decoration: none;
-        color: $green-1;
+        color: $white;
         cursor: pointer;
       }
 
       &:hover {
         > a {
-          color: $yellow-1;
+          color: $cristal;
         }
 
         .sub-menu {
