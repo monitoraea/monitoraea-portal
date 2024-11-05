@@ -85,9 +85,7 @@ function Nav() {
   return (
     <>
       <div className="nav">
-        <div className="brand">
-          {/* TODO */}
-        </div>
+        
 
         {!!menu && isDesktop && (
           <>
@@ -107,9 +105,6 @@ function Nav() {
               <li className="menu-item"><div className="contact" onClick={() => _showContactDialog(true)}>Contato</div></li>
 
             </ul>
-            <div className="access">
-              {/* TODO */}
-            </div>
 
           </>
         )}
