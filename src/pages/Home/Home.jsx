@@ -5,8 +5,7 @@ import imgplaceholder from './placeholder.png';
 import logoanppea from './logo-anppea.png';
 import pp from './pp.png';
 import pppzcm from './pppzcm.png';
-/*import imgsobre from './sobre.png'; /* ana maria */
-import imgsobre from './sobre.svg';
+import imgsobre from './sobre.png';
 import './style.scss';
 
 import DynamicContent from '../../components/DynamicContent';
