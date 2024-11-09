@@ -39,7 +39,7 @@ function Home() {
       <section id="fique_por_dentro">
         <div className="width-limiter">
           <div className="section-header">
-            <div class="section-title">Novidades</div>
+            <div class="section-title">Fique por dentro</div>
           </div>
           <div className='loop'>
             <a href="/novidade-single/1">
