@@ -6,6 +6,10 @@ import logoanppea from './logo-anppea.png';
 import pp from './pp.png';
 import pppzcm from './pppzcm.png';
 import imgsobre from './sobre.png';
+import imgnov1 from './novidade1.png';
+import imgnov2 from './novidade2.png';
+import imgnov3 from './novidade3.png';
+import imgnov4 from './novidade4.png';
 import './style.scss';
 
 import DynamicContent from '../../components/DynamicContent';
@@ -32,6 +36,63 @@ function Home() {
           <img src={imgsobre} />
         </div>
       </section>
+      <section id="fique_por_dentro">
+        <div className="width-limiter">
+          <div className="section-header">
+            <div class="section-title">Novidades</div>
+          </div>
+          <div className='loop'>
+            <a href="/novidade-single/1">
+              <div className="loop-item">
+                <img src={imgnov1} />
+                <div className="backdrop"></div>
+              </div>
+              <div className="content">Instâncias e Espaços</div>
+              <div className="content">Projeto MonitoraEA CIEA realiza oficina de construção de indicadores da região Norte</div>
+              <div className="content">Breve descrição</div>
+              <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+            </a>
+            <a href="/novidade-single/2">
+              <div class="loop-item">
+                <img src={imgnov2} />
+                <div class="backdrop"></div>
+              </div>
+              <div className="content">
+                <div className="content">Políticas Públicas e Projetos</div>
+                <div className="content">ANPPEA realiza formação de professores no Pará em parceria com a SEDUC-PA</div>
+                <div className="content">Breve descrição</div>
+                <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+              </div>
+            </a>
+            <a href="/novidade-single/3">
+              <div class="loop-item">
+                <img src={imgnov3} />
+                <div class="backdrop"></div>
+              </div>
+              <div className="content">
+                <div className="content">Risco Climático</div>
+                <div className="content">Projeto MonitoraEA CIEA publica relatório de percepção de riscos climáticos a partir das CIEA</div>
+                <div className="content">Breve descrição</div>
+                <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+              </div>
+            </a>
+          </div>
+          <a href="/novidades/news">
+            <button class="btn-link">
+              <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
+                  <path d="M7.05566 9.94455L11.5001 5.50011L7.05566 1.05566" stroke="#599559" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                  <path d="M11.4997 5.5H0.833008" stroke="#599559" stroke-linecap="round" stroke-linejoin="round">
+                  </path>
+                </svg>
+              </div>
+              Ver todas
+            </button>
+          </a>
+        </div>
+      </section>
+
 
       <MapGeneral />
 
