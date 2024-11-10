@@ -44,36 +44,51 @@ function Home() {
           <div className='loop'>
             <a href="/novidade-single/1">
               <div className="loop-item">
-                <img src={imgnov1} />
-                <div className="backdrop"></div>
+                <img src={imgnov1} alt="Figura Descritiva" class="image" />
               </div>
-              <div className="content">Instâncias e Espaços</div>
-              <div className="content">Projeto MonitoraEA CIEA realiza oficina de construção de indicadores da região Norte</div>
-              <div className="content">Breve descrição</div>
-              <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+              <div className="info-box">
+                <div className="left-section" style={{ backgroundColor: '#faad23' }}>Instâncias e Espaços</div>
+                <div className="right-section">Outubro | 2024</div>
+              </div>
+              {/* Texto fixo em negrito abaixo do infobox */}
+              <div className="fixed-text">
+                Projeto MonitoraEA CIEA realiza oficina de construção de indicadores da região Norte</div>
+              {/* Breve descrição abaixo do texto fixo */}
+              <div className="description-text">
+                <strong>Breve descrição</strong><br />
+                XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX
+              </div>
             </a>
             <a href="/novidade-single/2">
               <div class="loop-item">
-                <img src={imgnov2} />
-                <div class="backdrop"></div>
+                <img src={imgnov2} alt="Figura Descritiva" class="image" />
               </div>
-              <div className="content">
-                <div className="content">Políticas Públicas e Projetos</div>
-                <div className="content">ANPPEA realiza formação de professores no Pará em parceria com a SEDUC-PA</div>
-                <div className="content">Breve descrição</div>
-                <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+              <div className="info-box">
+                <div className="left-section" style={{ backgroundColor: '#409a4d' }}>Políticas Públicas e Projetos</div>
+                <div className='right-section'> Novembro | 2024</div>
+              </div>
+              {/* Texto fixo em negrito abaixo do infobox */}
+              <div className="fixed-text">ANPPEA realiza formação de professores no Pará em parceria com a SEDUC-PA</div>
+              {/* Breve descrição abaixo do texto fixo */}
+              <div className="description-text">
+                <strong>Breve descrição</strong><br />
+                XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX
               </div>
             </a>
             <a href="/novidade-single/3">
               <div class="loop-item">
-                <img src={imgnov3} />
-                <div class="backdrop"></div>
+                <img src={imgnov3} alt="Figura Descritiva" class="image" />
               </div>
-              <div className="content">
-                <div className="content">Risco Climático</div>
-                <div className="content">Projeto MonitoraEA CIEA publica relatório de percepção de riscos climáticos a partir das CIEA</div>
-                <div className="content">Breve descrição</div>
-                <div className="content">XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX</div>
+              <div className="info-box">
+                <div className="left-section" style={{ backgroundColor: '#3c6dbc' }}>Risco Climático</div>
+                <div className='right-section'> Novembro | 2024</div>
+              </div>
+              {/* Texto fixo em negrito abaixo do infobox */}
+              <div className="fixed-text">Projeto MonitoraEA CIEA publica relatório de percepção de riscos climáticos a partir das CIEA</div>
+              {/* Breve descrição abaixo do texto fixo */}
+              <div className="description-text">
+                <strong>Breve descrição</strong><br />
+                XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX
               </div>
             </a>
           </div>
@@ -90,19 +105,21 @@ function Home() {
               Ver todas
             </button>
           </a>
-        </div>
-      </section>
+        </div >
+      </section >
 
 
       <MapGeneral />
 
-      {['news', 'learning'].map(c => <ContentByType
-        key={c}
-        id={content_types[c][2]}
-        contentType={c}
-        title={content_types[c][1]}
-        moreText={content_types[c][3]}
-      />)}
+      {
+        ['news', 'learning'].map(c => <ContentByType
+          key={c}
+          id={content_types[c][2]}
+          contentType={c}
+          title={content_types[c][1]}
+          moreText={content_types[c][3]}
+        />)
+      }
 
       <Faq />
 
