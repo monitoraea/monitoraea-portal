@@ -212,28 +212,16 @@
   background: $green-2;
 }
 
+/* Home - Sobre */
 #sobre {
   background-color: $cristal;
 }
 
-/* Fique por dentro */
-/*Estilos para a seção que contém a imagem e o texto */
-.container {
-  text-align: center;
-  margin: 20px auto;
-  width: fit-content;
+/* Home - Fique por dentro */
+#fique_por_dentro {
+  background-color: $cristal;
 }
 
-/* Fique por dentro */
-/* Estilo para a imagem */
-.image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Fique por dentro */
 /* Estilos para o contêiner do texto */
 .info-box {
   display: flex;

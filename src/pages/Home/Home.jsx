@@ -42,8 +42,8 @@ function Home() {
             <div class="section-title">Fique por dentro</div>
           </div>
           <div className='loop'>
-            <a href="/novidade-single/1">
-              <div className="loop-item">
+            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
+              <div className="loop-item" >
                 <img src={imgnov1} alt="Figura Descritiva" class="image" />
               </div>
               <div className="info-box">
@@ -59,8 +59,8 @@ function Home() {
                 XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX
               </div>
             </a>
-            <a href="/novidade-single/2">
-              <div class="loop-item">
+            <a href="/novidade-single/2" style={{ width: 'calc(33.33% - 1.5rem)' }}>
+              <div class="loop-item" >
                 <img src={imgnov2} alt="Figura Descritiva" class="image" />
               </div>
               <div className="info-box">
@@ -75,7 +75,7 @@ function Home() {
                 XXXXXXXX XXXXXXXXXXXXXXX XXXXXXXXX XXXXXXXXX XXXXXXXXX XX XXXXXXXXX XXXXXXX XX XXXXXXXX XXXXXX
               </div>
             </a>
-            <a href="/novidade-single/3">
+            <a href="/novidade-single/3" style={{ width: 'calc(33.33% - 1.5rem)' }}>
               <div class="loop-item">
                 <img src={imgnov3} alt="Figura Descritiva" class="image" />
               </div>
