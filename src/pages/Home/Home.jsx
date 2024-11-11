@@ -19,6 +19,7 @@ import Faq from '../../components/Faq';
 import MapGeneral from '../../components/MapGeneral';
 
 import { content_types } from '../../utils';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 function Home() {
   return (
@@ -108,6 +109,56 @@ function Home() {
         </div >
       </section >
 
+      <section id="perguntas_frequentes">
+        <div className="width-limiter">
+          <div className="section-header center">
+            <div className="section-title">Perguntas frequentes</div>
+          </div>
+          <div className="accordeon">
+            <div className="accordeon-item">
+              <div className="accordeon-title">
+                O que são Políticas Públicas?
+                <div className="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+              {/* Mostra ou esconde o conteúdo com base no estado */}
+              <div className="accordeon-content">
+                Resposta 1
+              </div>
+            </div>
+            <div class="accordeon-item">
+              <div class="accordeon-title">
+                O que são Políticas Públicas de Educação Ambiental?
+                <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+              {/* Mostra ou esconde o conteúdo com base no estado */}
+              <div className="accordeon-content">
+                Resposta 2
+              </div>
+            </div>
+            <div class="accordeon-item">
+              <div class="accordeon-title">O que são indicadores?
+                <div class="icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
+                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              </div>
+              {/* Mostra ou esconde o conteúdo com base no estado */}
+              <div className="accordeon-content">
+                Resposta 3
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <MapGeneral />
 
