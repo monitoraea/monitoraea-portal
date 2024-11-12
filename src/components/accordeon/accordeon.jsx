@@ -21,6 +21,7 @@ function Accordeon({ items }) {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleItem = (index) => {
+    console.log('AQUI', {index})
     if (index === openIndex) {
       // Se o mesmo item estiver aberto, feche-o
       setOpenIndex(null);

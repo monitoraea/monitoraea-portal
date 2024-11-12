@@ -40,12 +40,12 @@ function Home() {
       <section id="fique_por_dentro">
         <div className="width-limiter">
           <div className="section-header">
-            <div class="section-title">Fique por dentro</div>
+            <div className="section-title">Fique por dentro</div>
           </div>
           <div className='loop'>
             <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
               <div className="loop-item" >
-                <img src={imgnov1} alt="Figura Descritiva" class="image" />
+                <img src={imgnov1} alt="Figura Descritiva" className="image" />
               </div>
               <div className="info-box">
                 <div className="left-section" style={{ backgroundColor: '#faad23' }}>Instâncias e Espaços</div>
@@ -61,8 +61,8 @@ function Home() {
               </div>
             </a>
             <a href="/novidade-single/2" style={{ width: 'calc(33.33% - 1.5rem)' }}>
-              <div class="loop-item" >
-                <img src={imgnov2} alt="Figura Descritiva" class="image" />
+              <div className="loop-item" >
+                <img src={imgnov2} alt="Figura Descritiva" className="image" />
               </div>
               <div className="info-box">
                 <div className="left-section" style={{ backgroundColor: '#409a4d' }}>Políticas Públicas e Projetos</div>
@@ -77,8 +77,8 @@ function Home() {
               </div>
             </a>
             <a href="/novidade-single/3" style={{ width: 'calc(33.33% - 1.5rem)' }}>
-              <div class="loop-item">
-                <img src={imgnov3} alt="Figura Descritiva" class="image" />
+              <div className="loop-item">
+                <img src={imgnov3} alt="Figura Descritiva" className="image" />
               </div>
               <div className="info-box">
                 <div className="left-section" style={{ backgroundColor: '#3c6dbc' }}>Risco Climático</div>
@@ -94,12 +94,12 @@ function Home() {
             </a>
           </div>
           <a href="/novidades/news">
-            <button class="btn-link">
-              <div class="icon">
+            <button className="btn-link">
+              <div className="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
-                  <path d="M7.05566 9.94455L11.5001 5.50011L7.05566 1.05566" stroke="#599559" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7.05566 9.94455L11.5001 5.50011L7.05566 1.05566" stroke="#599559" strokeLinecap="round" strokeLinejoin="round">
                   </path>
-                  <path d="M11.4997 5.5H0.833008" stroke="#599559" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11.4997 5.5H0.833008" stroke="#599559" strokeLinecap="round" strokeLinejoin="round">
                   </path>
                 </svg>
               </div>
@@ -110,54 +110,7 @@ function Home() {
       </section >
 
       <section id="perguntas_frequentes">
-        <div className="width-limiter">
-          <div className="section-header center">
-            <div className="section-title">Perguntas frequentes</div>
-          </div>
-          <div className="accordeon">
-            <div className="accordeon-item">
-              <div className="accordeon-title">
-                O que são Políticas Públicas?
-                <div className="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </div>
-              </div>
-              {/* Mostra ou esconde o conteúdo com base no estado */}
-              <div className="accordeon-content">
-                Resposta 1
-              </div>
-            </div>
-            <div class="accordeon-item">
-              <div class="accordeon-title">
-                O que são Políticas Públicas de Educação Ambiental?
-                <div class="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </div>
-              </div>
-              {/* Mostra ou esconde o conteúdo com base no estado */}
-              <div className="accordeon-content">
-                Resposta 2
-              </div>
-            </div>
-            <div class="accordeon-item">
-              <div class="accordeon-title">O que são indicadores?
-                <div class="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
-                    <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </div>
-              </div>
-              {/* Mostra ou esconde o conteúdo com base no estado */}
-              <div className="accordeon-content">
-                Resposta 3
-              </div>
-            </div>
-          </div>
-        </div>
+        <Faq />
       </section>
 
       <MapGeneral />
@@ -172,7 +125,7 @@ function Home() {
         />)
       }
 
-      <Faq />
+      
 
       <section id="conselho">
         <div className="width-limiter">
