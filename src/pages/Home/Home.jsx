@@ -9,7 +9,7 @@ import imgsobre from './sobre.png';
 import imgnov1 from './novidade1.png';
 import imgnov2 from './novidade2.png';
 import imgnov3 from './novidade3.png';
-import imgnov4 from './novidade4.png';
+import imganppea from './logo-anppea.png';
 import './style.scss';
 
 import DynamicContent from '../../components/DynamicContent';
@@ -118,6 +118,22 @@ function Home() {
         </div>
         <Faq />
       </section>
+
+      <section id="desenvolvimento">
+        <div className="width-limiter">
+          <div className="info-box" style={{ width: 'calc(50%)' }}>
+            <div className="left-section" style={{ backgroundColor: '#2d8bba' }}>Desenvolvimento</div>
+            <div className="right-section" style={{ backgroundColor: '#d6e6f8' }}> </div>
+          </div>
+          <div>
+            <img src={imganppea} alt="Figura Descritiva" className="image" />
+            <img src={imganppea} alt="Figura Descritiva" className="image" />
+            <img src={imganppea} alt="Figura Descritiva" className="image" />
+            <img src={imganppea} alt="Figura Descritiva" className="image" />
+          </div>
+          <div className="info2-box" style={{ width: 'calc(30%)' }}>Rede de colaboradorese e fomento</div>
+        </div>
+      </section >
 
       <MapGeneral />
 
