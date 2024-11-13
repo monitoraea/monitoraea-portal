@@ -38,6 +38,14 @@ function Home() {
           <img src={imgsobre} />
         </div>
       </section>
+      <section id='perspectivas'>
+        <div className="width-limiter">
+          <div className="content">
+            <div className="title" style={{ fontSize: '35px' }}>Perspectivas</div>
+            <div className="title" style={{ fontSize: '25px' }}>do Sistema MonitoraEA</div>
+          </div>
+        </div>
+      </section>
       <MapGeneral />
       <section id="fique_por_dentro">
         <div className="width-limiter">
@@ -142,37 +150,54 @@ function Home() {
               Instituições com iniciativas cadastradas no Sistema MonitoraEA
             </div>
           </div>
-          <div>
-            <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
-              <a href="/novidade-single/1" style={{ width: 'calc(15% - 1.5rem)' }}>
-                <div className="loop-item" >
-                  <img src={imganppea} alt="Figura Descritiva" className="image" />
-                </div>
-              </a>
-              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }} >
-                <div className="loop-item" >
-                  <img src={imganppea} alt="Figura Descritiva" className="image" />
-                </div>
-              </a>
-              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-                <div className="loop-item" >
-                  <img src={imganppea} alt="Figura Descritiva" className="image" />
-                </div>
-              </a>
-              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-                <div className="loop-item" >
-                  <img src={imganppea} alt="Figura Descritiva" className="image" />
-                </div>
-              </a>
-              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-                <div className="loop-item" >
-                  <img src={imganppea} alt="Figura Descritiva" className="image" />
-                </div>
-              </a>
-            </div>
+          <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
+            <a href="/novidade-single/1" style={{ width: 'calc(15% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imganppea} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }} >
+              <div className="loop-item" >
+                <img src={imganppea} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imganppea} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imganppea} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imganppea} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
           </div>
         </div>
       </section >
+      <section id="monitoraea_midia">
+        <div className="width-limiter">
+          <div className="info-box" style={{ width: 'calc(50%)' }}>
+            <div className="left-section" style={{ backgroundColor: '#051e59' }}>MonitoraEA na mídia</div>
+            <div className='right-section' style={{ backgroundColor: '#d6e6f8' }}> </div>
+          </div>
+          <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
+            <div className="info-box">
+              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Out 2024</div>
+            </div>
+            <div className="info-box">
+              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Nov 2024</div>
+            </div>
+            <div className="info-box">
+              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Dez 2024</div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="perguntas_frequentes">
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(50%)' }}>
