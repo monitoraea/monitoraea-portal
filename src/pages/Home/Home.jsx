@@ -10,6 +10,7 @@ import imgnov1 from './novidade1.png';
 import imgnov2 from './novidade2.png';
 import imgnov3 from './novidade3.png';
 import imganppea from './logo-anppea.png';
+import imgfake from './novidade4.png';
 import './style.scss';
 
 import DynamicContent from '../../components/DynamicContent';
@@ -108,6 +109,33 @@ function Home() {
           </a>
         </div >
       </section >
+
+      <section id='monitoraea_num'>
+        <div className="width-limiter">
+          <div className="info-box" style={{ width: 'calc(75%)' }}>
+            <div className="left-section" style={{ backgroundColor: '#ffffff', color: '#070707' }}>MonitoraEA em números</div>
+            <div className="right-section" style={{ backgroundColor: '#d6e6f8' }}> </div>
+          </div>
+          <div className='loop'>
+            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imgfake} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imgfake} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
+              <div className="loop-item" >
+                <img src={imgfake} alt="Figura Descritiva" className="image" />
+              </div>
+            </a>
+          </div>
+        </div>
+      </section >
+
 
       <section id="perguntas_frequentes">
         <div className="width-limiter">
