@@ -38,6 +38,7 @@ function Home() {
           <img src={imgsobre} />
         </div>
       </section>
+      <MapGeneral />
       <section id="fique_por_dentro">
         <div className="width-limiter">
           <div className="section-header">
@@ -109,7 +110,6 @@ function Home() {
           </a>
         </div >
       </section >
-
       <section id='monitoraea_num'>
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(75%)' }}>
@@ -135,8 +135,44 @@ function Home() {
           </div>
         </div>
       </section >
-
-
+      <section id='instituicoes'>
+        <div className="width-limiter">
+          <div className="info-box" style={{ width: 'calc(80%)' }}>
+            <div className="left-section" style={{ backgroundColor: '#d6e6f8', color: '#070707', borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}>
+              Instituições com iniciativas cadastradas no Sistema MonitoraEA
+            </div>
+          </div>
+          <div>
+            <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
+              <a href="/novidade-single/1" style={{ width: 'calc(15% - 1.5rem)' }}>
+                <div className="loop-item" >
+                  <img src={imganppea} alt="Figura Descritiva" className="image" />
+                </div>
+              </a>
+              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }} >
+                <div className="loop-item" >
+                  <img src={imganppea} alt="Figura Descritiva" className="image" />
+                </div>
+              </a>
+              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+                <div className="loop-item" >
+                  <img src={imganppea} alt="Figura Descritiva" className="image" />
+                </div>
+              </a>
+              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+                <div className="loop-item" >
+                  <img src={imganppea} alt="Figura Descritiva" className="image" />
+                </div>
+              </a>
+              <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
+                <div className="loop-item" >
+                  <img src={imganppea} alt="Figura Descritiva" className="image" />
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section >
       <section id="perguntas_frequentes">
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(50%)' }}>
@@ -146,7 +182,6 @@ function Home() {
         </div>
         <Faq />
       </section>
-
       <section id="desenvolvimento">
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(50%)' }}>
@@ -163,9 +198,7 @@ function Home() {
         </div>
       </section >
 
-      <MapGeneral />
-
-      {
+      {/*   {
         ['news', 'learning'].map(c => <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -173,10 +206,10 @@ function Home() {
           title={content_types[c][1]}
           moreText={content_types[c][3]}
         />)
-      }
+      }*/}
 
 
-
+      {/*
       <section id="conselho">
         <div className="width-limiter">
           <div className="section-header">
@@ -189,7 +222,7 @@ function Home() {
             <img src={imgplaceholder} alt="" className="logo" />
           </div>
         </div>
-      </section>
+      </section>*/}
     </>
   );
 }
