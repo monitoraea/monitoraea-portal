@@ -1,15 +1,22 @@
 @import '../../app';
 
 .accordeon {
-  width: 100%;  
+  width: 100%;
 }
 
 .accordeon-item {
   overflow: hidden;
+  color: $chumbo;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $gray-2;
+    /*border-bottom: 1px solid $gray-2;*/
+    border-top: 1px solid $white;
+    ;
+  }
 
+  &:last-child {
+    border-top: 1px solid $white;
+    border-bottom: 1px solid $white;
   }
 
   .accordeon-title {
@@ -19,9 +26,20 @@
     display: flex;
     justify-content: space-between;
     transition: .25s ease;
-    
+
     .icon {
       transition: .25s ease;
+
+      svg {
+
+        path,
+        rect,
+        circle {
+          stroke: $white;
+          fill: $white;
+          /* Cor padrão do ícone */
+        }
+      }
     }
 
     &.open {
@@ -29,9 +47,13 @@
 
       .icon {
         transform: rotate(180deg);
+        ;
 
         svg {
-          path, rect, circle {
+
+          path,
+          rect,
+          circle {
             stroke: $green-1;
           }
         }
