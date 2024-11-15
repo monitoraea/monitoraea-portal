@@ -217,6 +217,86 @@
   background-color: $cristal;
 }
 
+/* Home - Perspectivas */
+#perspectivas {
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  /* Flexbox para alinhar os itens horizontalmente */
+  justify-content: space-between;
+  /* Espaço entre o título e o quadrado */
+  align-items: center;
+  /* Alinha verticalmente no centro */
+}
+
+.title-container {
+  flex: 1;
+  /* O texto ocupará metade da largura */
+  text-align: left;
+  /* Alinha o texto à esquerda */
+  padding-right: 2rem;
+  /* Espaço entre o texto e o quadrado com imagem */
+}
+
+.box-with-image {
+  display: flex;
+  /* Flexbox para colocar o quadrado e a imagem ao lado */
+  align-items: center;
+  /* Alinha os itens no centro verticalmente */
+  flex: 1;
+  /* O quadrado e a imagem ocupam a outra metade */
+}
+
+.box {
+  background-color: $cristal;
+  /* Cor azul */
+  border-radius: 15px;
+  /* Bordas arredondadas */
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  /* Espaço entre o título e o quadrado */
+}
+
+.number {
+  font-size: 48px;
+  /* Tamanho maior para o número */
+  font-weight: bold;
+  color: $indigo;
+}
+
+.text {
+  font-size: 18px;
+  color: $indigo;
+}
+
+.red {
+  color: red;
+  /* Cor vermelha para [iniciativas] */
+  /*margin-top: -10px;*/
+}
+
+.fake-image {
+  padding: 20px;
+  width: 200px;
+  /* Tamanho da imagem igual ao quadrado */
+  height: 150px;
+  /* Tamanho da imagem igual ao quadrado */
+  object-fit: cover;
+  /* Ajusta a imagem para cobrir o espaço */
+  border-radius: 15px;
+  /* Bordas arredondadas para combinar com o quadrado */
+}
+
 /* Home - Fique por dentro */
 #fique_por_dentro {
   background-color: $cristal;

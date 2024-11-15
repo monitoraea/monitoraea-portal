@@ -41,8 +41,21 @@ function Home() {
       <section id='perspectivas'>
         <div className="width-limiter">
           <div className="content">
-            <div className="title" style={{ fontSize: '35px' }}>Perspectivas</div>
-            <div className="title" style={{ fontSize: '25px' }}>do Sistema MonitoraEA</div>
+            <div className="title-container">
+              <div className="title" style={{ fontSize: '35px' }}>Perspectivas</div>
+              <div className="title" style={{ fontSize: '25px' }}>do Sistema MonitoraEA</div>
+            </div>
+            {/* Novo quadrado com texto */}
+            <div className='box-with-image'>
+              <div className="box">
+                <div className="number">525</div>
+                <div className="text red">[iniciativas]</div>
+                <div className="text">cadastradas</div>
+              </div>
+              {/* Imagem Fake ao lado do quadrado */}
+              <img className="fake-image" src={imgfake} alt="Fake Image" />
+              {/*<img src={imgfake} alt="Figura Descritiva" className="image" />*/}
+            </div>
           </div>
         </div>
       </section>
