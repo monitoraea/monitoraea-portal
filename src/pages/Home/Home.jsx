@@ -199,12 +199,6 @@ function Home() {
         </div>
       </section>
       <section id="perguntas_frequentes">
-        <div className="width-limiter">
-          <div className="info-box" style={{ width: 'calc(50%)' }}>
-            <div className="left-section" style={{ backgroundColor: '#2d8bba' }}>Perguntas Frequentes</div>
-            <div className='right-section'> </div>
-          </div>
-        </div>
         <Faq />
       </section>
       <section id="desenvolvimento">
