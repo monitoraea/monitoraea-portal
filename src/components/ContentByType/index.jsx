@@ -5,17 +5,18 @@ import { useQuery } from 'react-query';
 
 import Loop from './Loop';
 
-export default function ContentByType({ id, title, portal = "main", contentType, moreText = 'Ver todos', staleTime=3600000 /* 1h */ }) {
+export default function ContentByType({ id, title, portal = "main", className, contentType, moreText = 'Ver todos', staleTime=3600000, /* 1h */ }) {
 
     const { data } = useQuery(['news', { portal, contentType }], { /* TODO: tudo que pode variar: limit, offset */
-        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}content/by_type/${contentType}?portal=${portal}&limit=4&offset=0`)).data, /* TODO: se nao vou reaproveitar, fixar limit e offset? */
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}content/by_type/${contentType}?portal=${portal}&limit=3&offset=0`)).data, /* TODO: se nao vou reaproveitar, fixar limit e offset? */
         staleTime,
     });
 
-    return (<section id={id}>
+    return (<section id={id} className={className}>
         <div className="width-limiter">
+            {!!data && <Loop data={data.entities} portal={portal} />}
             <div className="section-header">
-                <div className="section-title">{title}</div>
+                {/* <div className="section-title">{title}</div> */}
                 {!!contentType && <Link to={`/novidades/${contentType}${portal!=='main' ? `/${portal}` : ''}`}>
                     <button className="btn-link">
                         <div className="icon">
@@ -28,7 +29,6 @@ export default function ContentByType({ id, title, portal = "main", contentType,
                     </button>
                 </Link>}
             </div>
-            {!!data && <Loop data={data.entities} portal={portal} />}
         </div>
     </section>)
 }

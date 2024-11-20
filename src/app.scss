@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
@@ -26,6 +26,7 @@ $shadow-1: 0 0 4px rgba(0, 0, 0, .15);
 
 $border-radius-small: 4px;
 $border-radius-medium: 8px;
+$border-radius-big: 30px;
 $border-radius-full: 9999px;
 
 $indigo: #051e59;
@@ -41,7 +42,7 @@ $chumbo: #070707; //cor da letra - chumbo da paleta
   background: transparent;
   border: none;
   font-size: 16px;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   cursor: pointer;
   color: $green-1;
   transition: .25s ease;
@@ -78,7 +79,7 @@ $chumbo: #070707; //cor da letra - chumbo da paleta
   background: transparent;
   border: none;
   font-size: 16px;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   cursor: pointer;
   color: $white;
   background: $green-1;
@@ -110,7 +111,7 @@ $chumbo: #070707; //cor da letra - chumbo da paleta
   background: transparent;
   border: none;
   font-size: 16px;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   cursor: pointer;
   color: $white;
   background: transparent;
@@ -141,7 +142,7 @@ $chumbo: #070707; //cor da letra - chumbo da paleta
 
 section {
   padding: 5rem 2rem;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
 
   .section-header {
     display: flex;
@@ -164,7 +165,7 @@ section {
         display: flex;
         column-gap: .5rem;
         font-weight: 700;
-        font-family: 'Raleway';
+        font-family: 'Poppins';
         font-size: 14px;
         padding: .5rem;
         transition: .25s ease;
@@ -219,13 +220,13 @@ section {
 }
 
 .title-xl {
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   font-weight: 700;
   font-size: 2rem;
 }
 
 .p-xl {
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   font-weight: 400;
   font-size: 1.25rem;
   margin: 0;
@@ -271,7 +272,7 @@ section {
 .banner {
   height: 400px;
   width: 100%;
-  font-family: 'Raleway';
+  font-family: 'Poppins';
   position: relative;
 
 

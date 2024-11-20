@@ -302,50 +302,7 @@
   background-color: $cristal;
 }
 
-/* Estilos para o contêiner do texto */
-.info-box {
-  display: flex;
-  justify-content: space-between;
-  /* align-items: center; */
-  background-color: $blue-1;
-  border-radius: 20px;
-  /*padding: 10px 20px;*/
-  margin-top: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-}
 
-/* Fique por dentro */
-/* Estilos para o texto à esquerda e à direita */
-.left-section {
-  /*background-color: $yellow-1;*/
-  /* Cor da esquerda */
-  color: $white;
-  /* Cor do texto */
-  padding: 10px;
-  flex: 1;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  font-weight: bold;
-  text-align: left;
-  width: 50%;
-}
-
-.right-section {
-  background-color: $white;
-  /* Cor da direita */
-  color: $blue-1;
-  /* Cor do texto à esquerda */
-  padding: 10px;
-  flex: 1;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  text-align: right;
-  width: 50%;
-
-}
 
 /* Fique por dentro */
 /* Estilos para o título da notícia */
