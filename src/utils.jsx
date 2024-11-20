@@ -1,9 +1,9 @@
 export const portals = {
-  'main': ['Principal', 'principal'],
+  'main': ['Portal MonitoraEA', 'principal'],
   'monitoraea': ['MonitoraEA', 'monitoraea'],
-  'pp': ['Políticas Públicas', 'ppea'],
-  'pppzcm': ['PPPZCM', 'pppzcm'],
-  'ciea': ['CIEA', 'ciea'],
+  'pp': ['Políticas Públicas e Projetos', 'ppea'],
+  'pppzcm': ['Políticas Públicas e Projetos', 'pppzcm'],
+  'ciea': ['Instâncias e Espaços', 'ciea'],
   'risco': ['Risco Climático', 'risco'],
 };
 export const content_types = {
