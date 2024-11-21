@@ -1,26 +1,21 @@
 import Nav from '../../components/nav/nav';
-import bg from './bg.png';
-import { Link } from 'react-router-dom';
-import imgplaceholder from './placeholder.png';
-import logoanppea from './logo-anppea.png';
-import pp from './pp.png';
-import pppzcm from './pppzcm.png';
+
+import bg from './bg_top.jpg'
+import miolo from './miolo_top.png'
+import youtube from './youtube.png'
+import instagram from './instagram.png'
+
 import imgsobre from './sobre.png';
-import imgnov1 from './novidade1.png';
-import imgnov2 from './novidade2.png';
-import imgnov3 from './novidade3.png';
 import imganppea from './logo-anppea.png';
 import imgfake from './novidade4.png';
 import './style.scss';
 
-import DynamicContent from '../../components/DynamicContent';
 import ContentByType from '../../components/ContentByType';
 import Faq from '../../components/Faq';
 
 import MapGeneral from '../../components/MapGeneral';
 
 import { content_types } from '../../utils';
-import { isVisible } from '@testing-library/user-event/dist/utils';
 
 function Home() {
   return (
@@ -29,7 +24,14 @@ function Home() {
         <img className="bg" src={bg} alt="" />
         <div className="backdrop"></div>
         <div className="content">
-          <div className="title">NOVO</div>
+          <div className="title">
+            <img src={miolo} alt="" />
+          </div>
+
+          <div className="right">
+            <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
+            <button className="login">Login</button>
+          </div>
         </div>
       </div>
       <Nav />

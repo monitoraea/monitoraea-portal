@@ -31,10 +31,13 @@ $border-radius-full: 9999px;
 
 $indigo: #051e59;
 $cristal: #d6e6f8;
+$anil: #2d8bba;
 $amarelo: #faad23; //amarelo da paleta MonitoraEA-KV
 $verde: #409a4d; //verde da paleta 
 $azul: #3c6dbc; //azul da paleta 
 $chumbo: #070707; //cor da letra - chumbo da paleta 
+
+$big-font: 1.25rem;
 
 // Components 
 .btn-link {
@@ -306,12 +309,11 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    /* padding: 2rem; */
     box-sizing: border-box;
-    flex-direction: column;
-    row-gap: 2rem;
+    /* row-gap: 2rem; */
     max-width: 1199px;
-    margin: auto;
+    /* margin: auto; */
     transform: translate(-50%, 0);
     text-align: center;
 
@@ -320,6 +322,38 @@ section {
       font-weight: 700;
       font-size: 2rem;
       text-align: center;
+    }
+
+    .right {
+      display: flex;
+      margin-left: 60px;
+      max-height: 70%;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      .social-media {
+        display: flex;
+        justify-content: right;
+        gap: 10px;
+        margin-right: 10px;
+      }
+
+      .login {
+        color: $white;
+        border: 0;
+        border-radius: $border-radius-big;
+        background-color: $anil;
+        font-size: $big-font;
+        font-family: 'Poppins';
+        padding: 8px 10px;
+        min-width: 160px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $indigo;
+        }
+      }
     }
 
     .date {
