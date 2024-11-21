@@ -30,7 +30,7 @@ function Home() {
 
           <div className="right">
             <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
-            <button className="login">Login</button>
+            <button className="login">Acessar</button>
           </div>
         </div>
       </div>
@@ -44,8 +44,8 @@ function Home() {
         <div className="width-limiter">
           <div className="content">
             <div className="title-container">
-              <div className="title" style={{ fontSize: '35px' }}>Perspectivas</div>
-              <div className="title" style={{ fontSize: '25px' }}>do Sistema MonitoraEA</div>
+              <div className="title perspectivas-1">Perspectivas</div>
+              <div className="title perspectivas-2">do Sistema MonitoraEA</div>
             </div>
             {/* Novo quadrado com texto */}
             <div className='box-with-image'>
