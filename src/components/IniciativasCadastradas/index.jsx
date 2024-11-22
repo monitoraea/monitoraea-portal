@@ -1,22 +1,24 @@
 import { useState, createRef } from 'react';
 
+import axios from 'axios';
+import { useQuery } from 'react-query';
+
 import ICLeft from '../../images/ic-left.svg?react';
 import ICRight from '../../images/ic-right.svg?react';
-import ICanppea from '../../images/ic-anppea.png';
-import ICmmaa from '../../images/ic-mma.png';
-import ICciea from '../../images/ic-ciea.png';
-import ICcoral from '../../images/ic-coral.png';
-import ICicmbio from '../../images/ic-icmbio.png';
-import ICterramar from '../../images/ic-terramar.png';
 import { useEffect } from 'react';
 
 const logosRef = createRef()
 const MOVE_FACTOR = 150;
 
-export default function IniciativaCadastradas() {
+export default function IniciativaCadastradas({ staleTime = 3600000, /* 1h */ }) {
 
     const [xPos, _xPos] = useState(0)
     const [xLimit, _xLimit] = useState(null)
+
+    const { data } = useQuery(['institution-home'], { 
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}institution-home`)).data,
+        staleTime,
+    });
 
     useEffect(() => {
         if (logosRef.current) {
@@ -40,65 +42,29 @@ export default function IniciativaCadastradas() {
                 Instituições com iniciativas cadastradas no Sistema MonitoraEA
             </div>
 
-            <div className='ic-loop'>
+            {!data && <div className='ic-loading'>Carregando...</div>}
+
+            {data && <div className='ic-loop'>
 
                 <div className="ic-left" onClick={move(1)}><ICLeft /></div>
 
                 <div className="ic-logos" ref={logosRef}>
                     <div className="ic-logos-miolo" style={{ left: `${xPos}px` }}>
-                        <div>
-                            <a href="/novidade-single/1">
-                                <div className="ic-item" >
-                                    <img src={ICanppea} alt="Figura Descritiva" className="image" />
-                                </div>
-                            </a>
-                        </div>
 
-                        <div>
-                            <a href="/novidade-single/1">
+                        {data.list.map(ic => <div key={ic.id}>
+                            <a href={ic.link} target='blank'>
                                 <div className="ic-item" >
-                                    <img src={ICmmaa} alt="Figura Descritiva" className="image" />
+                                    <img src={ic.logo} alt={ic.name} className="image" />
                                 </div>
                             </a>
-                        </div>
+                        </div>)}
 
-                        <div>
-                            <a href="/novidade-single/1">
-                                <div className="ic-item" >
-                                    <img src={ICciea} alt="Figura Descritiva" className="image" />
-                                </div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="/novidade-single/1">
-                                <div className="ic-item" >
-                                    <img src={ICcoral} alt="Figura Descritiva" className="image" />
-                                </div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="/novidade-single/1">
-                                <div className="ic-item" >
-                                    <img src={ICicmbio} alt="Figura Descritiva" className="image" />
-                                </div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="/novidade-single/1">
-                                <div className="ic-item" >
-                                    <img src={ICterramar} alt="Figura Descritiva" className="image" />
-                                </div>
-                            </a>
-                        </div>
                     </div>
                 </div>
 
                 <div className="ic-right" onClick={move(-1)}><ICRight /></div>
 
-            </div>
+            </div>}
         </div>
         <div className="ending-bar"></div>
     </div>)
