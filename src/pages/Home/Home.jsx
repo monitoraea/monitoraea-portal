@@ -7,7 +7,13 @@ import instagram from './instagram.png'
 
 import imgsobre from './sobre.png';
 import imganppea from './logo-anppea.png';
+
 import imgfake from './novidade4.png';
+
+import em_numeros_1 from './em-numeros-1.png';
+import em_numeros_2 from './em-numeros-2.png';
+import em_numeros_3 from './em-numeros-3.png';
+
 import './style.scss';
 
 import ContentByType from '../../components/ContentByType';
@@ -75,25 +81,28 @@ function Home() {
       }
 
       <section id='monitoraea_num'>
+
+        <div className="inner-title-box em-numeros">
+          <div className="left-side">MonitoraEA em números</div>
+          <div className="right-side"></div>
+        </div>
+
         <div className="width-limiter">
-          <div className="info-box" style={{ width: 'calc(75%)' }}>
-            <div className="left-section" style={{ backgroundColor: '#ffffff', color: '#070707' }}>MonitoraEA em números</div>
-            <div className="right-section" style={{ backgroundColor: '#d6e6f8' }}> </div>
-          </div>
-          <div className='loop'>
-            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imgfake} alt="Figura Descritiva" className="image" />
+
+          <div className="em-numeros">
+            <a href="/novidade-single/1">
+              <div>
+                <img src={em_numeros_1} alt="Figura Descritiva" className="image" />
               </div>
             </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imgfake} alt="Figura Descritiva" className="image" />
+            <a href="/novidade-single/1">
+              <div>
+                <img src={em_numeros_2} alt="Figura Descritiva" className="image" />
               </div>
             </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(33.33% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imgfake} alt="Figura Descritiva" className="image" />
+            <a href="/novidade-single/1">
+              <div>
+                <img src={em_numeros_3} alt="Figura Descritiva" className="image" />
               </div>
             </a>
           </div>

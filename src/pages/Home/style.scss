@@ -367,6 +367,22 @@
   font-size: $insane-big-font;
   line-height: 50px;
 }
+
 .perspectivas-2 {
   font-size: $super-big-font;
+}
+
+.inner-title-box.em-numeros {
+  background-color: $cristal;
+
+  .left-side {
+    background-color: $white;
+    color: $indigo;
+  }
+}
+
+.em-numeros {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
