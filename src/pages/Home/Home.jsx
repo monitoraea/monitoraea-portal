@@ -39,7 +39,7 @@ function Home() {
 
           <div className="right">
             <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
-            <button className="login">Acessar</button>
+            <button onClick={()=>window.location.href='/colabora'} className="login">Acessar</button>
           </div>
         </div>
       </div>
