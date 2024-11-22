@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br'
+
 import './app.scss';
 import 'leaflet/dist/leaflet.css';
 
@@ -20,6 +23,8 @@ import ANPPEA from './pages/ANPPEA/';
 import Monitora from './pages/Monitora/Monitora';
 import ScrollToTop from './components/ScrollTop';
 import Login from './pages/Login';
+
+dayjs.locale('pt-br')
 
 function App() {
 
