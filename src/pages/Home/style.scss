@@ -359,8 +359,9 @@
 }
 
 /* MonitoraEA em números */
-#monitoraea_num {
+#monitoraea-num {
   background-color: $indigo;
+  padding-bottom: 20px;
 }
 
 .perspectivas-1 {
@@ -385,4 +386,70 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.iniciativas-cadastradas {
+  background-color: $white;
+
+  .ic-title {
+    text-align: center;
+    background-color: $cristal;
+    padding: 5px 0;
+    margin: 15px 30px;
+    font-size: $medium-font;
+    color: $indigo;
+    border-radius: $border-radius-big;
+  }
+
+  .ic-loop {
+    margin-bottom: 20px;
+    display: flex;
+
+    align-items: center;
+
+    .ic-left {
+      cursor: pointer;
+      margin-right: 20px;
+    }
+
+    .ic-right {
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    .ic-logos {
+      position: relative;
+      overflow-x: hidden;
+
+      .ic-logos-miolo {
+        position: relative;
+        display: flex;
+        gap: 80px;
+        align-items: center;
+        transition: left 0.5s;
+
+        img {
+          -webkit-touch-callout: none;
+          /* iOS Safari */
+          -webkit-user-select: none;
+          /* Safari */
+          -khtml-user-select: none;
+          /* Konqueror HTML */
+          -moz-user-select: none;
+          /* Old versions of Firefox */
+          -ms-user-select: none;
+          /* Internet Explorer/Edge */
+          user-select: none;
+          /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+        }
+      }
+    }
+  }
+
+  .ending-bar {
+    width: 100%;
+    background-color: $indigo;
+    height: 30px;
+  }
 }

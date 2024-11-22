@@ -37,7 +37,8 @@ $verde: #409a4d; //verde da paleta
 $azul: #3c6dbc; //azul da paleta 
 $chumbo: #070707; //cor da letra - chumbo da paleta 
 
-$not_so-big-font: 1rem;
+$not-so-big-font: 1rem;
+$medium-font: 1.1rem;
 $big-font: 1.25rem;
 $super-big-font: 2rem;
 $insane-big-font: 3.5rem;
@@ -439,7 +440,7 @@ section {
     border: 0;
     border-radius: $border-radius-big;
     background-color: $anil;
-    font-size: $not_so-big-font;
+    font-size: $not-so-big-font;
     font-family: 'Poppins';
     padding: 8px 20px;
     min-width: 200px;

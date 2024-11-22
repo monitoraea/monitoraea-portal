@@ -6,13 +6,16 @@ import youtube from './youtube.png'
 import instagram from './instagram.png'
 
 import imgsobre from './sobre.png';
-import imganppea from './logo-anppea.png';
 
 import imgfake from './novidade4.png';
 
 import em_numeros_1 from './em-numeros-1.png';
 import em_numeros_2 from './em-numeros-2.png';
 import em_numeros_3 from './em-numeros-3.png';
+
+import ICanppea from '../../images/ic-anppea.png'
+
+import IniciativaCadastradas from '../../components/IniciativasCadastradas';
 
 import './style.scss';
 
@@ -80,7 +83,7 @@ function Home() {
         />)
       }
 
-      <section id='monitoraea_num'>
+      <section id='monitoraea-num'>
 
         <div className="inner-title-box em-numeros">
           <div className="left-side">MonitoraEA em números</div>
@@ -108,42 +111,9 @@ function Home() {
           </div>
         </div>
       </section >
-      <section id='instituicoes'>
-        <div className="width-limiter">
-          <div className="info-box" style={{ width: 'calc(80%)' }}>
-            <div className="left-section" style={{ backgroundColor: '#d6e6f8', color: '#070707', borderTopRightRadius: '20px', borderBottomRightRadius: '20px' }}>
-              Instituições com iniciativas cadastradas no Sistema MonitoraEA
-            </div>
-          </div>
-          <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
-            <a href="/novidade-single/1" style={{ width: 'calc(15% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imganppea} alt="Figura Descritiva" className="image" />
-              </div>
-            </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }} >
-              <div className="loop-item" >
-                <img src={imganppea} alt="Figura Descritiva" className="image" />
-              </div>
-            </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imganppea} alt="Figura Descritiva" className="image" />
-              </div>
-            </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imganppea} alt="Figura Descritiva" className="image" />
-              </div>
-            </a>
-            <a href="/novidade-single/1" style={{ width: 'calc(18% - 1.5rem)' }}>
-              <div className="loop-item" >
-                <img src={imganppea} alt="Figura Descritiva" className="image" />
-              </div>
-            </a>
-          </div>
-        </div>
-      </section >
+
+      <IniciativaCadastradas />
+
       <section id="monitoraea_midia">
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(50%)' }}>
@@ -163,6 +133,7 @@ function Home() {
           </div>
         </div>
       </section>
+
       <section id="perguntas_frequentes">
         <Faq />
       </section>
@@ -173,10 +144,10 @@ function Home() {
             <div className="right-section" style={{ backgroundColor: '#d6e6f8' }}> </div>
           </div>
           <div>
-            <img src={imganppea} alt="Figura Descritiva" className="image" />
-            <img src={imganppea} alt="Figura Descritiva" className="image" />
-            <img src={imganppea} alt="Figura Descritiva" className="image" />
-            <img src={imganppea} alt="Figura Descritiva" className="image" />
+            <img src={ICanppea} alt="Figura Descritiva" className="image" />
+            <img src={ICanppea} alt="Figura Descritiva" className="image" />
+            <img src={ICanppea} alt="Figura Descritiva" className="image" />
+            <img src={ICanppea} alt="Figura Descritiva" className="image" />
           </div>
           <div className="info2-box" style={{ width: 'calc(30%)' }}>Rede de colaboradorese e fomento</div>
         </div>
