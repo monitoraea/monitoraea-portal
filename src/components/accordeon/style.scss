@@ -5,8 +5,8 @@
 }
 
 .accordeon-item {
-  overflow: hidden;
-  color: $chumbo;
+  overflow: hidden;  
+  color: $indigo;
 
   &:not(:last-child) {
     /*border-bottom: 1px solid $gray-2;*/
@@ -23,14 +23,12 @@
     position: relative;
     padding: 1rem;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 400;
     display: flex;
     justify-content: space-between;
-    /* transition: .25s ease; */
 
     .icon {
       position: absolute;
-      /* transition: .25s ease; */
       margin: -1rem;
       right: 20px;
 
