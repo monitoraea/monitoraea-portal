@@ -16,6 +16,7 @@ import em_numeros_3 from './em-numeros-3.png';
 import ICanppea from '../../images/ic-anppea.png'
 
 import IniciativaCadastradas from '../../components/IniciativasCadastradas';
+import NaMidia from '../../components/NaMidia';
 
 import './style.scss';
 
@@ -114,25 +115,7 @@ function Home() {
 
       <IniciativaCadastradas />
 
-      <section id="monitoraea_midia">
-        <div className="width-limiter">
-          <div className="info-box" style={{ width: 'calc(50%)' }}>
-            <div className="left-section" style={{ backgroundColor: '#051e59' }}>MonitoraEA na mídia</div>
-            <div className='right-section' style={{ backgroundColor: '#d6e6f8' }}> </div>
-          </div>
-          <div className='loop' style={{ justifyContent: 'center', width: 'calc(80%)' }}>
-            <div className="info-box">
-              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Out 2024</div>
-            </div>
-            <div className="info-box">
-              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Nov 2024</div>
-            </div>
-            <div className="info-box">
-              <div className="right-section" style={{ textAlign: 'left', backgroundColor: '#2d8bba', color: '#ffffff' }}>24 Dez 2024</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <NaMidia />
 
       <section id="perguntas_frequentes">
         <Faq />
