@@ -1,10 +1,92 @@
+@use '../../app' as *;
+
+.footer {
+    padding: 50px 0;
+    background-color: $indigo;
+    color: $white;
+
+    .inner {
+        display: flex;
+        position: relative;
+
+        .logo {
+            position: absolute;
+            right: 0;
+            top: -60px;
+            img {
+                height: 40px;
+            }
+        }
+
+        .menu {
+            ul {
+                background: linear-gradient($anil, $anil) no-repeat 20px/3px 100%;
+                list-style: none;
+                margin-bottom: 0;
+
+                li {
+                    line-height: 25px;
+                }
+            }
+        }
+
+        .line1 {
+            display: flex;
+            justify-content: space-between;
+
+            .contato {
+                text-align: right;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                line-height: 25px;
+
+                a {
+                    color: $anil;
+                    text-decoration: underline;
+                }
+
+                img {
+                    height: 30px;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        .line2 {
+            display: flex;
+            justify-content: space-between;
+
+            .right {
+                text-align: right;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                line-height: 25px;
+
+                a {
+                    color: $anil;
+                    text-decoration: underline;
+                }
+
+                .end {
+                    line-height: 15px;
+                    font-size: $smallest-font;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}
+
 .field-wrap {
     width: 100%;
     margin-bottom: 10px;
     display: flex;
 }
 
-.field-wrap input, .field-wrap textarea {
+.field-wrap input,
+.field-wrap textarea {
     width: 100%;
     flex-grow: 1;
     border-radius: 3px;

@@ -1,12 +1,16 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import './style.scss';
-import logomonitoraea from './logo-monitoraea.png';
+import logomonitoraea from '../../images/logo.png';
 import { Link } from 'react-router-dom';
+
+import youtube from '../../images/youtube.png'
+import instagram from '../../images/instagram.png'
+import anppea from '../../images/ic-anppea.png'
 
 import axios from 'axios';
 import { useQuery, useMutation } from 'react-query';
 
-import Modal from '../Modal';
+/* import Modal from '../Modal'; */
 import styles from './styles.module.scss';
 
 function Footer() {
@@ -67,32 +71,77 @@ function Footer() {
   }, [data])
 
   return (
-    <>
-      <div className="footer">
-        <div className="brand">
-          <Link to="/"><img src={logomonitoraea} alt="" /></Link>
+    <div id="footer">
+      <div className={styles.footer}>
+        <div className="inner-title-box rodape">
+          <div className="left-side">Mapa do Site</div>
+          <div className="right-side"></div>
         </div>
-        {!!menu && <ul className="menu">
 
-          {menu.map(i => <Fragment key={i.id}><MenuItem data={i} />
+        <div className={`width-limiter ${styles.inner}`}>
+          <div className={styles.logo}><img src={logomonitoraea} /></div>
 
-            {!!i.children.length && i.children.map(c => <MenuItem key={c.id} data={c} />)}
+          <div className={styles.line1}>
 
-          </Fragment>)}
+            <div className={`${styles.menu}`}>
+              <div>Sobre</div>
+              <ul>
+                <li>O Sistema MonitoraEA</li>
+                <li>ANPPEA</li>
+              </ul>
+            </div>
 
-          <li className="menu-item"><div className="contact" onClick={() => _showContactDialog(true)}>Contato</div></li>
+            <div className={`${styles.menu}`}>
+              <div>Fique por dentro</div>
+              <ul>
+                <li>Passo a passo</li>
+                <li>Notícias</li>
+                <li>MonitoraEA na mídia</li>
+                <li>Cursos e formações</li>
+                <li>Publicações</li>
+              </ul>
+            </div>
 
-        </ul>}
-        <ul className="menu">
-          <li className="menu-item">
-            <button className="btn-link" onClick={() => redirectTo('colabora')}>
-              Área logada
-            </button>
-          </li>
-        </ul>
-        <div></div>
+            <div className={styles.contato}>
+              <div>
+                <div>Fale conosco:</div>
+                <a href="mailto:portal.monitoraea@gmail.com">portal.monitoraea@gmail.com</a>
+              </div>
+              <div>
+                <div>Acesse nossas redes sociais:</div>
+                <div>
+                  <div className={styles['social-media']}><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div className={styles.line2}>
+
+            <div className={`${styles.menu}`}>
+              <div>Perspectivas de mapeamento</div>
+              <ul>
+                <li>Políticas Públicas de Educação Ambiental</li>
+                <li>Projetos e Ações de Educação Ambiental</li>
+              </ul>
+            </div>
+
+            <div className={styles.right}>
+              <div>
+                <div>Associe-se à </div>
+                <img src={anppea} />
+              </div>
+              <div className={styles.end}>
+                <div>LGPD</div>
+                <div>Termos de uso</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <Modal open={showContactDialog} onClose={() => _showContactDialog(false)} title="Enviar mensagem para a Secretaria Executiva" onSend={handleSend}>
+
+      {/* <Modal open={showContactDialog} onClose={() => _showContactDialog(false)} title="Enviar mensagem para a Secretaria Executiva" onSend={handleSend}>
         <div className={styles.fields}>
           <div className={styles['field-wrap']}>
             <label>E-mail</label>
@@ -107,17 +156,17 @@ function Footer() {
             <textarea rows={4} name="message" value={message} onChange={(e) => _message(e.target.value)} />
           </div>
         </div>
-      </Modal>
-    </>
+      </Modal> */}
+    </div>
   );
 }
 
-function MenuItem({ data, ...rest }) {
+/* function MenuItem({ data, ...rest }) {
   if (data.type === 'link') return (<li className="menu-item"><Link target={data.blank ? '_blank' : ''} to={data.link} {...rest}>{data.title}</Link></li>)
   if (data.type === 'page') return (<li className="menu-item"><Link to={`/page/${data.content_id}`} {...rest}>{data.title}</Link></li>)
   if (data.type === 'none') return (<></>)
 
   return (<li className="menu-item"><Link disabled>{data.title}</Link></li>)
-}
+} */
 
 export default Footer;

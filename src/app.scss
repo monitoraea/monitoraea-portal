@@ -37,6 +37,7 @@ $verde: #409a4d; //verde da paleta
 $azul: #3c6dbc; //azul da paleta 
 $chumbo: #070707; //cor da letra - chumbo da paleta 
 
+$smallest-font: 0.8rem;
 $small-font: 0.95rem;
 $less-than-medium-font: 1rem;
 $medium-font: 1.1rem;
@@ -418,7 +419,7 @@ section {
     background-color: $indigo;
     color: $white;
     padding: 8px 20px 8px 0px;
-    font-weight: bold;
+    font-weight: 400;
     min-width: 25vw;
     text-align: right;
   }
@@ -450,5 +451,11 @@ section {
     &:hover {
       background-color: $indigo;
     }
+  }
+}
+
+#footer {
+  .title-box, .inner-title-box {
+    margin-top: 0;
   }
 }

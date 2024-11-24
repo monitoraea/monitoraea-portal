@@ -5,8 +5,8 @@ import Arrow from '../../images/arrow_2.svg?react';
 
 import bg from './bg_top.jpg'
 import miolo from './miolo_top.png'
-import youtube from './youtube.png'
-import instagram from './instagram.png'
+import youtube from '../../images/youtube.png'
+import instagram from '../../images/instagram.png'
 
 import imgsobre from './sobre.png';
 
