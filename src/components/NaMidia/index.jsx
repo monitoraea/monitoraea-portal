@@ -1,64 +1,45 @@
-import img1 from '../../images/happy_1.jpg'
-import img2 from '../../images/happy_2.jpg'
-import img3 from '../../images/happy_3.jpg'
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import dayjs from 'dayjs';
 
 import MoreTip from '../../images/more_timeline_tip.svg?react'
 
-export default function NaMidia() {
+export default function NaMidia({ staleTime = 3600000, /* 1h */ }) {
+    const { data } = useQuery(['na-midia'], { 
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}na-midia`)).data,
+        staleTime,
+    });
+
     return (<section id="monitoraea_midia">
         <div className="inner-title-box na-midia">
             <div className="left-side">MonitoraEA na mídia</div>
             <div className="right-side"></div>
         </div>
 
-        <div className="width-limiter">
+        {!data && <div className='ic-loading'>Carregando...</div>}
+
+        {data && <div className="width-limiter">
             <div className="timeline">
                 <div className="timeline-each">
                     <div></div>
                     <div className="timeline-each-thumb empty"></div>
                 </div>
-                <div className="timeline-each">
+                
+                {data.list.map(nm => <div key={nm.id} className="timeline-each">
                     <div className="timeline-each-date">
                         <div className="timeline-each-date-miolo">
-                            <div className="left-side">01 Jan 2024</div>
+                            <div className="left-side">{dayjs(nm.publishedAt).format('DD MMM YYYY')}</div>
                             <div className="right-side"></div>
                         </div>
                     </div>
                     <div className="timeline-each-thumb">
                         <div className="timeline-each-thumb-image">
-                            <img src={img1} alt="imagem de timeline" />
+                            <img src={nm.thumb} alt="imagem de timeline" />
                         </div>
                     </div>
-                    <div className="timeline-each-text">[SEDUC-PA] Projetos finalistas da CYC serão nacionalmente divulgados  em plataforma</div>
-                </div>
-                <div className="timeline-each">
-                    <div className="timeline-each-date">
-                        <div className="timeline-each-date-miolo">
-                            <div className="left-side">12 Fev 2024</div>
-                            <div className="right-side"></div>
-                        </div>
-                    </div>
-                    <div className="timeline-each-thumb">
-                        <div className="timeline-each-thumb-image">
-                            <img src={img2} alt="imagem de timeline" />
-                        </div>
-                    </div>
-                    <div className="timeline-each-text">[Agência de notícias -AC] Equipe do Acre participa da Oficina de Formação e Construção de Indicadores da Educação Ambiental em Belém – PA</div>
-                </div>
-                <div className="timeline-each">
-                    <div className="timeline-each-date">
-                        <div className="timeline-each-date-miolo">
-                            <div className="left-side">24 Jun 2024</div>
-                            <div className="right-side"></div>
-                        </div>
-                    </div>
-                    <div className="timeline-each-thumb">
-                        <div className="timeline-each-thumb-image">
-                            <img src={img3} alt="imagem de timeline" />
-                        </div>
-                    </div>
-                    <div className="timeline-each-text">[IBAMA] Ibama participa de Oficina de Monitoramento e Avaliação de Políticas Públicas de Educação Ambiental</div>
-                </div>
+                    <div className="timeline-each-text">{nm.text}</div>
+                </div>)}
+                
                 <div className="timeline-each">
                     <div></div>
                     <div className="timeline-each-thumb"></div>
@@ -68,9 +49,9 @@ export default function NaMidia() {
                     <div className="end">
                         <MoreTip />                        
                     </div>
-                    <div className="timeline-each-more"><a href="">More</a></div>
+                    <div className="timeline-each-more"><a href="">Mais</a></div>
                 </div>
             </div>
-        </div>
+        </div>}
     </section>)
 }
