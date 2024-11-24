@@ -1,5 +1,8 @@
 import Nav from '../../components/nav/nav';
 
+import { Link } from 'react-router-dom';
+import Arrow from '../../images/arrow_2.svg?react';
+
 import bg from './bg_top.jpg'
 import miolo from './miolo_top.png'
 import youtube from './youtube.png'
@@ -13,7 +16,10 @@ import em_numeros_1 from './em-numeros-1.png';
 import em_numeros_2 from './em-numeros-2.png';
 import em_numeros_3 from './em-numeros-3.png';
 
-import ICanppea from '../../images/ic-anppea.png'
+import Dev1 from '../../images/dev_1.png'
+import Dev2 from '../../images/dev_2.png'
+import Dev3 from '../../images/dev_3.png'
+import Dev4 from '../../images/dev_4.png'
 
 import IniciativaCadastradas from '../../components/IniciativasCadastradas';
 import NaMidia from '../../components/NaMidia';
@@ -40,7 +46,7 @@ function Home() {
 
           <div className="right">
             <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
-            <button onClick={()=>window.location.href='/colabora'} className="login">Acessar</button>
+            <button onClick={() => window.location.href = '/colabora'} className="login">Acessar</button>
           </div>
         </div>
       </div>
@@ -120,49 +126,35 @@ function Home() {
       <section id="perguntas_frequentes">
         <Faq />
       </section>
-      
+
       <section id="desenvolvimento">
+      <div className="inner-title-box desenvolvimento">
+            <div className="left-side">Desenvolvimento</div>
+            <div className="right-side"></div>
+        </div>
+
         <div className="width-limiter">
-          <div className="info-box" style={{ width: 'calc(50%)' }}>
-            <div className="left-section" style={{ backgroundColor: '#2d8bba' }}>Desenvolvimento</div>
-            <div className="right-section" style={{ backgroundColor: '#d6e6f8' }}> </div>
+          <div className="desenvolvimento-thumbs">
+            <img src={Dev1} alt="Figura Descritiva" />
+            <img src={Dev2} alt="Figura Descritiva" />
+            <img src={Dev3} alt="Figura Descritiva" />
+            <img src={Dev4} alt="Figura Descritiva" />
           </div>
-          <div>
-            <img src={ICanppea} alt="Figura Descritiva" className="image" />
-            <img src={ICanppea} alt="Figura Descritiva" className="image" />
-            <img src={ICanppea} alt="Figura Descritiva" className="image" />
-            <img src={ICanppea} alt="Figura Descritiva" className="image" />
-          </div>
-          <div className="info2-box" style={{ width: 'calc(30%)' }}>Rede de colaboradorese e fomento</div>
+          <div className="button-more-wrapper">
+            <div>
+                <Link to={``}>
+                    <button className="button-more">
+                        <div>Rede de colaboradorese e fomento</div>
+                        <div className="icon">
+                            <Arrow />
+                        </div>
+                    </button>
+                </Link>
+            </div>
+        </div>
         </div>
       </section >
 
-      {/*   {
-        ['news', 'learning'].map(c => <ContentByType
-          key={c}
-          id={content_types[c][2]}
-          contentType={c}
-          title={content_types[c][1]}
-          moreText={content_types[c][3]}
-          className={`content-type-${c}`}
-        />)
-      }*/}
-
-
-      {/*
-      <section id="conselho">
-        <div className="width-limiter">
-          <div className="section-header">
-            <div className="section-title">Conselho Institucional</div>
-          </div>
-          <div className="logos">
-            <img src={imgplaceholder} alt="" className="logo" />
-            <img src={imgplaceholder} alt="" className="logo" />
-            <img src={imgplaceholder} alt="" className="logo" />
-            <img src={imgplaceholder} alt="" className="logo" />
-          </div>
-        </div>
-      </section>*/}
     </>
   );
 }

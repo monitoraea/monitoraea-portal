@@ -459,6 +459,29 @@
   }
 }
 
+#desenvolvimento {
+  .inner-title-box.desenvolvimento {
+    background-color: $cristal;
+
+    .left-side {
+      background-color: $anil;
+      color: $white;
+    }
+  }
+
+  .desenvolvimento-thumbs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .button-more {
+    background-color: $cristal;
+    color: $indigo;
+    gap: 10px;
+  }
+}
+
 #monitoraea_midia {
   padding-bottom: 0;
 
