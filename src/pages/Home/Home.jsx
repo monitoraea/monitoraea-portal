@@ -120,6 +120,7 @@ function Home() {
       <section id="perguntas_frequentes">
         <Faq />
       </section>
+      
       <section id="desenvolvimento">
         <div className="width-limiter">
           <div className="info-box" style={{ width: 'calc(50%)' }}>

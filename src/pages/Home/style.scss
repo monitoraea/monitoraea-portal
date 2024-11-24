@@ -567,3 +567,14 @@
     }
   }
 }
+
+#perguntas_frequentes {
+  .inner-title-box {
+    background-color: $white;
+  
+    .left-side {
+      background-color: $anil;
+      color: $white;
+    }
+  }
+}

@@ -11,14 +11,14 @@ export default function Faq({ portal = 'main', staleTime = 3600000 /* 1h */ }) {
         staleTime,
     });
 
-    return (
+    return (<>
+        <div className="inner-title-box faq">
+            <div className="left-side">Perguntas Frequentes</div>
+            <div className="right-side"></div>
+        </div>
+
         <div className="width-limiter">
-            <div className="section-header center" style={{ width: 'calc(50%)' }}>
-                {/* <div className="section-title">Perguntas frequentes</div>*/}
-                <div className="left-section" style={{ backgroundColor: '#2d8bba' }}>Perguntas Frequentes</div>
-                <div className='right-section'> </div>
-            </div>
             {!!data && <Accordeon items={data.map(({ title, text }) => ({ title, content: text.replace(/<[^>]*>/g, '') }))} />}
         </div>
-    )
+    </>)
 }

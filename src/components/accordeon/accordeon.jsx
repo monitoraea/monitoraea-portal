@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './style.scss';
+
+import Arrow1 from '../../images/accordeon_arrow_1.svg?react';
+/* import Arrow2 from '../../images/accordeon_arrow_2.svg?react'; */
 
 function AccordeonItem({ title, content, isOpen, onClick }) {
   return (
@@ -7,9 +10,7 @@ function AccordeonItem({ title, content, isOpen, onClick }) {
       <div className={`accordeon-title ${isOpen ? 'open' : ''}`} onClick={onClick}>
         {title}
         <div className="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" fill="none">
-            <path d="M0.651367 0.868408L6.07585 6.78496L11.5003 0.868408" stroke="#666666" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <Arrow1 />
         </div>
       </div>
       {isOpen && <div className="accordeon-content">{content}</div>}

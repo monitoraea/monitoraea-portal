@@ -20,15 +20,19 @@
   }
 
   .accordeon-title {
+    position: relative;
     padding: 1rem;
     cursor: pointer;
     font-weight: 600;
     display: flex;
     justify-content: space-between;
-    transition: .25s ease;
+    /* transition: .25s ease; */
 
     .icon {
-      transition: .25s ease;
+      position: absolute;
+      /* transition: .25s ease; */
+      margin: -1rem;
+      right: 20px;
 
       svg {
 
@@ -43,20 +47,10 @@
     }
 
     &.open {
-      color: $green-1;
+      color: $anil;
 
       .icon {
         transform: rotate(180deg);
-        ;
-
-        svg {
-
-          path,
-          rect,
-          circle {
-            stroke: $green-1;
-          }
-        }
       }
     }
   }
