@@ -26,6 +26,15 @@
 
                 li {
                     line-height: 25px;
+
+                    a {
+                        color: $white;
+
+                        &[disabled] {
+                            color: $disabled;
+                            cursor: default;
+                        }
+                    }
                 }
             }
         }

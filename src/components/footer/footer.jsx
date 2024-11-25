@@ -70,6 +70,8 @@ function Footer() {
     }
   }, [data])
 
+  if (!menu) return <></>
+
   return (
     <div id="footer">
       <div className={styles.footer}>
@@ -86,19 +88,15 @@ function Footer() {
             <div className={`${styles.menu}`}>
               <div>Sobre</div>
               <ul>
-                <li>O Sistema MonitoraEA</li>
-                <li>ANPPEA</li>
+                {menu.filter(m => m.id === 1)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
             <div className={`${styles.menu}`}>
               <div>Fique por dentro</div>
               <ul>
-                <li>Passo a passo</li>
-                <li>Notícias</li>
-                <li>MonitoraEA na mídia</li>
-                <li>Cursos e formações</li>
-                <li>Publicações</li>
+                <li><Link to={`/page/81`}>Passo a passo</Link></li>
+                {menu.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
@@ -121,8 +119,7 @@ function Footer() {
             <div className={`${styles.menu}`}>
               <div>Perspectivas de mapeamento</div>
               <ul>
-                <li>Políticas Públicas de Educação Ambiental</li>
-                <li>Projetos e Ações de Educação Ambiental</li>
+                {menu.filter(m => m.id === 21)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
@@ -140,33 +137,16 @@ function Footer() {
           </div>
         </div>
       </div>
-
-      {/* <Modal open={showContactDialog} onClose={() => _showContactDialog(false)} title="Enviar mensagem para a Secretaria Executiva" onSend={handleSend}>
-        <div className={styles.fields}>
-          <div className={styles['field-wrap']}>
-            <label>E-mail</label>
-            <input type="text" name="email" value={email} onChange={(e) => _email(e.target.value)} />
-          </div>
-          <div className={styles['field-wrap']}>
-            <label>Nome</label>
-            <input type="text" name="name" value={name} onChange={(e) => _name(e.target.value)} />
-          </div>
-          <div className={styles['field-wrap']}>
-            <label>Mensagem</label>
-            <textarea rows={4} name="message" value={message} onChange={(e) => _message(e.target.value)} />
-          </div>
-        </div>
-      </Modal> */}
+      
     </div>
   );
 }
 
-/* function MenuItem({ data, ...rest }) {
-  if (data.type === 'link') return (<li className="menu-item"><Link target={data.blank ? '_blank' : ''} to={data.link} {...rest}>{data.title}</Link></li>)
-  if (data.type === 'page') return (<li className="menu-item"><Link to={`/page/${data.content_id}`} {...rest}>{data.title}</Link></li>)
-  if (data.type === 'none') return (<></>)
+function MenuItem({ data, ...rest }) {
+  if (data.type === 'link' && data.link) return (<li><Link target={data.blank ? '_blank' : ''} to={data.link} {...rest}>{data.title}</Link></li>)
+  if (data.type === 'page' && data.content_id) return (<li><Link to={`/page/${data.content_id}`} {...rest}>{data.title}</Link></li>)
 
-  return (<li className="menu-item"><Link disabled>{data.title}</Link></li>)
-} */
+  return (<li><Link disabled>{data.title}</Link></li>)
+}
 
 export default Footer;
