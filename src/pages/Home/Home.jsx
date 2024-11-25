@@ -144,7 +144,7 @@ function Home() {
             <div>
                 <Link to={``}>
                     <button className="button-more">
-                        <div>Rede de colaboradorese e fomento</div>
+                        <div>Rede de colaboradores e fomento</div>
                         <div className="icon">
                             <Arrow />
                         </div>
