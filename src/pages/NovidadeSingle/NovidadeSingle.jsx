@@ -8,11 +8,6 @@ import { portals, content_types } from '../../utils';
 import ContentRenderer from '../../components/DynamicContent/ContentRenderer';
 import ContentByType from '../../components/ContentByType';
 
-import bg from '../../images/bg_top.jpg'
-import miolo from '../../images/miolo_top.png'
-import youtube from '../../images/youtube.png'
-import instagram from '../../images/instagram.png'
-
 import './style.scss';
 
 function NovidadeSingle({ staleTime = 3600000 /* 1h */ }) {

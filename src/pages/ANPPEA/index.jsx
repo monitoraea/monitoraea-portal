@@ -1,4 +1,4 @@
-import Nav from '../../components/nav/nav';
+import Header from '../../components/Header';
 import bg from './bg.png';
 import './style.scss';
 
@@ -8,15 +8,7 @@ import Faq from '../../components/Faq';
 function Anppea() {
   return (
     <>
-      <div className="banner">
-        <img className="bg" src={bg} alt="" />
-        <div className="backdrop"></div>
-        <div className="content">
-          <div className="title">Articulação Nacional de Políticas Públicas de Educação Ambiental</div>
-        </div>
-      </div>
-
-      <Nav />
+      <Header />
 
       <section id="sobre">
         <div className="width-limiter">
