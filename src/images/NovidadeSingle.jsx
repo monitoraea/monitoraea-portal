@@ -1,4 +1,4 @@
-import Header from '../../components/Header';
+import Nav from '../../components/nav/nav';
 import imgplaceholder from './placeholder.png';
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -8,8 +8,8 @@ import { portals, content_types } from '../../utils';
 import ContentRenderer from '../../components/DynamicContent/ContentRenderer';
 import ContentByType from '../../components/ContentByType';
 
-import bg from '../../images/bg_top.jpg'
-import miolo from '../../images/miolo_top.png'
+import bg from '../Home/bg_top.jpg'
+import miolo from '../Home/miolo_top.png'
 import youtube from '../../images/youtube.png'
 import instagram from '../../images/instagram.png'
 
@@ -28,7 +28,21 @@ function NovidadeSingle({ staleTime = 3600000 /* 1h */ }) {
 
   return (
     <>
-      <Header />
+      <div className="banner">
+        <img className="bg" src={bg} alt="" />
+        <div className="backdrop"></div>
+        <div className="content">
+          <div className="title">
+            <img src={miolo} alt="" />
+          </div>
+
+          <div className="right">
+            <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
+            <button onClick={() => window.location.href = '/colabora'} className="login">Acessar</button>
+          </div>
+        </div>
+      </div>
+      <Nav />
 
       <section>
         <div className="width-limiter">

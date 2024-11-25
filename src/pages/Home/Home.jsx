@@ -1,10 +1,10 @@
-import Nav from '../../components/nav/nav';
+import Header from '../../components/Header';
 
 import { Link } from 'react-router-dom';
 import Arrow from '../../images/arrow_2.svg?react';
 
-import bg from './bg_top.jpg'
-import miolo from './miolo_top.png'
+import bg from '../../images/bg_top.jpg'
+import miolo from '../../images/miolo_top.png'
 import youtube from '../../images/youtube.png'
 import instagram from '../../images/instagram.png'
 
@@ -36,21 +36,9 @@ import { content_types } from '../../utils';
 function Home() {
   return (
     <>
-      <div className="banner">
-        <img className="bg" src={bg} alt="" />
-        <div className="backdrop"></div>
-        <div className="content">
-          <div className="title">
-            <img src={miolo} alt="" />
-          </div>
+      
+      <Header />
 
-          <div className="right">
-            <div className="social-media"><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
-            <button onClick={() => window.location.href = '/colabora'} className="login">Acessar</button>
-          </div>
-        </div>
-      </div>
-      <Nav />
       <section id="sobre">
         <div className="width-limiter">
           <img src={imgsobre} />
@@ -123,9 +111,7 @@ function Home() {
 
       <NaMidia />
 
-      <section id="perguntas_frequentes">
-        <Faq />
-      </section>
+      <Faq />
 
       <section id="desenvolvimento">
       <div className="inner-title-box desenvolvimento">

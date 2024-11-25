@@ -1,4 +1,4 @@
-import Nav from '../../components/nav/nav';
+import Header from '../../components/Header';
 import imgplaceholder from './placeholder.png';
 import bg from './bg.png';
 
@@ -16,14 +16,8 @@ function PPEA() {
 
   return (
     <>
-        <div className="banner">
-          <img className="bg" src={bg} alt="" />
-          <div className="backdrop"></div>
-          <div className="content">
-            <div className="title">M&A de Políticas Públicas de Educação Ambiental</div>
-          </div>
-        </div>
-        <Nav />
+        <Header />
+
         <section id="sobre">
         <div className="width-limiter">
           <p className="p-xl"><DynamicContent keyRef="pp.intro" /></p>
@@ -33,7 +27,7 @@ function PPEA() {
       <MapPPEA />
 
       
-      {['news','learning'].map(c => <ContentByType
+      {['news'/* ,'learning' */].map(c => <ContentByType
         key={c}
         id={content_types[c][2]}
         contentType={c}
