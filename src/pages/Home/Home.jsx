@@ -10,8 +10,6 @@ import instagram from '../../images/instagram.png'
 
 import imgsobre from './sobre.png';
 
-import imgfake from './novidade4.png';
-
 import em_numeros_1 from './em-numeros-1.png';
 import em_numeros_2 from './em-numeros-2.png';
 import em_numeros_3 from './em-numeros-3.png';
@@ -44,27 +42,7 @@ function Home() {
           <img src={imgsobre} />
         </div>
       </section>
-      <section id='perspectivas'>
-        <div className="width-limiter">
-          <div className="content">
-            <div className="title-container">
-              <div className="title perspectivas-1">Perspectivas</div>
-              <div className="title perspectivas-2">do Sistema MonitoraEA</div>
-            </div>
-            {/* Novo quadrado com texto */}
-            <div className='box-with-image'>
-              <div className="box">
-                <div className="number">525</div>
-                <div className="text red">[iniciativas]</div>
-                <div className="text">cadastradas</div>
-              </div>
-              {/* Imagem Fake ao lado do quadrado */}
-              <img className="fake-image" src={imgfake} alt="Fake Image" />
-              {/*<img src={imgfake} alt="Figura Descritiva" className="image" />*/}
-            </div>
-          </div>
-        </div>
-      </section>
+      
       <MapGeneral />
 
       {
@@ -78,7 +56,7 @@ function Home() {
         />)
       }
 
-      <section id='monitoraea-num'>
+      {/* <section id='monitoraea-num'>
 
         <div className="width-limiter">
 
@@ -106,7 +84,7 @@ function Home() {
             </a>
           </div>
         </div>
-      </section >
+      </section > */}
 
       <IniciativaCadastradas />
 

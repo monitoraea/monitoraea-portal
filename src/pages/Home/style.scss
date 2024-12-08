@@ -244,11 +244,10 @@
 
 .box-with-image {
   display: flex;
-  /* Flexbox para colocar o quadrado e a imagem ao lado */
   align-items: center;
-  /* Alinha os itens no centro verticalmente */
   flex: 1;
-  /* O quadrado e a imagem ocupam a outra metade */
+  /* enquanto nao tiver o gráfico */
+  justify-content: end;
 }
 
 .box {
@@ -367,10 +366,12 @@
 .perspectivas-1 {
   font-size: $insane-big-font;
   line-height: 50px;
+  color: $indigo;
 }
 
 .perspectivas-2 {
   font-size: $super-big-font;
+  color: $indigo;
 }
 
 .inner-title-box.em-numeros {
