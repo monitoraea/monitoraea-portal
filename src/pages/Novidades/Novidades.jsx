@@ -46,12 +46,12 @@ function Novidades({ staleTime = 3600000 /* 1h */, limit = 16 }) {
 
       <section id='novidades' className='content-type-news'>
 
-        <div className="title-box">
-          <div className="left-side">{content_types[contentType][1]}</div>
-          <div className="right-side"></div>
-        </div>
-
         <div className="width-limiter">
+
+          <div className="title-box">
+            <div className="left-side">{content_types[contentType][1]}</div>
+            <div className="right-side"></div>
+          </div>
 
           <div className="section-header">
 

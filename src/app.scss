@@ -413,7 +413,8 @@ section {
   font-size: $big-font;
   margin: -40px 10vw;
   margin-bottom: 30px;
-  max-width: 50vw;
+  max-width: 800px;
+  margin-left: -100px;
 
   .left-side {
     border-radius: $border-radius-big;
@@ -421,7 +422,7 @@ section {
     color: $white;
     padding: 8px 20px 8px 0px;
     font-weight: 400;
-    min-width: 25vw;
+    min-width: 300px;
     text-align: right;
   }
 

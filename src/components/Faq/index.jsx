@@ -13,12 +13,14 @@ export default function Faq({ portal = 'main', staleTime = 3600000 /* 1h */ }) {
 
     return (
         <section id="perguntas_frequentes">
-            <div className="inner-title-box faq">
-                <div className="left-side">Perguntas Frequentes</div>
-                <div className="right-side"></div>
-            </div>
 
             <div className="width-limiter">
+
+                <div className="inner-title-box faq">
+                    <div className="left-side">Perguntas Frequentes</div>
+                    <div className="right-side"></div>
+                </div>
+                
                 {!!data && <Accordeon items={data.map(({ title, text }) => ({ title, content: text.replace(/<[^>]*>/g, '') }))} />}
             </div>
         </section>)

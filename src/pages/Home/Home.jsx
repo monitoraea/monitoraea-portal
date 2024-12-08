@@ -36,7 +36,7 @@ import { content_types } from '../../utils';
 function Home() {
   return (
     <>
-      
+
       <Header />
 
       <section id="sobre">
@@ -80,12 +80,13 @@ function Home() {
 
       <section id='monitoraea-num'>
 
-        <div className="inner-title-box em-numeros">
-          <div className="left-side">MonitoraEA em números</div>
-          <div className="right-side"></div>
-        </div>
-
         <div className="width-limiter">
+
+
+          <div className="inner-title-box em-numeros">
+            <div className="left-side">MonitoraEA em números</div>
+            <div className="right-side"></div>
+          </div>
 
           <div className="em-numeros">
             <a href="/novidade-single/1">
@@ -114,12 +115,14 @@ function Home() {
       <Faq />
 
       <section id="desenvolvimento">
-      <div className="inner-title-box desenvolvimento">
-            <div className="left-side">Desenvolvimento</div>
-            <div className="right-side"></div>
-        </div>
 
         <div className="width-limiter">
+
+          <div className="inner-title-box desenvolvimento">
+            <div className="left-side">Desenvolvimento</div>
+            <div className="right-side"></div>
+          </div>
+
           <div className="desenvolvimento-thumbs">
             <img src={Dev1} alt="Figura Descritiva" />
             <img src={Dev2} alt="Figura Descritiva" />
@@ -128,16 +131,16 @@ function Home() {
           </div>
           <div className="button-more-wrapper">
             <div>
-                <Link to={``}>
-                    <button className="button-more">
-                        <div>Rede de colaboradores e fomento</div>
-                        <div className="icon">
-                            <Arrow />
-                        </div>
-                    </button>
-                </Link>
+              <Link to={``}>
+                <button className="button-more">
+                  <div>Rede de colaboradores e fomento</div>
+                  <div className="icon">
+                    <Arrow />
+                  </div>
+                </button>
+              </Link>
             </div>
-        </div>
+          </div>
         </div>
       </section >
 

@@ -17,12 +17,13 @@ export default function ContentByType({ id, title, portal = "main", className, c
 
     return (<section id={id} className={className}>
 
-        <div className="title-box">
-            <div className="left-side">{title}</div>
-            <div className="right-side"></div>
-        </div>
-
         <div className="width-limiter">
+
+            <div className="title-box">
+                <div className="left-side">{title}</div>
+                <div className="right-side"></div>
+            </div>
+
             {!!data && <Loop data={data.entities} portal={portal} />}
         </div>
 

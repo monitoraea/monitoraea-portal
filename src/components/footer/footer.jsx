@@ -75,9 +75,12 @@ function Footer() {
   return (
     <div id="footer">
       <div className={styles.footer}>
-        <div className="inner-title-box rodape">
-          <div className="left-side">Mapa do Site</div>
-          <div className="right-side"></div>
+
+        <div className={`width-limiter ${styles.inner}`}>
+          <div className="inner-title-box rodape">
+            <div className="left-side">Mapa do Site</div>
+            <div className="right-side"></div>
+          </div>
         </div>
 
         <div className={`width-limiter ${styles.inner}`}>
@@ -137,7 +140,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      
+
     </div>
   );
 }
