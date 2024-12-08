@@ -25,13 +25,14 @@ function NovidadeSingle({ staleTime = 3600000 /* 1h */ }) {
     <>
       <Header />
 
-      <section>
+      {data.show_title && <section>
         <div className="width-limiter">
-          <div className="info">
+          <div className="info">          
             <div className="info-item">
               <div className="label">Projeto</div>
               <div className="value"><div className={data.portal}>{portals[data.portal][0]}</div></div>
             </div>
+
             {!!data.categories.length && <div className="info-item">
               <div className="label">Categorias</div>
               <div className="value categories">
@@ -40,7 +41,8 @@ function NovidadeSingle({ staleTime = 3600000 /* 1h */ }) {
             </div>}
           </div>
         </div>
-      </section>
+      </section>}
+      
       <section id='post-body'>
         <div className="width-limiter">
           <div className="body">
