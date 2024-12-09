@@ -1,3 +1,5 @@
+@use '../../app' as *;
+
 .container {
   position: relative;
 }
@@ -175,7 +177,68 @@
 .project-buttons {
   display: flex;
   gap: 10px;
+
   &>div {
     cursor: pointer;
+  }
+}
+
+.ppea-dash {
+  padding: 2rem;
+  /* width: 100%; */
+
+  .ppea-dash-inner {
+
+    display: flex;
+    gap: 10px;
+
+    .title {
+      font-size: $super-big-font;
+      color: $indigo;
+      font-weight: bold;
+    }
+
+    .big-numbers {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+
+      .box-with-image {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        .box {
+          background-color: $cristal;
+          /* Cor azul */
+          border-radius: 15px;
+          /* Bordas arredondadas */
+          padding: 20px 10px;
+          width: 110px;
+          height: 100px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          &.box-1 {
+            width: 220px;
+          }
+
+          .number {
+            font-size: 48px;
+            /* Tamanho maior para o número */
+            font-weight: bold;
+            color: $indigo;
+          }
+
+          .text {
+            font-size: 18px;
+            color: $indigo;
+          }
+        }
+      }
+
+    }
   }
 }

@@ -205,3 +205,29 @@
 #processos {
   background: $green-2;
 }
+
+.ppea-about {
+  display: flex;
+  align-items: center;
+  color: $indigo;
+  font-size: $big-font;
+
+  span {
+    color: $anil;
+    font-weight: bold;
+  }
+
+  .pa-left {
+    /* max-width: 20vw; */
+    .pa-title {
+      font-size: $super-big-font;
+      margin-bottom: 15px;
+    }
+  }
+
+  .pa-sep {
+    display: flex;
+    align-items: center;
+    margin: 0 40px;
+  }
+}

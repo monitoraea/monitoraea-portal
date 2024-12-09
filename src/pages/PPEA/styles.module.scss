@@ -1,0 +1,62 @@
+@use '../../app' as *;
+
+.diagrams {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    &>div {
+        width: 100%;
+    }
+
+    .d1 {
+        padding-top: 15px;
+        padding-bottom: 50px;
+        box-shadow: 0 20px 20px -20px #eee;
+    }
+
+    .d2 {
+        padding-top: 70px;
+        padding-bottom: 50px;
+        box-shadow: 0 20px 20px -20px #eee;
+    }
+
+    .d3 {
+        margin-top: 50px;
+        margin-bottom: 25px;
+        padding-bottom: 50px;
+        box-shadow: 0 20px 20px -20px #eee;
+
+        .title-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: $indigo;
+            border-radius: $border-radius-big;
+            font-size: $big-font;
+            margin: 0 10vw;
+            margin-bottom: 10px;
+            max-width: 800px;
+            margin-left: -100px;
+
+            padding: 8px 20px;
+            color: $white;
+        }
+
+        .texto {
+
+            color: $indigo;
+            font-size: $big-font;
+            text-align: left;
+
+            span {
+                color: $anil;
+                font-weight: bold;
+            }
+        }
+
+        .diagrama {
+
+        }
+    }
+}
