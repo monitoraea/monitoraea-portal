@@ -220,6 +220,7 @@
 /* Home - Perspectivas */
 #perspectivas {
   padding: 2rem;
+  padding-bottom: 0;
   text-align: center;
   width: 100%;
 }
@@ -567,6 +568,7 @@
       .timeline-each-more {
         margin-left: -45px;
         margin-top: -5px;
+
         a {
           color: $anil;
 
@@ -595,7 +597,7 @@
 #perguntas_frequentes {
   .inner-title-box {
     background-color: $white;
-  
+
     .left-side {
       background-color: $anil;
       color: $white;
@@ -610,4 +612,34 @@
     background-color: $anil;
     color: $white;
   }
+}
+
+.arrow_box {
+  position: relative;
+  background: #2d8bba;
+  border: none;
+}
+
+.arrow_box:after,
+.arrow_box:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+#chart .apexcharts-tooltip {
+  color: #fff;
+  transform: translateX(10px) translateY(10px);
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+#chart .apexcharts-tooltip span {
+  padding: 5px 10px;
+  display: inline-block;
 }

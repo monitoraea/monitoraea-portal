@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 // import L from 'leaflet';
 
+import Enquadramentos from './Enquadramentos'
+
 import styles from './styles.module.scss';
 
 
@@ -52,7 +54,9 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               <div className="text">cadastradas</div>
             </div>
 
-            {/*  <img className="fake-image" src={imgfake} alt="Fake Image" /> */}
+            <div className={styles['enquadramentos']}>
+              <Enquadramentos />
+            </div>
 
           </div>
         </div>
