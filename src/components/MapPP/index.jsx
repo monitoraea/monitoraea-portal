@@ -19,7 +19,7 @@ import Acesso from '../../images/acesso.png'
 import styles from './styles.module.scss';
 
 const mapRef = createRef();
-const position = [-15, -45];
+const position = [-15, -42];
 const zoom = 5;
 
 export default function MapPP() {
