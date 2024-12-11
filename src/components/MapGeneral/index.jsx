@@ -50,7 +50,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
             <div className="box">
               {!data && <div className="number">...</div>}
               {data && <div className="number">{data}</div>}
-              <div className="text red"><span className='text'>[</span>iniciativas<span className='text'>]</span></div>
+              <div className="text">iniciativas</div>
               <div className="text">cadastradas</div>
             </div>
 
