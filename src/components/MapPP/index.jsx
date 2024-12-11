@@ -1,7 +1,10 @@
-import { useState, createRef } from 'react';
+import { useState, useEffect, createRef } from 'react';
 import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-leaflet';
 
 // import L from 'leaflet';
+
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
 import ToggleLeft from '../../components/icons/toggle-left.svg?react';
 import ToggleRight from '../../components/icons/toggle-right.svg?react';
@@ -20,7 +23,7 @@ const position = [-15, -45];
 const zoom = 5;
 
 export default function MapPP() {
-    const [ppea_uf, _ppea_uf] = useState(false) 
+    const [ppea_uf, _ppea_uf] = useState(false)
     const [ppea_mun, _ppea_mun] = useState(false)
     const [ppea_reg, _ppea_reg] = useState(false)
     const [ppea_uc, _ppea_uc] = useState(false)
@@ -32,7 +35,12 @@ export default function MapPP() {
     const [ppea_ou, _ppea_ou] = useState(false)
     const [ppea_nom, _ppea_nom] = useState(false)
 
+    const [limit] = useState(6)
+    const [page, _page] = useState(1)
+    const [enquads, _enquads] = useState(null)
+
     const [consultas_open, _consultas_open] = useState(false)
+    const [politicas, _politicas] = useState(null)
 
     /*  
     - value: 0
@@ -57,7 +65,22 @@ export default function MapPP() {
       label: 'Outro'
     */
 
-    const getCQL = () => {
+    const { data } = useQuery(['news', { limit, page, enquads }], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/?limit=${limit}&page=${page}${enquads ? `&enquads=${enquads.join(',')}` : ''}`)).data,
+        staleTime: 3600000,
+    })
+
+    useEffect(()=>{
+        if(data) _politicas(data)
+    },[data])
+
+    useEffect(()=>{
+        _enquads(getEnquads())
+
+    },[ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom])
+    // TODO: melhorar estes states, vide zcm recortes
+
+    const getEnquads = () => {
         let enquads = []
 
         if (ppea_reg) enquads.push(0);
@@ -70,6 +93,12 @@ export default function MapPP() {
         if (ppea_cr) enquads.push(7);
         if (ppea_sp) enquads.push(8);
         if (ppea_ou) enquads.push(9);
+
+        return enquads
+    }
+
+    const getCQL = () => {
+        const enquads = getEnquads()
 
         let cql_filter
         if (!enquads.length) cql_filter = { cql_filter: `id > 0` }
@@ -219,74 +248,24 @@ export default function MapPP() {
                             <div>Conecte-se</div>
                         </div>
 
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
+                        {!!politicas && politicas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+                            <div>{p.nome}</div>
+                            <div>{p.instituicao_nome}</div>
+                            <div>-</div>
                             <div>
                                 <img src={Mapa} />
                                 <img src={Acesso} />
                             </div>
-                        </div>
+                        </div>)}
 
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
-                            <div>
-                                <img src={Mapa} />
-                                <img src={Acesso} />
-                            </div>
-                        </div>
-
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
-                            <div>
-                                <img src={Mapa} />
-                                <img src={Acesso} />
-                            </div>
-                        </div>
-
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
-                            <div>
-                                <img src={Mapa} />
-                                <img src={Acesso} />
-                            </div>
-                        </div>
-
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
-                            <div>
-                                <img src={Mapa} />
-                                <img src={Acesso} />
-                            </div>
-                        </div>
-
-                        <div className={styles['list-item']}>
-                            <div>Ação Parque dos Abrolhos 40 anos</div>
-                            <div>Instituto Coral Vivo</div>
-                            <div>Nordeste</div>
-                            <div>
-                                <img src={Mapa} />
-                                <img src={Acesso} />
-                            </div>
-                        </div>
-
-                        <div className={styles['list-pag']}>
-                            <div>{'<'}</div>
+                        {politicas && <div className={styles['list-pag']}>
+                            <div onClick={()=>{if(politicas.hasPrevious) _page(page-1)}} className={`${politicas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
                             <div>página</div>
-                            <div>1</div>
+                            <div>{page}</div>
                             <div>/</div>
-                            <div>3</div>
-                            <div>{'>'}</div>
-                        </div>
+                            <div>{politicas.pages}</div>
+                            <div onClick={()=>{if(politicas.hasNext) _page(page+1)}} className={`${politicas.hasNext ? styles.active : ''}`}>{'>'}</div>
+                        </div>}
 
                     </div>
 

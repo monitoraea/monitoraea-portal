@@ -252,6 +252,7 @@
   border-radius: .5rem;
   top: 0;
   right: 0;
+  min-height: calc(90% - 35px);
 
   &.closed {
     width: 0;
@@ -337,10 +338,14 @@
 
       &>div:nth-child(1) {
         width: 34%;
+        max-height: 50px;
+        overflow: hidden;
       }
 
       &>div:nth-child(2) {
         width: 25%;
+        max-height: 50px;
+        overflow: hidden;
       }
 
       &>div:nth-child(3) {
@@ -353,6 +358,9 @@
         align-items: center;
         gap: 4px;
         width: 24%;
+        img {
+          cursor: pointer;
+        }
       }
     }
 
@@ -373,13 +381,19 @@
     }
 
     .list-pag {
-      display: flex;
-      margin: 2px 2px 0 0;
+      display: flex;      
       justify-content: end;
       color: $anil;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 100%;
 
       &>div:nth-child(1) {
         margin-right: 2px;
+        &.active {
+          cursor: pointer;
+        }
       }
 
       &>div:nth-child(2) {
@@ -396,6 +410,12 @@
 
       &>div:nth-child(5) {
         margin-right: 3px;
+      }
+
+      &>div:nth-child(6) {
+        &.active {
+          cursor: pointer;
+        }
       }
     }
 
