@@ -61,12 +61,6 @@ function PPEA() {
       <MapPPEA />
 
       <div className={styles['diagrams']}>
-        <div className={styles.d1}>
-          <img src={d1} />
-        </div>
-        <div className={styles.d2}>
-          <img src={d2} />
-        </div>
 
         <div className={styles.d3}>
           <div className="width-limiter">
@@ -86,7 +80,7 @@ function PPEA() {
             </div>
 
             <div className={styles.diagrama}>
-              <img src={d3} />
+              <img src={d1} />
             </div>
           </div>
         </div>
