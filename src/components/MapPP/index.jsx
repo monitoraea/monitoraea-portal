@@ -42,6 +42,8 @@ export default function MapPP() {
     const [consultas_open, _consultas_open] = useState(false)
     const [politicas, _politicas] = useState(null)
 
+    const [bbox, _bbox] = useState(null)
+
     /*  
     - value: 0
       label: 'Poder Público - Nível Federal'
@@ -83,6 +85,20 @@ export default function MapPP() {
     useEffect(() => {
         if (data) _politicas(data)
     }, [data])
+
+    useEffect(() => {
+        if (!bbox) return;
+
+        console.log({ bbox })
+        const bounds = [
+            [bbox.y1, bbox.x1],
+            [bbox.y2, bbox.x2],
+        ];
+        //console.log('focus on', bounds);
+        mapRef && mapRef.current && mapRef.current.leafletElement.fitBounds(bounds);
+
+        setTimeout(()=>_bbox(null), 1000)
+    }, [bbox])
 
     useEffect(() => {
         _enquads(getEnquads())
@@ -265,7 +281,7 @@ export default function MapPP() {
                             <div>{p.instituicao_nome}</div>
                             <div>-</div>
                             <div>
-                                <img src={Mapa} />
+                                <img onClick={() => _bbox(p.bbox)} src={Mapa} />
                                 <img src={Acesso} />
                             </div>
                         </div>)}
