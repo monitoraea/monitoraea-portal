@@ -70,14 +70,24 @@ export default function MapPP() {
         staleTime: 3600000,
     })
 
-    useEffect(()=>{
-        if(data) _politicas(data)
-    },[data])
+    const { data: iniciatives } = useQuery(['ppea-initiatives'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/iniciatives_in_perspectives/politica`)).data,
+        staleTime: 3600000,
+    })
 
-    useEffect(()=>{
+    const { data: institutions } = useQuery(['ppea-institutions'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/statistics/institutions`)).data,
+        staleTime: 3600000,
+    })
+
+    useEffect(() => {
+        if (data) _politicas(data)
+    }, [data])
+
+    useEffect(() => {
         _enquads(getEnquads())
 
-    },[ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom])
+    }, [ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom])
     // TODO: melhorar estes states, vide zcm recortes
 
     const getEnquads = () => {
@@ -121,21 +131,23 @@ export default function MapPP() {
                         <div className={styles['big-numbers']}>
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']} ${styles['box-1']}`}>
-                                    <div className={styles.number}>228</div>
+                                    {!iniciatives && <div className={styles.number}>...</div>}
+                                    {iniciatives && <div className={styles.number}>{iniciatives}</div>}
                                     <div className={styles.text}>Políticas Públicas de EA</div>
                                 </div>
                             </div>
 
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
-                                    <div className={styles.number}>XXX</div>
+                                    {!institutions && <div className={styles.number}>...</div>}
+                                    {institutions && <div className={styles.number}>{institutions}</div>}
                                     <div className={styles.text}>Instituições</div>
                                 </div>
                             </div>
 
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
-                                    <div className={styles.number}>XXX</div>
+                                    <div className={styles.number}>272</div>
                                     <div className={styles.text}>Pessoas</div>
                                 </div>
                             </div>
@@ -259,12 +271,12 @@ export default function MapPP() {
                         </div>)}
 
                         {politicas && <div className={styles['list-pag']}>
-                            <div onClick={()=>{if(politicas.hasPrevious) _page(page-1)}} className={`${politicas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
+                            <div onClick={() => { if (politicas.hasPrevious) _page(page - 1) }} className={`${politicas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
                             <div>página</div>
                             <div>{page}</div>
                             <div>/</div>
                             <div>{politicas.pages}</div>
-                            <div onClick={()=>{if(politicas.hasNext) _page(page+1)}} className={`${politicas.hasNext ? styles.active : ''}`}>{'>'}</div>
+                            <div onClick={() => { if (politicas.hasNext) _page(page + 1) }} className={`${politicas.hasNext ? styles.active : ''}`}>{'>'}</div>
                         </div>}
 
                     </div>
