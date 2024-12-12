@@ -43,6 +43,7 @@ export default function MapPP() {
     const [politicas, _politicas] = useState(null)
 
     const [bbox, _bbox] = useState(null)
+    const [selected, _selected] = useState(null)
 
     /*  
     - value: 0
@@ -89,13 +90,14 @@ export default function MapPP() {
     useEffect(() => {
         if (!bbox) return;
 
-        console.log({ bbox })
+        //console.log({ bbox })
+
         const bounds = [
             [bbox.y1, bbox.x1],
             [bbox.y2, bbox.x2],
         ];
         //console.log('focus on', bounds);
-        mapRef && mapRef.current && mapRef.current.leafletElement.fitBounds(bounds);
+        mapRef && mapRef.current && mapRef.current.leafletElement.flyToBounds(bounds); //fitBounds
 
         setTimeout(()=>_bbox(null), 1000)
     }, [bbox])
@@ -131,6 +133,11 @@ export default function MapPP() {
         else cql_filter = { cql_filter: `enquadramento in (${enquads.join(',')})` }
 
         return cql_filter
+    }
+
+    const handleSelect = (p) => {
+        _selected(p.politica_id)
+        _bbox(p.bbox)
     }
 
 
@@ -197,6 +204,16 @@ export default function MapPP() {
                             opacity={0.8}
                             {...getCQL()}
                         />
+
+                        {!!selected && <WMSTileLayer
+                            url={import.meta.env.VITE_GEOSERVER_URL}
+                            layers="pppzcm:ppea-staging"
+                            format="image/png"
+                            transparent={true}
+                            opacity={0.7}
+                            styles="ppea-feature"
+                            cql_filter={`id=${selected ? selected : 0}`}
+                        />}
 
                         <ZoomControl position="bottomright" />
                     </Map>
@@ -281,7 +298,7 @@ export default function MapPP() {
                             <div>{p.instituicao_nome}</div>
                             <div>-</div>
                             <div>
-                                <img onClick={() => _bbox(p.bbox)} src={Mapa} />
+                                <img onClick={() => handleSelect(p)} src={Mapa} />
                                 <img src={Acesso} />
                             </div>
                         </div>)}
