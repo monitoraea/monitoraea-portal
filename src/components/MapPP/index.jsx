@@ -68,7 +68,7 @@ export default function MapPP() {
       label: 'Outro'
     */
 
-    const { data } = useQuery(['news', { limit, page, enquads }], {
+    const { data } = useQuery(['news', { limit, page, enquads, ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom, ppea_sp }], {
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/?limit=${limit}&page=${page}${enquads ? `&enquads=${enquads.join(',')}` : ''}`)).data,
         staleTime: 3600000,
     })
@@ -86,7 +86,7 @@ export default function MapPP() {
     useEffect(() => {
         if (data) _politicas(data)
     }, [data])
-
+    , ppea_sp
     useEffect(() => {
         if (!bbox) return;
 
@@ -105,7 +105,7 @@ export default function MapPP() {
     useEffect(() => {
         _enquads(getEnquads())
 
-    }, [ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom])
+    }, [ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom, ppea_sp])
     // TODO: melhorar estes states, vide zcm recortes
 
     const getEnquads = () => {
