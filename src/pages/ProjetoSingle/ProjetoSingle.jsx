@@ -7,7 +7,14 @@ import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import objective_icon from '../../images/single-project/objective.png'
+import description_icon from '../../images/single-project/description.png'
+import audience_icon from '../../images/single-project/audience.png'
+import period_icon from '../../images/single-project/period.png'
+import partners_icon from '../../images/single-project/partners.png'
+import auto_check_icon from '../../images/single-project/auto_check.png'
 import fale_icon from '../../images/single-project/fale.png'
+
+import Development from '../../components/Development';
 
 import Modal from '../../components/Modal';
 import styles from './styles.module.scss';
@@ -106,13 +113,13 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
         </div>
       </div>
 
-      <div>[MAP image]</div>
+      <div>[MAPA]</div>
 
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={objective_icon}/></div>
+              <div className={styles.icon}><img src={objective_icon} /></div>
               <div className={styles.title}>Objetivo</div>
             </div>
 
@@ -122,6 +129,89 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
           </div>
         </div>
       </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.title}>Descrição</div>
+            </div>
+
+            <div className={styles.text}>
+              {breakItems(data.aspectos_gerais_txt)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={audience_icon} /></div>
+              <div className={styles.title}>Públicos</div>
+            </div>
+
+            <div className={styles.text}>
+              {breakItems(data.publico_txt)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={period_icon} /></div>
+              <div className={styles.title}>Período de desenvolvimento</div>
+            </div>
+
+            <div className={styles.text}>
+              {breakItems(data.periodo_txt)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={partners_icon} /></div>
+              <div className={styles.title}>Parceiros</div>
+            </div>
+
+            <div className={styles.text}>
+              {breakItems(data.parceiros_txt)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={auto_check_icon} /></div>
+              <div className={styles.title}>Autoavaliação</div>
+            </div>
+
+            <div className={styles.text}>
+              {!!status && <>{status === 'incomplete' ? 'Incompleta' : <>
+                Completa<br/>
+                Publicado em xx/xx/xxxx
+              </>}</>}
+              {!status && <>Verificando...</>}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.last}></div>
+
+      <Development />
 
       {/*<section>
         <div className="width-limiter">
