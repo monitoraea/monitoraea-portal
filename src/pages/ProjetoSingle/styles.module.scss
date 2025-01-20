@@ -1,19 +1,103 @@
-.field-wrap {
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-}
+@use '../../app' as *;
 
-.field-wrap input, .field-wrap textarea {
-    width: 100%;
-    flex-grow: 1;
-    border-radius: 3px;
-    border: solid 1px #ccc;
-    padding: 5px 10px;
-    resize: none;
-}
+.section {
+    margin: 1rem 0;
+    padding: 1rem 0;
+    background-color: $cristal;
 
-label {
-    margin-right: 20px;
-    width: 110px;
+    .content {
+        display: flex;
+        font-size: $medium-font;
+    }
+
+    &.main {
+        .content {
+            justify-content: space-between;
+
+            &>div:first-child {
+                max-width: 70vh;
+            }
+
+            .button-wrapper {
+                max-width: 80vw;
+
+                button {
+                    color: $anil;
+                    border: solid 3px $anil;
+                    border-radius: $border-radius-big;
+                    background-color: $cristal;
+                    font-size: $less-than-medium-font;
+                    font-family: 'Poppins';
+                    font-weight: bold;
+                    padding: 8px 20px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $anil;
+                        color: $white;
+                    }
+                }
+            }
+
+            .initiative,
+            .institution {
+                color: $indigo;
+            }
+
+            .initiative {
+                font-size: $super-big-font;
+                font-weight: bold;
+                padding: 0.5rem 0;
+            }
+
+            .institution {
+                color: $anil;
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 0;
+
+                &>div:first-child {
+                    color: $indigo;
+                }
+
+                .fale {
+                    display: flex;
+                    gap: 3px;
+                    cursor: pointer;
+                }
+            }
+
+            .action_line,
+            .modal {
+                color: $indigo;
+                padding: 0.2rem 0;
+
+                span:first-child {
+                    font-weight: bold;
+                    color: $anil;
+                }
+            }
+        }
+    }
+
+    &.titled {
+        .content {
+            color: $indigo;
+            font-size: $big-font;
+
+            &>.title {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+                font-size: $more-than-big-font;
+                font-weight: bold;
+                min-width: 30vh;
+                border-right: solid 4px $anil;
+            }
+
+            .text {
+                padding-left: 1rem;
+            }
+        }
+    }
 }

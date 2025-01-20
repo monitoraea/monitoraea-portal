@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import Nav from '../../components/nav/nav';
-import imgplaceholder from './placeholder.png';
+import Header from '../../components/Header';
 import './style.scss';
 /* import { Link } from 'react-router-dom';  */
 import axios from 'axios';
 import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
+
+import objective_icon from '../../images/single-project/objective.png'
+import fale_icon from '../../images/single-project/fale.png'
 
 import Modal from '../../components/Modal';
 import styles from './styles.module.scss';
@@ -31,12 +33,12 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
     staleTime,
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     _showParticipateDialog(false);
     _name('');
     _email('');
     _message('');
-  },[])
+  }, [])
 
   useEffect(() => {
     if (!!verify) {
@@ -62,7 +64,7 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
   if (!data) return <></>;
 
   const handleSend = async () => {
-    if(!name.length || !email.length || !message.length) return;
+    if (!name.length || !email.length || !message.length) return;
 
     await mutations.send.mutateAsync();
 
@@ -74,39 +76,54 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
 
   return (
     <>
-      <div className="banner" id='banner-projeto'>
-        <img className="bg" src={imgplaceholder} alt="" />
-        <div className="backdrop"></div>
-        <div className="content">
-          <div className="title">{data.nome}</div>
-          {/* <div className="desc">Lorem Ipsum Dolor Sit Amet, consectetur</div> */}
-          <div className="line-1">
-            <span><b>Modalidade</b> {data.modalidade_nome}</span>
-            <span>|</span>
-            <span><b>Linha de atuação</b> {data.linhas.join(',')}</span>
-          </div>
-          <div className="line-2">
-            <button className="btn-link" onClick={() => _showParticipateDialog(true)}>
-              <div className="icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
-                  <path d="M16.5 11.1667C16.5 11.6382 16.3127 12.0903 15.9793 12.4237C15.6459 12.7571 15.1937 12.9444 14.7222 12.9444H4.05556L0.5 16.5V2.27778C0.5 1.80628 0.687301 1.3541 1.0207 1.0207C1.3541 0.687301 1.80628 0.5 2.27778 0.5H14.7222C15.1937 0.5 15.6459 0.687301 15.9793 1.0207C16.3127 1.3541 16.5 1.80628 16.5 2.27778V11.1667Z" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+      <Header />
+
+      <div className={`${styles.section} ${styles.main}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div>
+              <div className={styles.initiative}>{data.nome}</div>
+              <div className={styles.institution}>
+                <div>{data.instituicao_nome}</div>
+                <div className={styles.fale}>
+                  <div>Fale com o moderador</div>
+                  <img src={fale_icon} />
+                </div>
               </div>
-              Fale com o moderador
-            </button>
-            <button
-              className={`btn-outline`}
-              onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/${params.id}`}
-            >
-              Quero participar
-            </button>
+              <div className={styles.action_line}>
+                <span>Linha de Ação PPPZCM</span> <span>{data.linhas.join(', ')}</span>
+              </div>
+              <div className={styles.modal}>
+                <span>Modalidade</span> <span>{data.modalidade_nome}</span>
+              </div>
+            </div>
+            <div className={styles['button-wrapper']}>
+              <button>
+                Solicitar acesso a esta comunidade
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <Nav />
+      <div>[MAP image]</div>
 
-      <section>
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={objective_icon}/></div>
+              <div className={styles.title}>Objetivo</div>
+            </div>
+
+            <div className={styles.text}>
+              {breakItems(data.objetivos_txt)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/*<section>
         <div className="width-limiter">
           <div className="project-body">
             <div className="content">
@@ -213,20 +230,20 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
           </div>
 
         </div>
-      </section>
+      </section>*/}
       <Modal open={showParticipateDialog} onClose={() => _showParticipateDialog(false)} title="Enviar mensagem para o responsável" onSend={handleSend}>
         <div className={styles.fields}>
           <div className={styles['field-wrap']}>
             <label>E-mail</label>
-            <input type="text" name="email" value={email} onChange={(e)=>_email(e.target.value)} />
+            <input type="text" name="email" value={email} onChange={(e) => _email(e.target.value)} />
           </div>
           <div className={styles['field-wrap']}>
             <label>Nome</label>
-            <input type="text" name="name" value={name} onChange={(e)=>_name(e.target.value)} />
+            <input type="text" name="name" value={name} onChange={(e) => _name(e.target.value)} />
           </div>
           <div className={styles['field-wrap']}>
             <label>Mensagem</label>
-            <textarea rows={4} name="message" value={message} onChange={(e)=>_message(e.target.value)} />
+            <textarea rows={4} name="message" value={message} onChange={(e) => _message(e.target.value)} />
           </div>
         </div>
       </Modal>
