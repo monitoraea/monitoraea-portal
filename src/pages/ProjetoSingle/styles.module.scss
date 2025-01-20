@@ -15,7 +15,7 @@
             justify-content: space-between;
 
             &>div:first-child {
-                max-width: 70vh;
+                max-width: 60vh;
             }
 
             .button-wrapper {
@@ -58,12 +58,18 @@
 
                 &>div:first-child {
                     color: $indigo;
+                    max-width: 30vh;
                 }
 
                 .fale {
                     display: flex;
                     gap: 3px;
                     cursor: pointer;
+
+                    img {
+                        width: 32px;
+                        height: 25px;
+                    }
                 }
             }
 
@@ -110,4 +116,25 @@
     margin-bottom: 40px;
     padding-bottom: 50px;
     box-shadow: 0 20px 20px -20px #eee;
+}
+
+.field-wrap {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.field-wrap input,
+.field-wrap textarea {
+    width: 100%;
+    flex-grow: 1;
+    border-radius: 3px;
+    border: solid 1px #ccc;
+    padding: 5px 10px;
+    resize: none;
+}
+
+label {
+    margin-right: 20px;
+    width: 110px;
 }

@@ -5,6 +5,7 @@ import './style.scss';
 import axios from 'axios';
 import { useQuery, useMutation } from 'react-query';
 import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import objective_icon from '../../images/single-project/objective.png'
 import description_icon from '../../images/single-project/description.png'
@@ -29,6 +30,7 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
   const [bounds, _bounds] = useState(null);
 
   const [status, _status] = useState(null);
+  const [published, _published] = useState(false);
   const [showParticipateDialog, _showParticipateDialog] = useState(false);
 
   const [name, _name] = useState('');
@@ -85,6 +87,8 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
         }
       }
 
+      _published(verify.analysis.published ? verify.analysis.published: false)
+
       _status(st);
     }
   }, [verify])
@@ -121,7 +125,7 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
               <div className={styles.initiative}>{data.nome}</div>
               <div className={styles.institution}>
                 <div>{data.instituicao_nome}</div>
-                <div className={styles.fale}>
+                <div className={styles.fale} onClick={() => _showParticipateDialog(true)}>
                   <div>Fale com o moderador</div>
                   <img src={fale_icon} />
                 </div>
@@ -134,7 +138,7 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
               </div>
             </div>
             <div className={styles['button-wrapper']}>
-              <button>
+              <button onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/${params.id}`}>
                 Solicitar acesso a esta comunidade
               </button>
             </div>
@@ -231,10 +235,10 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
 
             <div className={styles.text}>
               {!!status && <>{status === 'incomplete' ? 'Incompleta' : <>
-                Completa<br />
-                Publicado em xx/xx/xxxx
+                Completa
               </>}</>}
-              {!status && <>Verificando...</>}
+              {!status && <>Verificando...</>}<br />
+              {published && <>Publicado em {dayjs(published).format('DD/MM/YYYY')}</>}
             </div>
           </div>
         </div>
