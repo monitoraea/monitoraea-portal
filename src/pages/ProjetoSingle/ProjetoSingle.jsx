@@ -14,6 +14,8 @@ import partners_icon from '../../images/single-project/partners.png'
 import auto_check_icon from '../../images/single-project/auto_check.png'
 import fale_icon from '../../images/single-project/fale.png'
 
+import Geo from './Geo';
+
 import Development from '../../components/Development';
 
 import Modal from '../../components/Modal';
@@ -21,6 +23,10 @@ import styles from './styles.module.scss';
 
 function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
   const params = useParams();
+
+  const [loading, _loading] = useState(false);
+  const [pas, _pas] = useState(null);
+  const [bounds, _bounds] = useState(null);
 
   const [status, _status] = useState(null);
   const [showParticipateDialog, _showParticipateDialog] = useState(false);
@@ -48,6 +54,27 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
   }, [])
 
   useEffect(() => {
+    async function fetchData() {
+      // carrega todas as atuacoes para este projeto
+      _loading(true);
+
+      const {
+        data: { atuacoes, bbox },
+      } = await axios.get(`${import.meta.env.VITE_SERVER}project/${params.id}/atuacoes`);
+
+      _loading(false);
+      _pas(atuacoes);
+
+      if (bbox && bbox.y1 && bbox.x1 && bbox.y2 && bbox.x2)
+        _bounds([
+          [bbox.y1, bbox.x1],
+          [bbox.y2, bbox.x2],
+        ]);
+    }
+    if (params.id) fetchData();
+  }, [params.id]);
+
+  useEffect(() => {
     if (!!verify) {
       let st = 'complete';
 
@@ -61,6 +88,8 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
       _status(st);
     }
   }, [verify])
+
+
 
   const mutations = {
     send: useMutation(
@@ -113,7 +142,9 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
         </div>
       </div>
 
-      <div>[MAPA]</div>
+      <div>
+        <Geo loading={loading} pas={pas} bounds={bounds} />
+      </div>
 
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
@@ -200,7 +231,7 @@ function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
 
             <div className={styles.text}>
               {!!status && <>{status === 'incomplete' ? 'Incompleta' : <>
-                Completa<br/>
+                Completa<br />
                 Publicado em xx/xx/xxxx
               </>}</>}
               {!status && <>Verificando...</>}
