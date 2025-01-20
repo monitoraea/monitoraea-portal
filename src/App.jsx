@@ -16,6 +16,7 @@ import Novidades from './pages/Novidades/Novidades';
 import NovidadeSingle from './pages/NovidadeSingle/NovidadeSingle';
 import ProjetoSingle from './pages/ProjetoSingle/ProjetoSingle';
 import PPEA from './pages/PPEA/PPEA';
+import CECSA from './pages/CECSA/CECSA';
 import PPPZCM from './pages/PPPZCM/PPPZCM';
 import CIEA from './pages/CIEA/CIEA';
 import Risco from './pages/Risco/Risco';
@@ -49,6 +50,7 @@ function App() {
         <Route path="/projeto-single/:id" element={<ProjetoSingle />} />
         <Route path="/sobre" element={<Monitora />} />
         <Route path="/sobre/ppea" element={<PPEA />} />
+        <Route path="/sobre/centros-nucleos-equipamentos" element={<CECSA />} />        
         <Route path="/sobre/ciea" element={<CIEA />} />        
         <Route path="/sobre/risco_climatico" element={<Risco />} />        
         <Route path="/sobre/pppzcm" element={<PPPZCM />} />
