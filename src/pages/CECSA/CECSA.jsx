@@ -12,7 +12,6 @@ import './style.scss';
 import styles from './styles.module.scss'
 
 import cecsa from './cecsa.png';
-import d1 from '../../images/diagram-1.png';
 
 function CECSA() {
 

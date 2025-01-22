@@ -1,0 +1,211 @@
+@use '../../app' as *;
+
+.section {
+    padding: 0;
+    background-image: url(../../images/pppzcm/bg.png);
+    background-size: cover;
+    min-height: 400px;
+
+    /* remover */
+    .about {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 20px 0;
+        color: $indigo;
+        font-size: $big-font;
+        padding: 60px 0;
+
+        .text {
+            margin-left: 30px;
+
+            .part2 {
+                margin-top: 100px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .download {
+            position: absolute;
+            right: 0;
+            margin-top: -30px;
+
+            button {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+        }
+    }
+}
+
+.button-wrapper {
+    max-width: 80vw;
+
+    button {
+        color: $white;
+        border: solid 3px $anil;
+        border-radius: $border-radius-big;
+        background-color: $anil;
+        font-size: $less-than-medium-font;
+        font-family: 'Poppins';
+        padding: 8px 20px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $white;
+            color: $anil;
+        }
+    }
+}
+
+.more-content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    background-image: url(../../images/pppzcm/bg2.png);
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: right;
+
+    &.type2,
+    &.type3 {
+        background-image: url(../../images/pppzcm/bg2-flip.png);
+        background-position: left;
+        background-color: $cristal;
+
+        .inner {
+            .box {
+                background-color: $anil;
+                color: $white
+            }
+        }
+    }
+
+    &.type3 {
+        background-image: url(../../images/pppzcm/bg3.png);
+        background-position: right;
+    }
+
+    &>div {
+        width: 100%;
+    }
+
+    .inner {
+        margin-top: 50px;
+        margin-bottom: 25px;
+        padding-bottom: 50px;
+
+        .title-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: $indigo;
+            border-radius: $border-radius-big;
+            font-size: $big-font;
+            margin: 0 10vw;
+            margin-bottom: 10px;
+            max-width: 800px;
+            margin-left: -100px;
+
+            padding: 8px 20px;
+            color: $white;
+
+            &.title2 {
+                background-color: $anil;
+            }
+        }
+
+        .texto,
+        .box {
+
+            display: flex;
+            color: $indigo;
+            font-size: $big-font;
+            text-align: left;
+            gap: 20px;
+
+            span {
+                color: $anil;
+                font-weight: bold;
+            }
+        }
+
+        .assista {
+            margin-bottom: 5px;
+            font-size: $more-than-big-font;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .box {
+            text-align: center;
+            padding: 15px 10px;
+            background: $cristal;
+            border-radius: 20px;
+        }
+    }
+}
+
+.icones {
+    margin-top: 60px;
+    margin-bottom: 50px;
+
+    .line1,
+    .line2,
+    .line3 {
+        display: flex;
+        justify-content: center;
+        gap: 120px;
+
+        &>div {
+            flex-shrink: 0;
+        }
+    }
+
+    .line2,
+    .line3 {
+        gap: 20px;
+    }
+}
+
+.people {
+    display: flex;
+    font-size: $smallest-font;
+    gap: 40px;
+    flex-wrap: wrap;
+
+    .person {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .info {
+            text-align: left;
+
+            &>div:first-child {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.type3 {
+
+    .texto {
+        align-items: flex-end;
+        gap: 40px !important;
+
+        div:first-child {
+            padding-bottom: 10px;
+        }
+    }
+
+    .facilitadores {
+        display: flex;
+        gap: 35px;
+        margin-top: 10px;
+    }
+
+}
