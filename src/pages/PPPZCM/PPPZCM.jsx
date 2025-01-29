@@ -32,9 +32,19 @@ import ibama from '../../images/pppzcm/comite/ibama.png';
 import icmbio from '../../images/pppzcm/comite/icmbio.png';
 import mam from '../../images/pppzcm/comite/mam.png';
 
-import mock_photo from '../../images/pppzcm/comite/mock-circle.png'
+import mock_photo from '../../images/pppzcm/comite/mock-circle.png';
+import betania from '../../images/pppzcm/comite/people/betania.png';
+import jakeline from '../../images/pppzcm/comite/people/jakeline.png';
+import thais from '../../images/pppzcm/comite/people/thais.png';
+import hugo from '../../images/pppzcm/comite/people/hugo.png';
+import erika from '../../images/pppzcm/comite/people/erika.png';
+import rachel from '../../images/pppzcm/comite/people/rachel.png';
+import evandro from '../../images/pppzcm/comite/people/evandro.png';
+import henriqueta from '../../images/pppzcm/comite/people/henriqueta.png';
+import paulo from '../../images/pppzcm/comite/people/paulo.png';
+import maressa from '../../images/pppzcm/comite/people/maressa.png';
 
-import mock_map_facilitadores from '../../images/pppzcm/mock-map-facilitadores.png'
+import mock_map_facilitadores from '../../images/pppzcm/mock-map-facilitadores.png';
 
 function PPPZCM() {
   // Adicione 3 slides de preenchimento com conteúdo padrão
@@ -189,82 +199,102 @@ function PPPZCM() {
             <div className={styles.people}>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={betania} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Betânia Santos Fichino</div>
+                  <div>DAP/MMA</div>
+                  <div>betania.fichino@mma.gov.br</div>
+                  <div>DF</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={jakeline} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Jakeline Borges de Souza</div>
+                  <div>Ibama</div>
+                  <div>jakeline.souza@ibama.gov.br</div>
+                  <div>DF</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={thais} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Thaís Ferraresi Pereira</div>
+                  <div>DEA/MMA</div>
+                  <div>thais.ferraresi@mma.gov.br</div>
+                  <div>DF</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={hugo} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Hugo Garcês</div>
+                  <div>GIZ</div>
+                  <div>hugo.garces@giz.de</div>
+                  <div>DF</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={erika} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Érika de Almeida</div>
+                  <div>ICMBio</div>
+                  <div>akiregustavo27@gmail.com</div>
+                  <div>DF</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={rachel} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Rachel A. Trovarelli</div>
+                  <div>ANPPEA</div>
+                  <div>rachel.trovarelli@alumni.usp.br</div>
+                  <div>SP</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={evandro} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Evandro A. Branco</div>
+                  <div>ANPPEA</div>
+                  <div>evandro.albiach@inpe.br</div>
+                  <div>SP</div>
                 </div>
               </div>
 
               <div className={styles.person}>
-                <div className={styles.photo}><img src={mock_photo} /></div>
+                <div className={styles.photo}><img src={henriqueta} /></div>
                 <div className={styles.info}>
-                  <div>Nome</div>
-                  <div>Organização</div>
-                  <div>Contato</div>
-                  <div>Estado</div>
+                  <div>Maria Henriqueta A. Raymundo</div>
+                  <div>ANPPEA</div>
+                  <div>henriquetasss@gmail.com</div>
+                  <div>SP</div>
+                </div>
+              </div>
+
+              <div className={styles.person}>
+                <div className={styles.photo}><img src={paulo} /></div>
+                <div className={styles.info}>
+                  <div>Paulo Russo</div>
+                  <div>ICMBio</div>
+                  <div>paulo.russo@icmbio.gov.br</div>
+                  <div>SP</div>
+                </div>
+              </div>
+
+              <div className={styles.person}>
+                <div className={styles.photo}><img src={maressa} /></div>
+                <div className={styles.info}>
+                  <div>Maressa Amaral</div>
+                  <div>ICMBio</div>
+                  <div>maressa.amaral@icmbio.gov.br</div>
+                  <div>SP</div>
                 </div>
               </div>
 

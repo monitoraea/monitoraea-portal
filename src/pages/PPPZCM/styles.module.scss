@@ -171,21 +171,41 @@
 }
 
 .people {
-    display: flex;
-    font-size: $smallest-font;
-    gap: 40px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(3, 350px);
+    grid-template-rows: repeat(3, 100px);
 
     .person {
+        border-radius: 5px;
         display: flex;
-        align-items: center;
-        gap: 5px;
+        place-items: center;
 
         .info {
             text-align: left;
+            font-family: 'Poppins';
+            font-size: $small-font;
 
             &>div:first-child {
                 font-weight: bold;
+            }
+        }
+
+        .photo {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+            border: solid 1px #eee;
+
+            img {
+                width: 100%;
+                height: auto;
             }
         }
     }
