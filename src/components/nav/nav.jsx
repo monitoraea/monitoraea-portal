@@ -50,18 +50,9 @@ function Nav() {
   );
 
   useEffect(() => {
-    if (!!data) {
-      let menu = []
+    if (!!data) {      
 
-      // somente dois niveis
-      for (let item of data.filter(i => !i.parent_id)) { /* root */
-        menu.push({
-          ...item,
-          children: data.filter(i => i.parent_id === item.id)
-        })
-      }
-
-      _menu(menu);
+      _menu(data);
     }
   }, [data])
 
@@ -91,7 +82,7 @@ function Nav() {
           <>
             <ul className="menu">
               <li className="menu-item"><Link to="/">Inicio</Link></li>
-              {menu.map(i => <li key={i.id} className="menu-item">
+              {menu.children.map(i => <li key={i.id} className="menu-item">
                 <MenuItem data={i} />
 
                 {!!i.children.length && <ul className="sub-menu">
@@ -128,7 +119,7 @@ function Nav() {
           <ul className="menu">
             <Link to="/">Início</Link>
 
-            {menu.map(i => <li key={i.id} className="menu-item">
+            {menu.children.map(i => <li key={i.id} className="menu-item">
               <MenuItem data={i} />
 
               {!!i.children.length && <ul className="sub-menu">

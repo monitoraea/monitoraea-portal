@@ -56,17 +56,8 @@ function Footer() {
 
   useEffect(() => {
     if (!!data) {
-      let menu = []
 
-      // somente dois niveis
-      for (let item of data.filter(i => !i.parent_id)) { /* root */
-        menu.push({
-          ...item,
-          children: data.filter(i => i.parent_id === item.id)
-        })
-      }
-
-      _menu(menu);
+      _menu(data);
     }
   }, [data])
 
@@ -91,7 +82,7 @@ function Footer() {
             <div className={`${styles.menu}`}>
               <div>Sobre</div>
               <ul>
-                {menu.filter(m => m.id === 1)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                {menu.children.filter(m => m.id === 1)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
@@ -99,7 +90,7 @@ function Footer() {
               <div>Fique por dentro</div>
               <ul>
                 <li><Link to={`/page/81`}>Passo a passo</Link></li>
-                {menu.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                {menu.children.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
@@ -122,7 +113,7 @@ function Footer() {
             <div className={`${styles.menu}`}>
               <div>Perspectivas de mapeamento</div>
               <ul>
-                {menu.filter(m => m.id === 21)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                {menu.children.filter(m => m.id === 21)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
               </ul>
             </div>
 
