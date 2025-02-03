@@ -36,11 +36,11 @@ const selectDefaults = {
     loadingMessage: () => 'Carregando...',
 };
 
-function prepareFilters(filters) {
+function prepareFilters(filters, togglers) {
     let preparedFilters = '';
 
     for (let filter in filters) {
-        if (filters[filter]) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
+        if (filters[filter] && togglers[filter]) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
     }
 
     return preparedFilters;
@@ -55,8 +55,7 @@ export default function MapPP() {
     const [ufs, _ufs] = useState(null);
     const [total, _total] = useState(null);
 
-    const [pag, _pag] = useState(null);
-    const [currentPage, _currentPage] = useState(1);
+    const [page, _page] = useState(1);
 
     const [consultas_open, _consultas_open] = useState(false);
 
@@ -121,29 +120,21 @@ export default function MapPP() {
     }, [filters])
 
     useEffect(() => {
-        async function fetchData(page = 1) {
-            if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
-                _showList(false);
-                return;
-            } else _showList(true);
-
+        async function fetchData(page = 1, filters) {
             /* _loading(true); */
             const {
-                data: { projects: i, pages, hasPrevious, hasNext, currentPage, total },
-            } = await axios.get(`${import.meta.env.VITE_SERVER}project/?limit=6&page=${page}${prepareFilters(filters)}`);
+                data,
+            } = await axios.get(`${import.meta.env.VITE_SERVER}project/?limit=6&page=${page}${prepareFilters(filters, togglers)}`);
             /* _loading(false); */
 
-            _iniciativas(i);
-            _pag({ pages, hasPrevious, hasNext });
-            _currentPage(currentPage);
-            _total(total);
+            _iniciativas(data);
         }
 
-        fetchData(currentPage, filters);
-    }, [currentPage, filters]);
+        fetchData(page, filters);
+    }, [page, filters, togglers]);
 
     useEffect(() => {
-        _currentPage(1);
+        _page(1);
         //_showPop(null);
 
         async function fetchGeoData() {
@@ -152,7 +143,7 @@ export default function MapPP() {
                 return;
             }
 
-            const { data } = await axios.get(`${import.meta.env.VITE_SERVER}project/geo/?${prepareFilters(filters)}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_SERVER}project/geo/?${prepareFilters(filters, togglers)}`);
 
             _iniciativas_ids(data);
         }
@@ -160,10 +151,15 @@ export default function MapPP() {
         /* reset zoom and position */
         mapRef && mapRef.current && mapRef.current.leafletElement.setView(position, zoom);
         fetchGeoData(filters);
-    }, [filters]);
+    }, [filters, togglers]);
+
+    useEffect(() => {
+        if (!selected) return;
+        console.log('selected', selected)
+    }, [selected])
 
     const handleSelect = (p) => {
-        _selected(p.politica_id)
+        _selected(p.id)
         _bbox(p.bbox)
     }
 
@@ -177,19 +173,21 @@ export default function MapPP() {
     };
 
     const onFilterChange = (type, selectedOption) => {
-        _currentPage(1);
+        _page(1);
 
         let newFilters;
         let newFields = { ...fields, [type]: selectedOption, id: null };
 
-        if (selectedOption) {
+        if (selectedOption && selectedOption.length) {
             newFilters = {
                 ...filters,
                 [type]: selectedOption.map(s => s.value).join(','),
                 id: null,
             };
+            _togglers(togglers => ({ ...togglers, [type]: true }));
         } else {
             newFilters = { ...filters, [type]: null, id: null };
+            _togglers(togglers => ({ ...togglers, [type]: false }));
         }
 
         if (type === 'regioes') {
@@ -206,7 +204,7 @@ export default function MapPP() {
     };
 
     const handleToggle = (filter) => (checked) => {
-        _togglers(togglers => ({...togglers, [filter]: checked}))
+        _togglers(togglers => ({ ...togglers, [filter]: checked }))
     }
 
     return (<>
@@ -283,7 +281,7 @@ export default function MapPP() {
                             transparent={true}
                             opacity={0.7}
                             styles="ppea-feature"
-                            cql_filter={`id=${selected ? selected : 0}`}
+                            cql_filter={`project_id=${selected ? selected : 0}`}
                         />}
 
                         <ZoomControl position="bottomright" />
@@ -300,7 +298,7 @@ export default function MapPP() {
                         </div>
 
                         <div className={styles.each}>
-                            <div><Toggler checked={togglers['linhas_acao']} onToggle={(checked)=>handleToggle('linhas_acao')(checked)} /></div>
+                            <div><Toggler checked={togglers['linhas_acao']} onToggle={(checked) => handleToggle('linhas_acao')(checked)} /></div>
                             <div>Linhas de Ação</div>
                             <div>
                                 {linhas_acao && (
@@ -333,7 +331,7 @@ export default function MapPP() {
                             <div>-</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img src={Acesso} />
+                                <img onClick={() => window.open(`/projeto-single/${p.id}`,'_blank')} src={Acesso} />
                             </div>
                         </div>)}
 
