@@ -1,10 +1,16 @@
 import { useState, useEffect, createRef } from 'react';
 import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-leaflet';
+import makeAnimated from 'react-select/animated';
 
 // import L from 'leaflet';
 
 import axios from 'axios';
 import { useQuery } from 'react-query';
+
+import {
+    reactSelectClassNamePrefix,
+    StyledReactSelect,
+} from '../../components/StyledReactSelect';
 
 import ToggleLeft from '../../components/icons/toggle-left.svg?react';
 import ToggleRight from '../../components/icons/toggle-right.svg?react';
@@ -18,60 +24,61 @@ import Acesso from '../../images/acesso.png'
 
 import styles from './styles.module.scss';
 
+const animatedComponents = makeAnimated();
+
 const mapRef = createRef();
 const position = [-15, -42];
 const zoom = 5;
 
+const selectDefaults = {
+    placeholder: 'Selecione...',
+    noOptionsMessage: () => 'Nenhuma opção encontrada!',
+    loadingMessage: () => 'Carregando...',
+};
+
+function prepareFilters(filters) {
+    let preparedFilters = '';
+
+    for (let filter in filters) {
+        if (filters[filter]) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
+    }
+
+    return preparedFilters;
+}
+
 export default function MapPP() {
-    const [ppea_uf, _ppea_uf] = useState(false)
-    const [ppea_mun, _ppea_mun] = useState(false)
-    const [ppea_reg, _ppea_reg] = useState(false)
-    const [ppea_uc, _ppea_uc] = useState(false)
-    const [ppea_ch, _ppea_ch] = useState(false)
-    const [ppea_sc, _ppea_sc] = useState(false)
-    const [ppea_cr, _ppea_cr] = useState(false)
-    const [ppea_eu, _ppea_eu] = useState(false)
-    const [ppea_sp, _ppea_sp] = useState(false)
-    const [ppea_ou, _ppea_ou] = useState(false)
-    const [ppea_nom, _ppea_nom] = useState(false)
+    const [iniciativas, _iniciativas] = useState(null);
+    const [iniciativas_ids, _iniciativas_ids] = useState(null);
 
-    const [limit] = useState(6)
-    const [page, _page] = useState(1)
-    const [enquads, _enquads] = useState(null)
+    const [linhas_acao, _linhas_acao] = useState(null);
+    const [regioes, _regioes] = useState(null);
+    const [ufs, _ufs] = useState(null);
+    const [total, _total] = useState(null);
 
-    const [consultas_open, _consultas_open] = useState(false)
-    const [politicas, _politicas] = useState(null)
+    const [pag, _pag] = useState(null);
+    const [currentPage, _currentPage] = useState(1);
+
+    const [consultas_open, _consultas_open] = useState(false);
+
+    const [filters, _filters] = useState({});
+    const [fields, _fields] = useState({
+        linhas_acao: null,
+        regioes: null,
+        ufs: null,
+        municipios: null,
+        id: null,
+    });
+    const [togglers, _togglers] = useState({
+        linhas_acao: false,
+        regioes: false,
+        ufs: false,
+        municipios: false,
+        id: false,
+    });
+    const [isFiltered, _isFiltered] = useState(false);
 
     const [bbox, _bbox] = useState(null)
     const [selected, _selected] = useState(null)
-
-    /*  
-    - value: 0
-      label: 'Poder Público - Nível Federal'
-    - value: 1
-      label: 'Poder Público - Nível Estadual'
-    - value: 2
-      label: 'Poder Público - Nível Municipal'
-    - value: 3
-      label: 'Organização da Sociedade Civil'
-    - value: 4
-      label: 'Escolas e Universidades'
-    - value: 5
-      label: 'Comitê gestor de Unidade de Conservação'
-    - value: 6
-      label: 'Bacia Hidrogrãfica'
-    - value: 7
-      label: 'Coletivos e Redes'
-    - value: 8
-      label: 'Setor Privado e outros'
-    - value: 9
-      label: 'Outro'
-    */
-
-    const { data } = useQuery(['news', { limit, page, enquads, ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom, ppea_sp }], {
-        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/?limit=${limit}&page=${page}${enquads ? `&enquads=${enquads.join(',')}` : ''}`)).data,
-        staleTime: 3600000,
-    })
 
     const { data: iniciatives } = useQuery(['ppea-initiatives'], {
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/iniciatives_in_perspectives/politica`)).data,
@@ -84,9 +91,9 @@ export default function MapPP() {
     })
 
     useEffect(() => {
-        if (data) _politicas(data)
-    }, [data])
-        , ppea_sp
+        getOptions();
+    }, []);
+
     useEffect(() => {
         if (!bbox) return;
 
@@ -103,43 +110,104 @@ export default function MapPP() {
     }, [bbox])
 
     useEffect(() => {
-        _enquads(getEnquads())
+        let isFiltered = false;
+        for (let f of Object.values(filters)) {
+            if (!!f) {
+                isFiltered = true;
+                break;
+            }
+        }
+        _isFiltered(isFiltered)
+    }, [filters])
 
-    }, [ppea_reg, ppea_uf, ppea_mun, ppea_uc, ppea_ch, ppea_sc, ppea_cr, ppea_eu, ppea_ou, ppea_nom, ppea_sp])
-    // TODO: melhorar estes states, vide zcm recortes
+    useEffect(() => {
+        async function fetchData(page = 1) {
+            if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
+                _showList(false);
+                return;
+            } else _showList(true);
 
-    const getEnquads = () => {
-        let enquads = []
+            /* _loading(true); */
+            const {
+                data: { projects: i, pages, hasPrevious, hasNext, currentPage, total },
+            } = await axios.get(`${import.meta.env.VITE_SERVER}project/?limit=6&page=${page}${prepareFilters(filters)}`);
+            /* _loading(false); */
 
-        if (ppea_reg) enquads.push(0);
-        if (ppea_uf) enquads.push(1);
-        if (ppea_mun) enquads.push(2);
-        if (ppea_sc) enquads.push(3);
-        if (ppea_eu) enquads.push(4);
-        if (ppea_uc) enquads.push(5);
-        if (ppea_ch) enquads.push(6);
-        if (ppea_cr) enquads.push(7);
-        if (ppea_sp) enquads.push(8);
-        if (ppea_ou) enquads.push(9);
+            _iniciativas(i);
+            _pag({ pages, hasPrevious, hasNext });
+            _currentPage(currentPage);
+            _total(total);
+        }
 
-        return enquads
-    }
+        fetchData(currentPage, filters);
+    }, [currentPage, filters]);
 
-    const getCQL = () => {
-        const enquads = getEnquads()
+    useEffect(() => {
+        _currentPage(1);
+        //_showPop(null);
 
-        let cql_filter
-        if (!enquads.length) cql_filter = { cql_filter: `id > 0` }
-        else cql_filter = { cql_filter: `enquadramento in (${enquads.join(',')})` }
+        async function fetchGeoData() {
+            if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
+                _iniciativas_ids(null);
+                return;
+            }
 
-        return cql_filter
-    }
+            const { data } = await axios.get(`${import.meta.env.VITE_SERVER}project/geo/?${prepareFilters(filters)}`);
+
+            _iniciativas_ids(data);
+        }
+
+        /* reset zoom and position */
+        mapRef && mapRef.current && mapRef.current.leafletElement.setView(position, zoom);
+        fetchGeoData(filters);
+    }, [filters]);
 
     const handleSelect = (p) => {
         _selected(p.politica_id)
         _bbox(p.bbox)
     }
 
+    const getOptions = async () => {
+        const {
+            data: { linhas_acao, regioes },
+        } = await axios.get(`${import.meta.env.VITE_SERVER}project/options`);
+
+        _linhas_acao(linhas_acao);
+        _regioes(regioes);
+    };
+
+    const onFilterChange = (type, selectedOption) => {
+        _currentPage(1);
+
+        let newFilters;
+        let newFields = { ...fields, [type]: selectedOption, id: null };
+
+        if (selectedOption) {
+            newFilters = {
+                ...filters,
+                [type]: selectedOption.map(s => s.value).join(','),
+                id: null,
+            };
+        } else {
+            newFilters = { ...filters, [type]: null, id: null };
+        }
+
+        if (type === 'regioes') {
+            newFields.ufs = null;
+            newFilters.ufs = null;
+        }
+        if (['regioes', 'ufs'].includes(type)) {
+            newFields.municipios = null;
+            newFilters.municipios = null;
+        }
+
+        _fields(newFields);
+        _filters(newFilters);
+    };
+
+    const handleToggle = (filter) => (checked) => {
+        _togglers(togglers => ({...togglers, [filter]: checked}))
+    }
 
     return (<>
         <section className={styles['ppea-dash']}>
@@ -148,9 +216,9 @@ export default function MapPP() {
 
                 <div className={styles['ppea-dash-inner']}>
                     <div className={styles['title']}>
-                        Conheça as iniciativas<br/>
-                        vinculadas à<br/> 
-                        implementação do<br/>PPPZCM
+                        Conheça as iniciativas<br />
+                        vinculadas à<br />
+                        implementação do<br />PPPZCM
                     </div>
 
                     <div className={styles['big-numbers']}>
@@ -158,7 +226,7 @@ export default function MapPP() {
                             <div className={`${styles['box']} ${styles['box-1']}`}>
                                 {!iniciatives && <div className={styles.number}>...</div>}
                                 {iniciatives && <div className={styles.number}>{iniciatives}</div>}
-                                <div className={styles.text}>iniciativas de<br/>Educação<br/>Ambiental</div>
+                                <div className={styles.text}>iniciativas de<br />Educação<br />Ambiental</div>
                             </div>
                         </div>
 
@@ -201,16 +269,16 @@ export default function MapPP() {
 
                         <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:ppea-staging"
+                            layers="pppzcm:proj_atuacao"
                             format="image/png"
                             transparent={true}
                             opacity={0.8}
-                            {...getCQL()}
+                            cql_filter={iniciativas_ids ? `project_id in (${iniciativas_ids.join(',')})` : 'project_id>0'}
                         />
 
                         {!!selected && <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:ppea-staging"
+                            layers="pppzcm:proj_atuacao"
                             format="image/png"
                             transparent={true}
                             opacity={0.7}
@@ -232,61 +300,24 @@ export default function MapPP() {
                         </div>
 
                         <div className={styles.each}>
-                            <div><Toggler checked={ppea_uf} onToggle={_ppea_uf} /></div>
-                            <div>PPEA Estaduais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
-                        </div>
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={ppea_mun} onToggle={_ppea_mun} /></div>
-                            <div>PPEA Municipais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_reg} onToggle={_ppea_reg} /></div>
-                            <div>PPEA Regionais ou Federais</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_uc} onToggle={_ppea_uc} /></div>
-                            <div>PPEA a partir de UC</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_ch} onToggle={_ppea_ch} /></div>
-                            <div>PPEA a partir de CBH</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_sc} onToggle={_ppea_sc} /></div>
-                            <div>PPEA a partir de Sociedade Civil Org.</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_cr} onToggle={_ppea_cr} /></div>
-                            <div>PPEA a partir de coletivos e redes</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_eu} onToggle={_ppea_eu} /></div>
-                            <div>PPEA a partir de escolas e universidades</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_sp} onToggle={_ppea_sp} /></div>
-                            <div>PPEA a partir de setor privado</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={ppea_ou} onToggle={_ppea_ou} /></div>
-                            <div>Outras PPEA</div>
-                        </div>
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={ppea_nom} onToggle={_ppea_nom} /></div>
-                            <div>Nome da PPEA</div>
-                            <div><input type="text" placeholder='Digite' /></div>
+                            <div><Toggler checked={togglers['linhas_acao']} onToggle={(checked)=>handleToggle('linhas_acao')(checked)} /></div>
+                            <div>Linhas de Ação</div>
+                            <div>
+                                {linhas_acao && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('linhas_acao', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={linhas_acao}
+                                            value={fields['linhas_acao']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className={styles['list-header']}>
@@ -296,7 +327,7 @@ export default function MapPP() {
                             <div>Conecte-se</div>
                         </div>
 
-                        {!!politicas && politicas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+                        {!!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
                             <div>{p.nome}</div>
                             <div>{p.instituicao_nome}</div>
                             <div>-</div>
@@ -306,13 +337,13 @@ export default function MapPP() {
                             </div>
                         </div>)}
 
-                        {politicas && <div className={styles['list-pag']}>
-                            <div onClick={() => { if (politicas.hasPrevious) _page(page - 1) }} className={`${politicas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
+                        {iniciativas && <div className={styles['list-pag']}>
+                            <div onClick={() => { if (iniciativas.hasPrevious) _page(page - 1) }} className={`${iniciativas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
                             <div>página</div>
                             <div>{page}</div>
                             <div>/</div>
-                            <div>{politicas.pages}</div>
-                            <div onClick={() => { if (politicas.hasNext) _page(page + 1) }} className={`${politicas.hasNext ? styles.active : ''}`}>{'>'}</div>
+                            <div>{iniciativas.pages}</div>
+                            <div onClick={() => { if (iniciativas.hasNext) _page(page + 1) }} className={`${iniciativas.hasNext ? styles.active : ''}`}>{'>'}</div>
                         </div>}
 
                     </div>
