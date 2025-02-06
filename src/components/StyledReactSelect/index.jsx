@@ -59,6 +59,12 @@ const makeStyledSelect = SelectComponent => styled(SelectComponent)`
     height: ${defaultSize}; // Ajustar altura dos indicadores
     display: flex;
     align-items: center; // Centralizar indicadores verticalmente
+    margin: auto 0;
+    &>div {padding: 0 0.1rem;} // Ajustar padding dos indicadores 
+
+    svg {
+      fill: #fff; // Ajustar a cor de preenchimento dos ícones SVG
+    }
   }
 
   & .${reactSelectClassNamePrefix}__indicator-separator {
