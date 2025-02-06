@@ -62,7 +62,7 @@ export default function MapPP() {
     const [regioes, _regioes] = useState(null);
     const [ufs, _ufs] = useState(null);
     const [segmentos, _segmentos] = useState(null);
-    const [total, _total] = useState(null);
+    const [loading, _loading] = useState(true);
 
     const [page, _page] = useState(1);
 
@@ -141,11 +141,11 @@ export default function MapPP() {
 
     useEffect(() => {
         async function fetchData(page = 1, filters) {
-            /* _loading(true); */
+            _loading(true);
             const {
                 data,
             } = await axios.get(`${import.meta.env.VITE_SERVER}project/?limit=6&page=${page}${prepareFilters(filters, togglers)}`);
-            /* _loading(false); */
+            _loading(false);
 
             _iniciativas(data);
         }
@@ -537,7 +537,7 @@ export default function MapPP() {
                             <div>Conecte-se</div>
                         </div>
 
-                        {!!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+                        {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
                             <div>{p.nome}</div>
                             <div>{p.instituicao_nome}</div>
                             <div>-</div>
@@ -545,6 +545,13 @@ export default function MapPP() {
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
                                 <img onClick={() => window.open(`/projeto-single/${p.id}`, '_blank')} src={Acesso} />
                             </div>
+                        </div>)}
+
+                        {loading && [1,2,3,4,5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>)}
 
                         {iniciativas && <div className={styles['list-pag']}>

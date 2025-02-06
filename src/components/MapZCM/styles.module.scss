@@ -1,5 +1,26 @@
 @use '../../app' as *;
 
+@keyframes mock {
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-o-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-moz-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-webkit-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+
 .container {
   position: relative;
 }
@@ -393,6 +414,19 @@
         img {
           cursor: pointer;
         }
+      }
+    }
+
+    .mock {
+      height: 50px;
+
+      -webkit-animation: mock 2s infinite;
+      -moz-animation: mock 2s infinite;
+      -o-animation: mock 2s infinite;
+       animation: mock 2s infinite;
+
+      &>div {
+        height: 100%;
       }
     }
 
