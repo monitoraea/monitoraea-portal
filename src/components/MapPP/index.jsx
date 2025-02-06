@@ -86,7 +86,7 @@ export default function MapPP() {
     useEffect(() => {
         if (data) _politicas(data)
     }, [data])
-    , ppea_sp
+    
     useEffect(() => {
         if (!bbox) return;
 

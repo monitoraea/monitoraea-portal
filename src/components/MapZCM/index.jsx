@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import {
     reactSelectClassNamePrefix,
     StyledReactSelect,
+    StyledAsyncReactSelect,
 } from '../../components/StyledReactSelect';
 
 import ToggleLeft from '../../components/icons/toggle-left.svg?react';
@@ -46,6 +47,12 @@ function prepareFilters(filters, togglers) {
     return preparedFilters;
 }
 
+async function getUFs(filters, togglers) {
+    const { data } = await axios.get(`${import.meta.env.VITE_SERVER}project/ufs?none=1${prepareFilters(filters, togglers)}`);
+
+    return data;
+}
+
 export default function MapPP() {
     const [iniciativas, _iniciativas] = useState(null);
     const [iniciativas_ids, _iniciativas_ids] = useState(null);
@@ -53,6 +60,7 @@ export default function MapPP() {
     const [linhas_acao, _linhas_acao] = useState(null);
     const [regioes, _regioes] = useState(null);
     const [ufs, _ufs] = useState(null);
+    const [segmentos, _segmentos] = useState(null);
     const [total, _total] = useState(null);
 
     const [page, _page] = useState(1);
@@ -65,6 +73,8 @@ export default function MapPP() {
         regioes: null,
         ufs: null,
         municipios: null,
+        instituicao_segmento: null,
+        instituicao: null,
         id: null,
     });
     const [togglers, _togglers] = useState({
@@ -72,6 +82,8 @@ export default function MapPP() {
         regioes: false,
         ufs: false,
         municipios: false,
+        instituicao_segmento: false,
+        instituicao: false,
         id: false,
     });
     const [isFiltered, _isFiltered] = useState(false);
@@ -154,10 +166,21 @@ export default function MapPP() {
     }, [filters, togglers]);
 
     useEffect(() => {
+        async function fetchUFs() {
+            _ufs(await getUFs(filters, togglers));
+        }
+
+        fetchUFs();
+    }, [filters, togglers]);
+
+    useEffect(() => {
         if (!selected) return;
-        console.log('selected', selected)
     }, [selected])
 
+    /* useEffect(() => {
+        console.log({ filters, fields })
+    }, [filters, fields])
+ */
     const handleSelect = (p) => {
         _selected(p.id)
         _bbox(p.bbox)
@@ -165,11 +188,12 @@ export default function MapPP() {
 
     const getOptions = async () => {
         const {
-            data: { linhas_acao, regioes },
+            data: { linhas_acao, regioes, segmentos },
         } = await axios.get(`${import.meta.env.VITE_SERVER}project/options`);
 
         _linhas_acao(linhas_acao);
         _regioes(regioes);
+        _segmentos(segmentos);
     };
 
     const onFilterChange = (type, selectedOption) => {
@@ -203,9 +227,64 @@ export default function MapPP() {
         _filters(newFilters);
     };
 
+    const onFilterMunicipioChange = selectedOption => {
+        _fields({ ...fields, municipios: selectedOption });
+
+        if (selectedOption && selectedOption.length) {
+            const municipios = selectedOption.map(s => s.value);
+            _filters({ ...filters, municipios });
+            _togglers(togglers => ({ ...togglers, municipios: true }));
+        } else {
+            _filters({ ...filters, municipios: null });
+            _togglers(togglers => ({ ...togglers, municipios: false }));
+        }
+    };
+
+    const onFilterInstNameChange = selectedOption => {
+        _fields({ ...fields, instituicao: selectedOption });
+
+        if (selectedOption && selectedOption.length) {
+            _filters({ ...filters, instituicao: selectedOption.map(o => o.value) });
+            _togglers(togglers => ({ ...togglers, instituicao: true }));
+        } else {
+            _filters({ ...filters, instituicao: null });
+            _togglers(togglers => ({ ...togglers, instituicao: false }));
+        }
+    };
+
+    const onFilterNameChange = selectedOption => {
+        _fields({ ...fields, id: selectedOption });
+
+        if (selectedOption) {
+            _filters({ ...filters, id: selectedOption.value });
+            _togglers(togglers => ({ ...togglers, id: true }));
+        } else {
+            _filters({ ...filters, id: null });
+            _togglers(togglers => ({ ...togglers, id: false }));
+        }
+    };
+
     const handleToggle = (filter) => (checked) => {
         _togglers(togglers => ({ ...togglers, [filter]: checked }))
     }
+
+    const loadMunicipiosOptions = (inputValue, callback) => {
+        axios
+            .get(`${import.meta.env.VITE_SERVER}project/municipios/?nome=${inputValue}${prepareFilters(filters, togglers)}`)
+            .then(function ({ data }) {
+                callback(data);
+            });
+    };
+
+    const loadNameOptions =
+        (url = 'project/list/') =>
+            (inputValue, callback) => {
+                axios
+                    .get(`${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${prepareFilters(filters, togglers)}`)
+                    .then(function ({ data }) {
+                        callback(data);
+                    });
+            };
 
     return (<>
         <section className={styles['ppea-dash']}>
@@ -318,6 +397,131 @@ export default function MapPP() {
                             </div>
                         </div>
 
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
+                            <div>Regiões</div>
+                            <div>
+                                {linhas_acao && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('regioes', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={regioes}
+                                            value={fields['regioes']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['ufs']} onToggle={(checked) => handleToggle('ufs')(checked)} /></div>
+                            <div>Estado</div>
+                            <div>
+                                {ufs && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('ufs', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={ufs}
+                                            value={fields['ufs']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['municipios']} onToggle={(checked) => handleToggle('municipios')(checked)} /></div>
+                            <div>Município</div>
+                            <div>
+                                <div>
+                                    <StyledAsyncReactSelect
+                                        classNamePrefix={reactSelectClassNamePrefix}
+                                        {...selectDefaults}
+                                        placeholder="digite..."
+                                        onChange={selectedOption => onFilterMunicipioChange(selectedOption)}
+                                        closeMenuOnSelect={false}
+                                        loadOptions={loadMunicipiosOptions}
+                                        isClearable
+                                        isMulti
+                                        value={fields['municipios']}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['instituicao_segmento']} onToggle={(checked) => handleToggle('instituicao_segmento')(checked)} /></div>
+                            <div>Segmento da organização</div>
+                            <div>
+                                {segmentos && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('instituicao_segmento', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={segmentos}
+                                            value={fields['instituicao_segmento']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['instituicao']} onToggle={(checked) => handleToggle('instituicao')(checked)} /></div>
+                            <div>Nome da organização</div>
+                            <div>
+                                <div>
+                                    <StyledAsyncReactSelect
+                                        classNamePrefix={reactSelectClassNamePrefix}
+                                        {...selectDefaults}
+                                        placeholder="digite..."
+                                        onChange={selectedOption => onFilterInstNameChange(selectedOption)}
+                                        isMulti
+                                        closeMenuOnSelect={false}
+                                        loadOptions={loadNameOptions('project/instiuicao/list/')}
+                                        isClearable
+                                        value={fields['instituicao']}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['id']} onToggle={(checked) => handleToggle('id')(checked)} /></div>
+                            <div>Título da iniciativa</div>
+                            <div>
+                                <div>
+                                    <StyledAsyncReactSelect
+                                        classNamePrefix={reactSelectClassNamePrefix}
+                                        className="no-down"
+                                        {...selectDefaults}
+                                        placeholder="digite..."
+                                        onChange={selectedOption => onFilterNameChange(selectedOption)}
+                                        closeMenuOnSelect={false}
+                                        loadOptions={loadNameOptions()}
+                                        isClearable
+                                        value={fields['id']}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
                         <div className={styles['list-header']}>
                             <div>PPEA Selecionadas</div>
                             <div>Organização</div>
@@ -331,7 +535,7 @@ export default function MapPP() {
                             <div>-</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img onClick={() => window.open(`/projeto-single/${p.id}`,'_blank')} src={Acesso} />
+                                <img onClick={() => window.open(`/projeto-single/${p.id}`, '_blank')} src={Acesso} />
                             </div>
                         </div>)}
 

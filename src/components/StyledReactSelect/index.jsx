@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Select from 'react-select';
-// import AsyncSelect from 'react-select/async/dist/react-select.esm';
+import AsyncSelect from 'react-select/async';
 
 export const reactSelectClassNamePrefix = 'reactSelectStyles_' + (Math.random() + 1).toString(36).substring(7);
 
@@ -67,4 +67,4 @@ const makeStyledSelect = SelectComponent => styled(SelectComponent)`
 `;
 
 export const StyledReactSelect = makeStyledSelect(Select);
-// export const StyledAsyncReactSelect = makeStyledSelect(AsyncSelect);
+export const StyledAsyncReactSelect = makeStyledSelect(AsyncSelect);
