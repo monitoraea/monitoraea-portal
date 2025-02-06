@@ -3,6 +3,7 @@ import 'dayjs/locale/pt-br'
 
 import './app.scss';
 import 'leaflet/dist/leaflet.css';
+// import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, createRef } from 'react';
 import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-leaflet';
+//import { GestureHandling } from "leaflet-gesture-handling";
 import makeAnimated from 'react-select/animated';
 
 // import L from 'leaflet';
@@ -104,6 +105,13 @@ export default function MapPP() {
     useEffect(() => {
         getOptions();
     }, []);
+
+    // useEffect(() => {
+    //    if(mapRef.current?.leafletElement) {
+    //         mapRef.current.leafletElement.addHandler("gestureHandling", GestureHandling);
+    //         mapRef.current.leafletElement.gestureHandling.enable();
+    //    }
+    // }, [mapRef]);
 
     useEffect(() => {
         if (!bbox) return;
@@ -246,7 +254,7 @@ export default function MapPP() {
         if (selectedOption && selectedOption.length) {
             _filters({ ...filters, instituicao: selectedOption.map(o => o.value) });
             _togglers(togglers => ({ ...togglers, instituicao: true }));
-        } else {
+        } else {                    
             _filters({ ...filters, instituicao: null });
             _togglers(togglers => ({ ...togglers, instituicao: false }));
         }
@@ -338,7 +346,7 @@ export default function MapPP() {
 
             <div className={styles.container}>
                 <div className={styles['map-container']}>
-                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false} /*  onClick={handleMapClick} */>
+                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
