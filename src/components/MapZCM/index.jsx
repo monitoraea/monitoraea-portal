@@ -409,7 +409,7 @@ export default function MapPP() {
                             <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
                             <div>Regiões</div>
                             <div>
-                                {linhas_acao && (
+                                {regioes && (
                                     <div>
                                         <StyledReactSelect
                                             classNamePrefix={reactSelectClassNamePrefix}
