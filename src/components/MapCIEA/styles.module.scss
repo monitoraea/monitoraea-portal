@@ -1,5 +1,26 @@
 @use '../../app' as *;
 
+@keyframes mock {
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-o-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-moz-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+@-webkit-keyframes mock{
+  0%   { opacity:0.8; }
+  50%  { opacity:0.2; }
+  100% { opacity:0.8; }
+}
+
 .container {
   position: relative;
 }
@@ -172,31 +193,28 @@
   }
 }
 
-.cne-dash {
+.ciea-dash {
   padding: 2rem;
   /* width: 100%; */
 
-  .cne-dash-inner {
+  .ciea-dash-inner {
 
     display: flex;
     gap: 10px;
+    align-items: center;
 
     .title {
       font-size: $super-big-font;
       color: $indigo;
       font-weight: bold;
+      min-width: 50vh;
     }
 
     .big-numbers {
       display: flex;
       gap: 10px;
       margin-top: 10px;
-
-      .box-v-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+      align-items: center;
 
       .box-with-image {
         display: flex;
@@ -209,37 +227,49 @@
           border-radius: 15px;
           /* Bordas arredondadas */
           padding: 20px 10px;
-          width: 230px;
-          height: 40px;
+          width: 110px;
+          height: 50px;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
 
           &.box-1 {
-            width: 220px;
+            width: 200px;
+            height: 150px;
+            text-align: center;
           }
 
           .number {
-            font-size: 28px;
+            font-size: 48px;
             /* Tamanho maior para o número */
             font-weight: bold;
             color: $indigo;
           }
 
           .text {
-            font-size: 18px;
+            text-align: center;
+            font-size: $medium-font;
             color: $indigo;
           }
         }
+      }
 
-        &.large-box {
+
+
+      .second {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .box-with-image {
           .box {
-            width: 100px;
-            height: 140px;
-
             .number {
-              font-size: 48px;
+              font-size: 28px;
+            }
+
+            .text {
+              font-size: $small-font;
             }
           }
         }
@@ -369,20 +399,28 @@
       }
 
       &>div:nth-child(3) {
-        width: 15%;
-        text-align: center;
-      }
-
-      &>div:nth-child(4) {
-        background: rgb(5 30 89 / 5%);
         display: flex;
         justify-content: end;
         align-items: center;
         gap: 4px;
         width: 24%;
+
         img {
           cursor: pointer;
         }
+      }
+    }
+
+    .mock {
+      height: 50px;
+
+      -webkit-animation: mock 2s infinite;
+      -moz-animation: mock 2s infinite;
+      -o-animation: mock 2s infinite;
+       animation: mock 2s infinite;
+
+      &>div {
+        height: 100%;
       }
     }
 
@@ -403,12 +441,13 @@
     }
 
     .list-pag {
-      display: flex;      
+      display: flex;
       justify-content: end;
       color: $anil;
 
       &>div:nth-child(1) {
         margin-right: 2px;
+
         &.active {
           cursor: pointer;
         }

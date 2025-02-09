@@ -1,10 +1,18 @@
 import { useState, useEffect, createRef } from 'react';
 import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-leaflet';
+//import { GestureHandling } from "leaflet-gesture-handling";
+import makeAnimated from 'react-select/animated';
 
 // import L from 'leaflet';
 
 import axios from 'axios';
-import { useQuery } from 'react-query';
+/* import { useQuery } from 'react-query'; */
+
+import {
+    reactSelectClassNamePrefix,
+    StyledReactSelect,
+    /* StyledAsyncReactSelect, */
+} from '../../components/StyledReactSelect';
 
 import ToggleLeft from '../../components/icons/toggle-left.svg?react';
 import ToggleRight from '../../components/icons/toggle-right.svg?react';
@@ -17,65 +25,75 @@ import Acesso from '../../images/acesso.png'
 
 import styles from './styles.module.scss';
 
+const animatedComponents = makeAnimated();
+
 const mapRef = createRef();
 const position = [-15, -42];
 const zoom = 5;
 
+const selectDefaults = {
+    placeholder: 'Selecione...',
+    noOptionsMessage: () => 'Nenhuma opção encontrada!',
+    loadingMessage: () => 'Carregando...',
+};
+
+function prepareFilters(filters, togglers) {
+    let preparedFilters = '';
+
+    for (let filter in filters) {
+        if (filters[filter] && togglers[filter]) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
+    }
+
+    return preparedFilters;
+}
+
+async function getUFs(filters, togglers) {
+    const { data } = await axios.get(`${import.meta.env.VITE_SERVER}commission/ufs?none=1${prepareFilters(filters, togglers)}`);
+
+    return data;
+}
+
 export default function MapPP() {
-    const [cne_uf, _cne_uf] = useState(false)
-    const [cne_mun, _cne_mun] = useState(false)
-    const [cne_reg, _cne_reg] = useState(false)
-    const [cne_uc, _cne_uc] = useState(false)
-    const [cne_ch, _cne_ch] = useState(false)
-    const [cne_sc, _cne_sc] = useState(false)
-    const [cne_cr, _cne_cr] = useState(false)
-    const [cne_eu, _cne_eu] = useState(false)
-    const [cne_sp, _cne_sp] = useState(false)
-    const [cne_ou, _cne_ou] = useState(false)
-    const [cne_nom, _cne_nom] = useState(false)
+    const [iniciativas, _iniciativas] = useState(null);
+    const [iniciativas_ids, _iniciativas_ids] = useState(null);
 
-    const [limit] = useState(6)
-    const [page, _page] = useState(1)
-    const [enquads, _enquads] = useState(null)
+    const [regioes, _regioes] = useState(null);
+    const [ufs, _ufs] = useState(null);
+    const [loading, _loading] = useState(true);
 
-    const [consultas_open, _consultas_open] = useState(false)
-    const [politicas, _politicas] = useState(null)
+    const [page, _page] = useState(1);
+
+    const [consultas_open, _consultas_open] = useState(false);
+
+    const [filters, _filters] = useState({});
+    const [fields, _fields] = useState({
+        regioes: null,
+        ufs: null,
+    });
+    const [togglers, _togglers] = useState({
+        regioes: false,
+        ufs: false,
+    });
+    const [isFiltered, _isFiltered] = useState(false);
 
     const [bbox, _bbox] = useState(null)
     const [selected, _selected] = useState(null)
 
-    /*  
-    - value: 0
-      label: 'Poder Público - Nível Federal'
-    - value: 1
-      label: 'Poder Público - Nível Estadual'
-    - value: 2
-      label: 'Poder Público - Nível Municipal'
-    - value: 3
-      label: 'Organização da Sociedade Civil'
-    - value: 4
-      label: 'Escolas e Universidades'
-    - value: 5
-      label: 'Comitê gestor de Unidade de Conservação'
-    - value: 6
-      label: 'Bacia Hidrogrãfica'
-    - value: 7
-      label: 'Coletivos e Redes'
-    - value: 8
-      label: 'Setor Privado e outros'
-    - value: 9
-      label: 'Outro'
-    */
-
-    const { data } = useQuery(['news', { limit, page, enquads, cne_reg, cne_uf, cne_mun, cne_uc, cne_ch, cne_sc, cne_cr, cne_eu, cne_ou, cne_nom, cne_sp }], {
-        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/?limit=${limit}&page=${page}${enquads ? `&enquads=${enquads.join(',')}` : ''}`)).data,
-        staleTime: 3600000,
-    })
+    useEffect(() => {
+        getOptions();
+    }, []);
 
     useEffect(() => {
-        if (data) _politicas(data)
-    }, [data])
-        
+        console.log({iniciativas_ids});
+    }, [iniciativas_ids]);
+
+    // useEffect(() => {
+    //    if(mapRef.current?.leafletElement) {
+    //         mapRef.current.leafletElement.addHandler("gestureHandling", GestureHandling);
+    //         mapRef.current.leafletElement.gestureHandling.enable();
+    //    }
+    // }, [mapRef]);
+
     useEffect(() => {
         if (!bbox) return;
 
@@ -92,52 +110,160 @@ export default function MapPP() {
     }, [bbox])
 
     useEffect(() => {
-        _enquads(getEnquads())
+        let isFiltered = false;
+        for (let f of Object.values(filters)) {
+            if (!!f) {
+                isFiltered = true;
+                break;
+            }
+        }
+        _isFiltered(isFiltered)
+    }, [filters])
 
-    }, [cne_reg, cne_uf, cne_mun, cne_uc, cne_ch, cne_sc, cne_cr, cne_eu, cne_ou, cne_nom, cne_sp])
-    // TODO: melhorar estes states, vide zcm recortes
+    useEffect(() => {
+        async function fetchData(page = 1, filters) {
+            _loading(true);
+            const {
+                data,
+            } = await axios.get(`${import.meta.env.VITE_SERVER}commission/?limit=6&page=${page}${prepareFilters(filters, togglers)}`);
+            _loading(false);
 
-    const getEnquads = () => {
-        let enquads = []
+            _iniciativas(data);
+        }
 
-        if (cne_reg) enquads.push(0);
-        if (cne_uf) enquads.push(1);
-        if (cne_mun) enquads.push(2);
-        if (cne_sc) enquads.push(3);
-        if (cne_eu) enquads.push(4);
-        if (cne_uc) enquads.push(5);
-        if (cne_ch) enquads.push(6);
-        if (cne_cr) enquads.push(7);
-        if (cne_sp) enquads.push(8);
-        if (cne_ou) enquads.push(9);
+        fetchData(page, filters);
+    }, [page, filters, togglers]);
 
-        return enquads
-    }
+    useEffect(() => {
+        _page(1);
+        //_showPop(null);
 
-    const getCQL = () => {
-        const enquads = getEnquads()
+        async function fetchGeoData() {
+            if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
+                _iniciativas_ids(null);
+                return;
+            }
 
-        let cql_filter
-        if (!enquads.length) cql_filter = { cql_filter: `id > 0` }
-        else cql_filter = { cql_filter: `enquadramento in (${enquads.join(',')})` }
+            const { data } = await axios.get(`${import.meta.env.VITE_SERVER}commission/geo/?${prepareFilters(filters, togglers)}`);
 
-        return cql_filter
-    }
+            _iniciativas_ids(data);
+        }
 
+        /* reset zoom and position */
+        mapRef && mapRef.current && mapRef.current.leafletElement.setView(position, zoom);
+        fetchGeoData(filters);
+    }, [filters, togglers]);
+
+    useEffect(() => {
+        async function fetchUFs() {
+            _ufs(await getUFs(filters, togglers));
+        }
+
+        fetchUFs();
+    }, [filters, togglers]);
+
+    useEffect(() => {
+        if (!selected) return;
+    }, [selected])
+
+    /* useEffect(() => {
+        console.log({ filters, fields })
+    }, [filters, fields])
+ */
     const handleSelect = (p) => {
-        _selected(p.politica_id)
+        _selected(p.id)
         _bbox(p.bbox)
     }
 
+    const getOptions = async () => {
+        const {
+            data: { regioes },
+        } = await axios.get(`${import.meta.env.VITE_SERVER}commission/options`);
+
+        _regioes(regioes);
+    };
+
+    const onFilterChange = (type, selectedOption) => {
+        _page(1);
+
+        let newFilters;
+        let newFields = { ...fields, [type]: selectedOption, id: null };
+
+        if (selectedOption && selectedOption.length) {
+            newFilters = {
+                ...filters,
+                [type]: selectedOption.map(s => s.value).join(','),
+                id: null,
+            };
+            _togglers(togglers => ({ ...togglers, [type]: true }));
+        } else {
+            newFilters = { ...filters, [type]: null, id: null };
+            _togglers(togglers => ({ ...togglers, [type]: false }));
+        }
+
+        if (type === 'regioes') {
+            newFields.ufs = null;
+            newFilters.ufs = null;
+        }
+        if (['regioes', 'ufs'].includes(type)) {
+            newFields.municipios = null;
+            newFilters.municipios = null;
+        }
+
+        _fields(newFields);
+        _filters(newFilters);
+    };
+
+    const onFilterMunicipioChange = selectedOption => {
+        _fields({ ...fields, municipios: selectedOption });
+
+        if (selectedOption && selectedOption.length) {
+            const municipios = selectedOption.map(s => s.value);
+            _filters({ ...filters, municipios });
+            _togglers(togglers => ({ ...togglers, municipios: true }));
+        } else {
+            _filters({ ...filters, municipios: null });
+            _togglers(togglers => ({ ...togglers, municipios: false }));
+        }
+    };
+
+    const onFilterInstNameChange = selectedOption => {
+        _fields({ ...fields, instituicao: selectedOption });
+
+        if (selectedOption && selectedOption.length) {
+            _filters({ ...filters, instituicao: selectedOption.map(o => o.value) });
+            _togglers(togglers => ({ ...togglers, instituicao: true }));
+        } else {                    
+            _filters({ ...filters, instituicao: null });
+            _togglers(togglers => ({ ...togglers, instituicao: false }));
+        }
+    };
+
+    const onFilterNameChange = selectedOption => {
+        _fields({ ...fields, id: selectedOption });
+
+        if (selectedOption) {
+            _filters({ ...filters, id: selectedOption.value });
+            _togglers(togglers => ({ ...togglers, id: true }));
+        } else {
+            _filters({ ...filters, id: null });
+            _togglers(togglers => ({ ...togglers, id: false }));
+        }
+    };
+
+    const handleToggle = (filter) => (checked) => {
+        _togglers(togglers => ({ ...togglers, [filter]: checked }))
+    }
 
     return (<>
-        <section className={styles['cne-dash']}>
+        <section className={styles['ciea-dash']}>
 
             <div className="width-limiter">
 
-                <div className={styles['cne-dash-inner']}>
-
-                    <div className={styles['title']}>Conheça as CIEA do Brasil</div>                    
+                <div className={styles['ciea-dash-inner']}>
+                    <div className={styles['title']}>
+                    Conheça as CIEA do Brasil
+                    </div>
 
                 </div>
 
@@ -148,7 +274,7 @@ export default function MapPP() {
 
             <div className={styles.container}>
                 <div className={styles['map-container']}>
-                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false} /*  onClick={handleMapClick} */>
+                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false}>
                         <TileLayer
                             attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -156,20 +282,20 @@ export default function MapPP() {
 
                         <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:cne-staging"
+                            layers="pppzcm:ufs-staging"
                             format="image/png"
                             transparent={true}
                             opacity={0.8}
-                            {...getCQL()}
+                            cql_filter={iniciativas_ids ? `id in (${iniciativas_ids.join(',')})` : 'id>0'}
                         />
 
                         {!!selected && <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:cne-staging"
+                            layers="pppzcm:ufs-staging"
                             format="image/png"
                             transparent={true}
                             opacity={0.7}
-                            styles="cne-feature"
+                            styles="ppea-feature"
                             cql_filter={`id=${selected ? selected : 0}`}
                         />}
 
@@ -186,88 +312,76 @@ export default function MapPP() {
                             <div>Filtros de Busca</div>
                         </div>
 
-                        {/* <div className={styles.each}>
-                            <div><Toggler checked={cne_uf} onToggle={_cne_uf} /></div>
-                            <div>cne Estaduais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
+                        <div className={styles.each}>
+                            <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
+                            <div>Regiões</div>
+                            <div>
+                                {regioes && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('regioes', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={regioes}
+                                            value={fields['regioes']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className={styles.each}>
-                            <div><Toggler checked={cne_mun} onToggle={_cne_mun} /></div>
-                            <div>cne Municipais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_reg} onToggle={_cne_reg} /></div>
-                            <div>cne Regionais ou Federais</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_uc} onToggle={_cne_uc} /></div>
-                            <div>cne a partir de UC</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_ch} onToggle={_cne_ch} /></div>
-                            <div>cne a partir de CBH</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_sc} onToggle={_cne_sc} /></div>
-                            <div>cne a partir de Sociedade Civil Org.</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_cr} onToggle={_cne_cr} /></div>
-                            <div>cne a partir de coletivos e redes</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_eu} onToggle={_cne_eu} /></div>
-                            <div>cne a partir de escolas e universidades</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_sp} onToggle={_cne_sp} /></div>
-                            <div>cne a partir de setor privado</div>
-                        </div>
-
-                        <div className={`${styles.each} ${styles.full}`}>
-                            <div><Toggler checked={cne_ou} onToggle={_cne_ou} /></div>
-                            <div>Outras cne</div>
-                        </div> */}
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={cne_nom} onToggle={_cne_nom} /></div>
-                            <div>Nome do centro</div>
-                            <div><input type="text" placeholder='Digite' /></div>
-                        </div>
+                            <div><Toggler checked={togglers['ufs']} onToggle={(checked) => handleToggle('ufs')(checked)} /></div>
+                            <div>Estado</div>
+                            <div>
+                                {ufs && (
+                                    <div>
+                                        <StyledReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            onChange={selectedOption => onFilterChange('ufs', selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={ufs}
+                                            value={fields['ufs']}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>                        
 
                         <div className={styles['list-header']}>
-                            <div>Centros Selecionados</div>
-                            <div>Organização</div>
+                            <div>CIEA Selecionadas</div>
                             <div>Região</div>
                             <div>Conecte-se</div>
                         </div>
 
-                        {!!politicas && politicas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+                        {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
                             <div>{p.nome}</div>
-                            <div>{p.instituicao_nome}</div>
-                            <div>-</div>
+                            <div>{p.nm_regiao}</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img src={Acesso} />
+                                <img onClick={() => window.open(`/projeto-single/${p.id}`, '_blank')} src={Acesso} />
                             </div>
                         </div>)}
 
-                        {politicas && <div className={styles['list-pag']}>
-                            <div onClick={() => { if (politicas.hasPrevious) _page(page - 1) }} className={`${politicas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
+                        {loading && [1,2,3,4,5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>)}
+
+                        {iniciativas && <div className={styles['list-pag']}>
+                            <div onClick={() => { if (iniciativas.hasPrevious) _page(page - 1) }} className={`${iniciativas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
                             <div>página</div>
                             <div>{page}</div>
                             <div>/</div>
-                            <div>{politicas.pages}</div>
-                            <div onClick={() => { if (politicas.hasNext) _page(page + 1) }} className={`${politicas.hasNext ? styles.active : ''}`}>{'>'}</div>
+                            <div>{iniciativas.pages}</div>
+                            <div onClick={() => { if (iniciativas.hasNext) _page(page + 1) }} className={`${iniciativas.hasNext ? styles.active : ''}`}>{'>'}</div>
                         </div>}
 
                     </div>
