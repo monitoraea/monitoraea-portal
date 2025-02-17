@@ -92,13 +92,18 @@ export default function MapPP() {
     const [bbox, _bbox] = useState(null)
     const [selected, _selected] = useState(null)
 
-    const { data: iniciatives } = useQuery(['ppea-initiatives'], {
+    const { data: iniciatives } = useQuery(['zcm-initiatives'], {
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/iniciatives_in_perspectives/politica`)).data,
         staleTime: 3600000,
     })
 
-    const { data: institutions } = useQuery(['ppea-institutions'], {
+    const { data: institutions } = useQuery(['zcm-institutions'], {
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/statistics/institutions`)).data,
+        staleTime: 3600000,
+    })
+
+    const { data: members } = useQuery(['zcm-members'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}gt/perspectives/2/members`)).data,
         staleTime: 3600000,
     })
 
@@ -254,7 +259,7 @@ export default function MapPP() {
         if (selectedOption && selectedOption.length) {
             _filters({ ...filters, instituicao: selectedOption.map(o => o.value) });
             _togglers(togglers => ({ ...togglers, instituicao: true }));
-        } else {                    
+        } else {
             _filters({ ...filters, instituicao: null });
             _togglers(togglers => ({ ...togglers, instituicao: false }));
         }
@@ -327,7 +332,8 @@ export default function MapPP() {
 
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
-                                    <div className={styles.number}>XXX</div>
+                                    {!members && <div className={styles.number}>...</div>}
+                                    {members && <div className={styles.number}>{members}</div>}
                                     <div className={styles.text}>membros de comunidades</div>
                                 </div>
                             </div>
@@ -540,14 +546,14 @@ export default function MapPP() {
                         {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
                             <div>{p.nome}</div>
                             <div>{p.instituicao_nome}</div>
-                            <div>-</div>
+                            <div>{p.regioes.filter(r => !!r).join(',')}</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
                                 <img onClick={() => window.open(`/projeto-single/${p.id}`, '_blank')} src={Acesso} />
                             </div>
                         </div>)}
 
-                        {loading && [1,2,3,4,5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
+                        {loading && [1, 2, 3, 4, 5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
                             <div></div>
                             <div></div>
                             <div></div>
