@@ -83,10 +83,15 @@ export default function MapPP() {
         staleTime: 3600000,
     })
 
+    const { data: members } = useQuery(['ppea-members'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}gt/perspectives/4/members`)).data,
+        staleTime: 3600000,
+    })
+
     useEffect(() => {
         if (data) _politicas(data)
     }, [data])
-    
+
     useEffect(() => {
         if (!bbox) return;
 
@@ -99,7 +104,7 @@ export default function MapPP() {
         //console.log('focus on', bounds);
         mapRef && mapRef.current && mapRef.current.leafletElement.flyToBounds(bounds); //fitBounds
 
-        setTimeout(()=>_bbox(null), 1000)
+        setTimeout(() => _bbox(null), 1000)
     }, [bbox])
 
     useEffect(() => {
@@ -170,7 +175,8 @@ export default function MapPP() {
 
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
-                                    <div className={styles.number}>272</div>
+                                    {!members && <div className={styles.number}>...</div>}
+                                    {members && <div className={styles.number}>{members}</div>}
                                     <div className={styles.text}>Pessoas</div>
                                 </div>
                             </div>
