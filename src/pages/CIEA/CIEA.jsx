@@ -1,6 +1,4 @@
-import Nav from '../../components/nav/nav';
-import imgplaceholder from './placeholder.png';
-import bg from './bg.png';
+import Header from '../../components/Header';
 
 import DynamicContent from '../../components/DynamicContent';
 import ContentByType from '../../components/ContentByType';
@@ -17,15 +15,8 @@ function CIEA() {
 
   return (
     <>
-      <div className="banner">
-        <img className="bg" src={bg} alt="" />
-        <div className="backdrop"></div>
-        <div className="content">
-          <div className="title">Comissões Interinstitucional de Educação Ambiental</div>
-        </div>
-      </div>
+      <Header />
 
-      <Nav />
 
       <section id="sobre" className={styles['about-section']}>
         <div className="width-limiter">
