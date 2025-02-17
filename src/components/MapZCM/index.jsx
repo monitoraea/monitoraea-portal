@@ -3,6 +3,8 @@ import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-le
 //import { GestureHandling } from "leaflet-gesture-handling";
 import makeAnimated from 'react-select/animated';
 
+import Chart from "react-apexcharts";
+
 // import L from 'leaflet';
 
 import axios from 'axios';
@@ -87,18 +89,21 @@ export default function MapPP() {
         instituicao: false,
         id: false,
     });
+
+    const [linhas, _linhas] = useState(null)
+
     const [isFiltered, _isFiltered] = useState(false);
 
     const [bbox, _bbox] = useState(null)
     const [selected, _selected] = useState(null)
 
     const { data: iniciatives } = useQuery(['zcm-initiatives'], {
-        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/iniciatives_in_perspectives/politica`)).data,
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/iniciatives_in_perspectives/projeto`)).data,
         staleTime: 3600000,
     })
 
     const { data: institutions } = useQuery(['zcm-institutions'], {
-        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/statistics/institutions`)).data,
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/total_institutions`)).data,
         staleTime: 3600000,
     })
 
@@ -107,16 +112,54 @@ export default function MapPP() {
         staleTime: 3600000,
     })
 
+    const { data: linhas_data } = useQuery(['zcm-linhas'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/statistics/linhas`)).data,
+        staleTime: 3600000,
+    })
+
     useEffect(() => {
         getOptions();
     }, []);
 
-    // useEffect(() => {
-    //    if(mapRef.current?.leafletElement) {
-    //         mapRef.current.leafletElement.addHandler("gestureHandling", GestureHandling);
-    //         mapRef.current.leafletElement.gestureHandling.enable();
-    //    }
-    // }, [mapRef]);
+    useEffect(() => {
+       if(linhas_data) {
+        _linhas({
+            series: [
+                {
+                    data: linhas_data,
+                }
+            ],
+            options: {
+                chart: {
+                    type: 'treemap',
+                    toolbar: {
+                        show: false,
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                colors: ['#2d8bba'],
+                title: {
+                    show: false,
+                },
+                legend: {
+                    show: false,
+                },
+                dataLabels: {
+                  enabled: true,
+                  style: {
+                    fontSize: '12px',
+                  },
+                  formatter: function(text, op) {
+                    return [text, op.value]
+                  },
+                  offsetY: -4
+                },
+            }
+        })
+       }
+    }, [linhas_data]);
 
     useEffect(() => {
         if (!bbox) return;
@@ -325,7 +368,7 @@ export default function MapPP() {
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
                                     {!institutions && <div className={styles.number}>...</div>}
-                                    {institutions && <div className={styles.number}>XXX{/* {institutions} */}</div>}
+                                    {institutions && <div className={styles.number}>{institutions}</div>}
                                     <div className={styles.text}>organizações</div>
                                 </div>
                             </div>
@@ -340,7 +383,16 @@ export default function MapPP() {
 
                         </div>
 
-                        <div><img src={DashExample} /></div>
+                        <div>
+
+                            {linhas && <Chart
+                                options={linhas.options}
+                                series={linhas.series}
+                                type="treemap"
+                                width="500"
+                            />}
+
+                        </div>
                     </div>
 
                 </div>
