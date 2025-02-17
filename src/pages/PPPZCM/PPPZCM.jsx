@@ -176,23 +176,23 @@ function PPPZCM() {
 
             <div className={styles.icones}>
               <div className={styles.line1}>
-                <div className={styles.image}><img src={terramar} /></div>
-                <div className={styles.image}><img src={anppea} /></div>
-                <div className={styles.image}><img src={gef_mar} /></div>
+                <div className={styles.image}><a href="https://antigo.mma.gov.br/gestao-territorial/projeto-terramar.html" target="blank"><img src={terramar} /></a></div>
+                <div className={styles.image}><a href="https://www.monitoraea.org.br/" target="blank"><img src={anppea} /></a></div>
+                <div className={styles.image}><a href="https://www.gov.br/mma/pt-br/assuntos/biodiversidade-e-biomas/areas-protegidas/programas-e-projetos/gef-mar-1" target="blank"><img src={gef_mar} /></a></div>
               </div>
               <div className={styles.line2}>
-                <div className={styles.image}><img src={germany} /></div>
-                <div className={styles.image}><img src={iki} /></div>
-                <div className={styles.image}><img src={giz} /></div>
-                <div className={styles.image}><img src={banco_mundial} /></div>
-                <div className={styles.image}><img src={gef} /></div>
-                <div className={styles.image}><img src={funbio} /></div>
-                <div className={styles.image}><img src={governos} /></div>
-                <div className={styles.image}><img src={ibama} /></div>
+                <div className={styles.image}><a href="" target="blank"><img src={germany} /></a></div>
+                <div className={styles.image}><a href="" target="blank"><img src={iki} /></a></div>
+                <div className={styles.image}><a href="https://www.giz.de/en/html/index.html" target="blank"><img src={giz} /></a></div>
+                <div className={styles.image}><a href="https://www.worldbank.org/pt/country/brazil" target="blank"><img src={banco_mundial} /></a></div>
+                <div className={styles.image}><a href="" target="blank"><img src={gef} /></a></div>
+                <div className={styles.image}><a href="https://www.funbio.org.br/" target="blank"><img src={funbio} /></a></div>
+                <div className={styles.image}><a href="" target="blank"><img src={governos} /></a></div>
+                <div className={styles.image}><a href="https://www.ibama.gov.br/index.php" target="blank"><img src={ibama} /></a></div>
               </div>
               <div className={styles.line3}>
-                <div className={styles.image}><img src={icmbio} /></div>
-                <div className={styles.image}><img src={mam} /></div>
+                <div className={styles.image}><a href="https://www.gov.br/icmbio/pt-br" target="blank"><img src={icmbio} /></a></div>
+                <div className={styles.image}><a href="https://www.gov.br/mma/pt-br" target="blank"><img src={mam} /></a></div>
               </div>
             </div>
 
