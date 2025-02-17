@@ -337,7 +337,7 @@
       display: flex;
 
       &>div:nth-child(1) {
-        width: 34%;
+        width: 51%;
         max-height: 50px;
         overflow: hidden;
       }
@@ -352,11 +352,6 @@
       }
 
       &>div:nth-child(3) {
-        width: 15%;
-        text-align: center;
-      }
-
-      &>div:nth-child(4) {
         background: rgb(5 30 89 / 5%);
         display: flex;
         justify-content: end;

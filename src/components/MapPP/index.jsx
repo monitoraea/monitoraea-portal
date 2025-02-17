@@ -234,16 +234,16 @@ export default function MapPP() {
                             <div>Filtros de Busca</div>
                         </div>
 
-                        <div className={styles.each}>
+                        <div className={`${styles.each} ${styles.full}`}>
                             <div><Toggler checked={ppea_uf} onToggle={_ppea_uf} /></div>
                             <div>PPEA Estaduais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
+                            {/* <div><input type="text" placeholder='Digite' /></div> */}
                         </div>
 
-                        <div className={styles.each}>
+                        <div className={`${styles.each} ${styles.full}`}>
                             <div><Toggler checked={ppea_mun} onToggle={_ppea_mun} /></div>
                             <div>PPEA Municipais</div>
-                            <div><input type="text" placeholder='Digite' /></div>
+                            {/* <div><input type="text" placeholder='Digite' /></div> */}
                         </div>
 
                         <div className={`${styles.each} ${styles.full}`}>
@@ -286,23 +286,15 @@ export default function MapPP() {
                             <div>Outras PPEA</div>
                         </div>
 
-                        <div className={styles.each}>
-                            <div><Toggler checked={ppea_nom} onToggle={_ppea_nom} /></div>
-                            <div>Nome da PPEA</div>
-                            <div><input type="text" placeholder='Digite' /></div>
-                        </div>
-
                         <div className={styles['list-header']}>
                             <div>PPEA Selecionadas</div>
                             <div>Organização</div>
-                            <div>Região</div>
                             <div>Conecte-se</div>
                         </div>
 
                         {!!politicas && politicas.entities.map(p => <div key={p.id} className={styles['list-item']}>
                             <div>{p.nome}</div>
                             <div>{p.instituicao_nome}</div>
-                            <div>-</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
                                 <img src={Acesso} />
