@@ -96,6 +96,11 @@ export default function MapPP() {
         staleTime: 3600000,
     })
 
+    const { data: members } = useQuery(['cne-members'], {
+        queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}gt/perspectives/5/members`)).data,
+        staleTime: 3600000,
+    })
+
     useEffect(() => {
         getOptions();
     }, []);
@@ -316,7 +321,8 @@ export default function MapPP() {
 
                             <div className={styles['box-with-image']}>
                                 <div className={`${styles['box']}`}>
-                                    <div className={styles.number}>272</div>
+                                    {!members && <div className={styles.number}>...</div>}
+                                    {members && <div className={styles.number}>{members}</div>}
                                     <div className={styles.text}>Pessoas envolvidas</div>
                                 </div>
                             </div>
@@ -521,8 +527,8 @@ export default function MapPP() {
 
 }
 
-function Toggler({ checked, onToggle, disabled = false}) {
-    return (<div className={styles.toggler} onClick={() => {if(!disabled) onToggle(!checked)}}>
+function Toggler({ checked, onToggle, disabled = false }) {
+    return (<div className={styles.toggler} onClick={() => { if (!disabled) onToggle(!checked) }}>
         {!checked && <ToggleLeft className={styles['toggle-left']} />}
         {checked && <ToggleRight className={styles['toggle-right']} />}
     </div>)
