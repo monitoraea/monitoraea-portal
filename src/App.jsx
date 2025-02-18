@@ -15,7 +15,6 @@ import Home from './pages/Home/Home';
 import Facilitadores from './pages/Facilitadores/Facilitadores';
 import Novidades from './pages/Novidades/Novidades';
 import NovidadeSingle from './pages/NovidadeSingle/NovidadeSingle';
-import ProjetoSingle from './pages/ProjetoSingle/ProjetoSingle';
 import PPEA from './pages/PPEA/PPEA';
 import CECSA from './pages/CECSA/CECSA';
 import PPPZCM from './pages/PPPZCM/PPPZCM';
@@ -25,6 +24,9 @@ import ANPPEA from './pages/ANPPEA/';
 import Monitora from './pages/Monitora/Monitora';
 import ScrollToTop from './components/ScrollTop';
 import Login from './pages/Login';
+
+import SingleProjeto from './pages/SingleProjeto';
+import SingleCentro from  './pages/SingleCentro';
 
 dayjs.locale('pt-br')
 
@@ -48,7 +50,8 @@ function App() {
         <Route path="/novidades/:content_type/:portal?" element={<Novidades />} />
         <Route path="/novidade-single/:id" element={<NovidadeSingle />} />
         <Route path="/page/:id" element={<NovidadeSingle />} />
-        <Route path="/projeto-single/:id" element={<ProjetoSingle />} />
+        <Route path="/iniciativa/pppzcm/:id" element={<SingleProjeto />} />
+        <Route path="/iniciativa/cecsa/:id" element={<SingleCentro />} />
         <Route path="/sobre" element={<Monitora />} />
         <Route path="/sobre/ppea" element={<PPEA />} />
         <Route path="/sobre/centros-nucleos-equipamentos" element={<CECSA />} />        

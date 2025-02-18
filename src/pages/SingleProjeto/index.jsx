@@ -15,14 +15,14 @@ import partners_icon from '../../images/single-project/partners.png'
 import auto_check_icon from '../../images/single-project/auto_check.png'
 import fale_icon from '../../images/single-project/fale.png'
 
-import Geo from './Geo';
+import Geo from '../../components/Geo';
 
 import Development from '../../components/Development';
 
 import Modal from '../../components/Modal';
 import styles from './styles.module.scss';
 
-function ProjetoSingle({ staleTime = 3600000 /* 1h */ }) {
+function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
   const params = useParams();
 
   const [loading, _loading] = useState(false);
@@ -382,4 +382,4 @@ function breakItems(txt) {
   return txt.split('\n').filter(txt => txt.length).join(', ').replace('null', '');
 }
 
-export default ProjetoSingle;
+export default SingleProjeto;
