@@ -28,6 +28,7 @@ import Login from './pages/Login';
 import SingleProjeto from './pages/SingleProjeto';
 import SingleCentro from  './pages/SingleCentro';
 import SingleCIEA from  './pages/SingleCIEA';
+import SinglePPEA from  './pages/SinglePPEA';
 
 dayjs.locale('pt-br')
 
@@ -54,6 +55,7 @@ function App() {
         <Route path="/iniciativa/pppzcm/:id" element={<SingleProjeto />} />
         <Route path="/iniciativa/cecsa/:id" element={<SingleCentro />} />
         <Route path="/iniciativa/ciea/:id" element={<SingleCIEA />} />        
+        <Route path="/iniciativa/ppea/:id" element={<SinglePPEA />} />        
         <Route path="/sobre" element={<Monitora />} />
         <Route path="/sobre/ppea" element={<PPEA />} />
         <Route path="/sobre/centros-nucleos-equipamentos" element={<CECSA />} />        

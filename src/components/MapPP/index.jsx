@@ -297,7 +297,7 @@ export default function MapPP() {
                             <div>{p.instituicao_nome}</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img src={Acesso} />
+                                <img onClick={() => window.open(`/iniciativa/ppea/${p.politica_id}`, '_blank')} src={Acesso} />
                             </div>
                         </div>)}
 
