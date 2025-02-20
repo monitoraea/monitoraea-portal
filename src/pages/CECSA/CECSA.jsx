@@ -11,7 +11,7 @@ import MapCECSA from '../../components/MapCECSA';
 import './style.scss';
 import styles from './styles.module.scss'
 
-import cecsa from './cecsa.png';
+import cecsa from './cecsanew.svg';
 
 function CECSA() {
 
