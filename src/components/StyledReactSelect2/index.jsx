@@ -8,7 +8,7 @@ const defaultSize = '1rem';
 
 const makeStyledSelect = SelectComponent => styled(SelectComponent)`
   & .${reactSelectClassNamePrefix}__control {
-    background-color: #d6e6f8; // THEME - 1
+    background-color: #fff; // THEME
     border-color: #d6e6f8;
     min-height: ${defaultSize}; // Altura mínima ajustada
     border-radius: 0.5rem;
@@ -63,7 +63,7 @@ const makeStyledSelect = SelectComponent => styled(SelectComponent)`
     &>div {padding: 0 0.1rem;} // Ajustar padding dos indicadores 
 
     svg {
-      fill: #fff; // Ajustar a cor de preenchimento dos ícones SVG
+      fill: #000; // Ajustar a cor de preenchimento dos ícones SVG // THEME
     }
   }
 

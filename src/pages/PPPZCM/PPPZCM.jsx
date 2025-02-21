@@ -6,7 +6,7 @@ import DynamicContent from '../../components/DynamicContent';
 import ContentByType from '../../components/ContentByType';
 import Faq from '../../components/Faq';
 
-import Loop from '../../components/LoopFacilitators';
+/* import Loop from '../../components/LoopFacilitators'; */
 
 import { content_types } from '../../utils';
 
@@ -44,10 +44,37 @@ import henriqueta from '../../images/pppzcm/comite/people/henriqueta.png';
 import paulo from '../../images/pppzcm/comite/people/paulo.png';
 import maressa from '../../images/pppzcm/comite/people/maressa.png';
 
-import mock_map_facilitadores from '../../images/pppzcm/mock-map-facilitadores.png';
+import {
+  reactSelectClassNamePrefix,
+  StyledReactSelect,
+} from '../../components/StyledReactSelect2';
+
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import makeAnimated from 'react-select/animated';
+import { useState } from 'react';
+
+const animatedComponents = makeAnimated();
+
+const selectDefaults = {
+  placeholder: 'Selecione...',
+  noOptionsMessage: () => 'Nenhuma opção encontrada!',
+  loadingMessage: () => 'Carregando...',
+};
 
 function PPPZCM() {
-  // Adicione 3 slides de preenchimento com conteúdo padrão
+
+  const [uf_selected, _uf_selected] = useState({ value: "-1", label: "Todos" })
+
+  const { data: ufs } = useQuery(['ufs'], {
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/facilitators_states`)).data,
+    staleTime: 3600000,
+  })
+
+  const { data: facilitators } = useQuery(['facilitators', { uf_selected: uf_selected?.label }], {
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/facilitators/?${uf_selected && uf_selected.value !== '-1' ? `&uf=${uf_selected.value}` : ''}`)).data,
+    staleTime: 3600000,
+  })
 
   return (
     <>
@@ -71,7 +98,7 @@ function PPPZCM() {
               </div>
               <div>
                 <div className={styles['button-wrapper']}>
-                  <button>
+                  <button onClick={() => window.location.href = '/colabora/minha_area'}>
                     Cadastre uma iniciativa associada ao PPPZCM
                   </button>
                 </div>
@@ -79,7 +106,7 @@ function PPPZCM() {
             </div>
             <div className={styles.download}>
               <div className={styles['button-wrapper']}>
-                <button>
+                <button onClick={() => window.open('https://pppzcm-files.s3.us-east-2.amazonaws.com/PPPZCM.pdf', '_blank')}>
                   <div className={styles.image}><img src={download} /></div> Baixe o documento do PPPZCM
                 </button>
               </div>
@@ -106,7 +133,7 @@ function PPPZCM() {
 
               <div>
                 <div className={styles.assista}>Assista ao vídeo e saiba mais</div>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/kEJQ2uG_Bco?si=h_tlWnF9i1755Tin" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/kEJQ2uG_Bco?si=h_tlWnF9i1755Tin" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
               </div>
             </div>
 
@@ -323,63 +350,47 @@ function PPPZCM() {
               <div>
                 <div className={styles.assista}>Assista ao vídeo e
                   conheça os facilitadores</div>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/YTvA_DfhJXc?si=EZkiexfjLua4iZdN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/YTvA_DfhJXc?si=EZkiexfjLua4iZdN" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+              </div>
+            </div>
+
+            <div className={styles.search}>
+
+              <div>Estado</div>
+              <div className={styles.search_field}>
+                {ufs && (
+                  <div>
+                    <StyledReactSelect
+                      classNamePrefix={reactSelectClassNamePrefix}
+                      {...selectDefaults}
+                      onChange={selectedOption => _uf_selected(selectedOption)}
+                      /* closeMenuOnSelect={false} */
+                      components={animatedComponents}
+                      /* isMulti */
+                      options={[
+                        { value: "-1", label: "Todos" },
+                        ...ufs
+                      ]}
+                      value={uf_selected}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
             <div className={styles.facilitadores}>
-              <div className={styles.map}><img src={mock_map_facilitadores} /></div>
+
               <div className={styles.people}>
 
-                <div className={styles.person}>
-                  <div className={styles.photo}><img src={mock_photo} /></div>
+                {facilitators && facilitators.map(f=><div key={f.id} className={styles.person}>
+                  <div className={styles.photo}><img src={f.photo || mock_photo} /></div>
                   <div className={styles.info}>
-                    <div>Nome</div>
-                    <div>Organização</div>
-                    <div>Contato</div>
-                    <div>Estado</div>
+                    <div>{f.name}</div>
+                    {/* <div className={styles.cut}>{f.institution}</div> */}
+                    <div className={styles.email}><a href={`mailto:${f.email}`}>{f.email}</a></div>
+                    <div>{f.state}</div>
                   </div>
-                </div>
-
-                <div className={styles.person}>
-                  <div className={styles.photo}><img src={mock_photo} /></div>
-                  <div className={styles.info}>
-                    <div>Nome</div>
-                    <div>Organização</div>
-                    <div>Contato</div>
-                    <div>Estado</div>
-                  </div>
-                </div>
-
-                <div className={styles.person}>
-                  <div className={styles.photo}><img src={mock_photo} /></div>
-                  <div className={styles.info}>
-                    <div>Nome</div>
-                    <div>Organização</div>
-                    <div>Contato</div>
-                    <div>Estado</div>
-                  </div>
-                </div>
-
-                <div className={styles.person}>
-                  <div className={styles.photo}><img src={mock_photo} /></div>
-                  <div className={styles.info}>
-                    <div>Nome</div>
-                    <div>Organização</div>
-                    <div>Contato</div>
-                    <div>Estado</div>
-                  </div>
-                </div>
-
-                <div className={styles.person}>
-                  <div className={styles.photo}><img src={mock_photo} /></div>
-                  <div className={styles.info}>
-                    <div>Nome</div>
-                    <div>Organização</div>
-                    <div>Contato</div>
-                    <div>Estado</div>
-                  </div>
-                </div>
+                </div>)}
 
               </div>
             </div>

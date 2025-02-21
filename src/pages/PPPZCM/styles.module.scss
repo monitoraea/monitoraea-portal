@@ -208,6 +208,20 @@
                 height: auto;
             }
         }
+
+        .email {
+
+            max-width: 250px;
+            overflow-x: hidden;
+
+            a {
+                font-size: $super-smallest-font;
+                color: inherit;
+                text-decoration: underline;
+            }
+        }
+
+
     }
 }
 
@@ -219,6 +233,17 @@
 
         div:first-child {
             padding-bottom: 10px;
+        }
+    }
+
+    .search {
+        text-align: left;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+
+        .search_field {
+            min-width: 250px;
         }
     }
 
