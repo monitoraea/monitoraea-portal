@@ -1,5 +1,8 @@
 import Header from '../../components/Header';
 
+import axios from 'axios';
+import { useQuery } from 'react-query';
+
 import './style.scss';
 
 import Faq from '../../components/Faq';
@@ -13,7 +16,33 @@ import diagram from '../../images/about/diagram.png';
 import inpe from '../../images/about/inpe.png';
 import anppea from '../../images/about/anppea.png';
 
+import eca from '../../images/about/logos/eca.png';
+import unirio from '../../images/about/logos/unirio.png';
+import uea from '../../images/about/logos/uea.png';
+import uesb from '../../images/about/logos/uesb.png';
+import ufp from '../../images/about/logos/ufp.png';
+import univali from '../../images/about/logos/univali.png';
+import unb from '../../images/about/logos/unb.png';
+import ufabc from '../../images/about/logos/ufabc.png';
+import rebea from '../../images/about/logos/rebea.png';
+import ufms from '../../images/about/logos/ufms.png';
+import cemaden from '../../images/about/logos/cemaden.png';
+import funbea from '../../images/about/logos/funbea.png';
+import peregum from '../../images/about/logos/peregum.png';
+import cnpq from '../../images/about/logos/cnpq.png';
+import mam from '../../images/about/logos/mam.png';
+import giz from '../../images/about/logos/giz.png';
+import funbio from '../../images/about/logos/funbio.png';
+
+import mockPerson from '../../images/about/woman.png';
+
 function Monitora() {
+
+  const { data } = useQuery(['team'], {
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}equipe`)).data,
+    staleTime: 3600000,
+  })
+
   return (
     <>
       <Header />
@@ -184,7 +213,148 @@ function Monitora() {
 
       </section>
 
-      <Faq portal="monitoraea" />
+      <section className={styles.logos}>
+        <div className="width-limiter">
+
+          <div className={styles.main_title}>
+            Instituições colaboradoras
+          </div>
+
+          <div className={styles.items}>
+            <img src={eca} />
+            <img src={unirio} />
+            <img src={uea} />
+            <img src={uesb} />
+            <img src={ufp} />
+            <img src={univali} />
+            <img src={unb} />
+            <img src={ufabc} />
+            <img src={rebea} />
+            <img src={ufms} />
+            <img src={cemaden} />
+          </div>
+
+        </div>
+      </section>
+
+      <section className={styles.logos}>
+        <div className="width-limiter">
+
+          <div className={styles.main_title}>
+            Usuários apoiadores
+          </div>
+
+          <div className={styles.items}>
+            <img src={funbea} />
+            <img src={peregum} />
+          </div>
+
+        </div>
+      </section>
+
+      <section className={styles.logos}>
+        <div className="width-limiter">
+
+          <div className={styles.main_title}>
+            Fomento
+          </div>
+
+          <div className={`${styles.items} ${styles.fomento}`}>
+            <img src={cnpq} />
+            <img src={mam} />
+            <img src={giz} />
+            <img src={funbio} />
+          </div>
+
+        </div>
+      </section>
+
+      <section className={styles.logos}>
+        <div className="width-limiter">
+
+          <div className={styles.main_title}>
+            Usuários apoiadores
+          </div>
+
+          <div className={styles.items}>
+            <img src={funbea} />
+            <img src={peregum} />
+          </div>
+
+        </div>
+      </section>
+
+      {data && <section className={styles.team}>
+        <div className="width-limiter">
+
+          <div className={styles.main_title}>
+            Equipe
+          </div>
+
+          <>
+            <div className={styles.sub_title}>
+              Coordenação
+            </div>
+
+            <div className={styles.items}>
+
+              {data.list.cat_coordenacao && data.list.cat_coordenacao.map(i => <div key={i.id} className={styles.each}>
+                <div className={styles.photo}>
+                  <img src={i.photo ? i.photo : 'https://pppzcm-files.s3.us-east-2.amazonaws.com/team/no-photo.png'} />
+                </div>
+                <div className={styles.info}>
+                  <div className={styles.nome}>{i.name}</div>
+                  <div className={styles.instituicao}>{i.institution}</div>
+                </div>
+              </div>)}
+
+            </div>
+          </>
+
+          <>
+            <div className={styles.sub_title}>
+              Equipe CIEA e Riscos Climáticos
+            </div>
+
+            <div className={styles.items}>
+
+              {data.list.cat_ciea_riscos && data.list.cat_ciea_riscos.map(i => <div key={i.id} className={styles.each}>
+                <div className={styles.photo}>
+                  <img src={i.photo ? i.photo : 'https://pppzcm-files.s3.us-east-2.amazonaws.com/team/no-photo.png'} />
+                </div>
+                <div className={styles.info}>
+                  <div className={styles.nome}>{i.name}</div>
+                  <div className={styles.instituicao}>{i.institution}</div>
+                </div>
+              </div>)}
+
+            </div>
+          </>
+
+          <>
+            <div className={styles.sub_title}>
+              Equipe de desenvolvedores
+            </div>
+
+            <div className={styles.items}>
+
+              {data.list.cat_dev && data.list.cat_dev.map(i => <div key={i.id} className={styles.each}>
+                <div className={styles.photo}>
+                  <img src={i.photo ? i.photo : 'https://pppzcm-files.s3.us-east-2.amazonaws.com/team/no-photo.png'} />
+                </div>
+                <div className={styles.info}>
+                  <div className={styles.nome}>{i.name}</div>
+                  <div className={styles.instituicao}>{i.institution}</div>
+                </div>
+              </div>)}
+
+            </div>
+          </>
+
+        </div>
+      </section >}
+
+      <Faq portal="monitoraea" bg="white" />
 
     </>
   );

@@ -336,10 +336,6 @@
   text-align: justify;
 }
 
-#perguntas_frequentes {
-  background-color: $cristal;
-}
-
 /* Desenvolvimento */
 #desenvolvimento {
   background-color: $white;
@@ -595,12 +591,68 @@
 }
 
 #perguntas_frequentes {
+  background-color: $cristal;
+
   .inner-title-box {
     background-color: $white;
 
     .left-side {
       background-color: $anil;
       color: $white;
+    }
+  }
+
+  &.white {
+    background-color: #fff;
+
+    .inner-title-box {
+      background-color: $cristal;
+
+      .left-side {
+        background-color: $anil;
+        color: $white;
+      }
+    }
+
+    .accordeon-item {
+      overflow: hidden;
+      color: $indigo;
+
+      &:not(:last-child) {
+        /*border-bottom: 1px solid $gray-2;*/
+        border-top: 1px solid $cristal;
+        ;
+      }
+
+      &:last-child {
+        border-top: 1px solid $cristal;
+        border-bottom: 1px solid $cristal;
+      }
+
+      .accordeon-title {
+       
+        .icon {
+         
+          svg {
+
+            path,
+            rect,
+            circle {
+              stroke: $cristal;
+              fill: $cristal;
+              /* Cor padrão do ícone */
+            }
+          }
+        }
+
+        &.open {
+          color: $anil;
+
+          .icon {
+            transform: rotate(180deg);
+          }
+        }
+      }
     }
   }
 }

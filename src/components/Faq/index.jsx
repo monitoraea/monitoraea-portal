@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 
 import Accordeon from '../../components/accordeon/accordeon';
 
-export default function Faq({ portal = 'main', staleTime = 3600000 /* 1h */ }) {
+export default function Faq({ portal = 'main', bg = 'default', staleTime = 3600000 /* 1h */ }) {
 
     const { data } = useQuery(['faq', { portal }], {
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}content/faq/?portal=${portal}`)).data,
@@ -12,7 +12,7 @@ export default function Faq({ portal = 'main', staleTime = 3600000 /* 1h */ }) {
     });
 
     return (
-        <section id="perguntas_frequentes">
+        <section id="perguntas_frequentes" className={bg}>
 
             <div className="width-limiter">
 
@@ -21,7 +21,7 @@ export default function Faq({ portal = 'main', staleTime = 3600000 /* 1h */ }) {
                     <div className="right-side"></div>
                 </div>
                 
-                {!!data && <Accordeon items={data.map(({ title, text }) => ({ title, content: text.replace(/<[^>]*>/g, '') }))} />}
+                {!!data && <Accordeon bg={bg} items={data.map(({ title, text }) => ({ title, content: text.replace(/<[^>]*>/g, '') }))} />}
             </div>
         </section>)
 }

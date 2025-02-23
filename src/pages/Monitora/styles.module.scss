@@ -163,3 +163,105 @@
     }
 
 }
+
+.logos {
+    padding: 35px 0;
+    color: $indigo;
+    font-size: $big-font;
+
+    .main_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $anil;
+        border-radius: $border-radius-big;
+        font-size: $big-font;
+        margin: 0 10vw;
+        margin-bottom: 10px;
+        max-width: 800px;
+        margin-left: -100px;
+
+        padding: 8px 20px;
+        color: $white;
+    }
+
+    .items {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        &.fomento {
+            justify-content: space-between;
+        }
+    }
+}
+
+.team {
+    padding: 35px 0;
+    color: $indigo;
+    font-size: $big-font;
+    background-color: $cristal;
+
+    .main_title, .sub_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $anil;
+        border-radius: $border-radius-big;
+        font-size: $big-font;
+        margin: 0 10vw;
+        margin-bottom: 10px;
+        max-width: 800px;
+        margin-left: -100px;
+
+        padding: 8px 20px;
+        color: $white;
+    }
+
+    .sub_title {
+        background-color: #fff;
+        color: $indigo;
+        padding: 5px 25vh;
+        text-align: center;
+        margin: 10px auto 20px auto;
+        font-weight: bold;
+    }
+
+    .items {
+        display: flex;
+        gap: 10vh;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        font-size: $less-than-medium-font;
+
+        .each {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            .photo {
+                height: 180px;
+                width: 180px;
+                background-image: linear-gradient(to right, #8b53ff , #5cdfe6);
+                border-radius: 50%;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+
+                img {
+                    height: 100%;
+                    width: auto;
+                }
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+}

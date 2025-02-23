@@ -2,15 +2,16 @@ import { useState } from 'react';
 import './style.scss';
 
 import Arrow1 from '../../images/accordeon_arrow_1.svg?react';
-/* import Arrow2 from '../../images/accordeon_arrow_2.svg?react'; */
+import ArrowCristal from '../../images/accordeon_arrow_cristal.svg?react';
 
-function AccordeonItem({ title, content, isOpen, onClick }) {
+function AccordeonItem({ title, content, isOpen, onClick, bg }) {
   return (
     <div className="accordeon-item">
       <div className={`accordeon-title ${isOpen ? 'open' : ''}`} onClick={onClick}>
         {title}
         <div className="icon">
-          <Arrow1 />
+          {bg !== 'white' && <Arrow1 />}
+          {bg === 'white' && <ArrowCristal />}
         </div>
       </div>
       {isOpen && <div className="accordeon-content">{content}</div>}
@@ -18,7 +19,7 @@ function AccordeonItem({ title, content, isOpen, onClick }) {
   );
 }
 
-function Accordeon({ items }) {
+function Accordeon({ items, bg = 'default' }) {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleItem = (index) => {
@@ -34,6 +35,7 @@ function Accordeon({ items }) {
     <div className="accordeon">
       {items.map((item, index) => (
         <AccordeonItem
+          bg={bg}
           key={index}
           title={item.title}
           content={item.content}
