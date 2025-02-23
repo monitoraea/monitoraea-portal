@@ -1,0 +1,165 @@
+@use '../../app' as *;
+
+.about,
+.diagram {
+    padding: 0;
+    background-color: $cristal;
+    color: $indigo;
+    font-size: $medium-big-font;
+
+    padding: 25px 0 35px 0;
+
+    span {
+        font-weight: bold;
+    }
+
+    .title {
+        font-size: $super-big-font;
+        margin-bottom: 15px;
+    }
+
+    .bar {
+        display: flex;
+        align-items: center;
+        position: relative;
+        background-color: $unknown;
+        padding-left: 30px;
+
+        .arrow {
+            position: absolute;
+            margin-left: -140px;
+        }
+
+        &>div {
+            padding: 10px;
+        }
+
+        .link {
+            color: $anil;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+    }
+}
+
+.diagram {
+    background-color: #fff;
+    position: relative;
+    padding: 100px 0;
+
+    .diagram_text {
+        width: 390px;
+    }
+
+    .diagram_image {
+        height: 250px;
+        position: absolute;
+        right: 10px;
+        top: -60px;
+    }
+}
+
+.fundamentos {
+    padding: 35px 0;
+    background-color: $cristal;
+    color: $indigo;
+    font-size: $big-font;
+
+    .main_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $anil;
+        border-radius: $border-radius-big;
+        font-size: $big-font;
+        margin: 0 10vw;
+        margin-bottom: 10px;
+        max-width: 800px;
+        margin-left: -100px;
+
+        padding: 8px 20px;
+        color: $white;
+    }
+
+    .topic {
+        margin-top: 15px;
+
+        .title {
+            display: flex;
+            position: relative;
+            align-items: center;
+
+            .number {
+                position: absolute;
+                margin-left: -130px;
+                text-align: right;
+                background-color: $anil;
+                border-radius: $border-radius-big;
+                font-size: $super-big-font;
+                color: #fff;
+                font-weight: bold;
+                min-width: 100px;
+                padding: 5px 20px 5px 0;
+            }
+
+            .text {
+                font-weight: bold;
+            }
+        }
+
+        .content {
+            margin-top: 10px;
+            padding: 10px 30px;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+
+    }
+}
+
+
+.articulacao {
+    padding: 35px 0;
+    color: $indigo;
+    font-size: $big-font;
+
+    .main_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $anil;
+        border-radius: $border-radius-big;
+        font-size: $big-font;
+        margin: 0 10vw;
+        margin-bottom: 10px;
+        max-width: 800px;
+        margin-left: -100px;
+
+        padding: 8px 20px;
+        color: $white;
+    }
+
+    .bar, .bar2 {
+        display: flex;
+        align-items: center;
+
+        &>div {
+            background-color: $cristal;
+            padding: 10px 10px 10px 25px;
+        }
+    }
+
+    .bar img {
+        margin-right: -10px;
+        z-index: 5;
+    }
+    .bar2 img {
+        margin-left: -10px;
+        z-index: 5;
+    }
+
+}
