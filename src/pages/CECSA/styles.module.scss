@@ -35,3 +35,24 @@
         }
     }
 }
+
+.button-wrapper {
+    max-width: 80vw;
+
+    button {
+        color: $white;
+        border: solid 3px $anil;
+        border-radius: $border-radius-big;
+        background-color: $anil;
+        font-size: $less-than-medium-font;
+        font-family: 'Poppins';
+        padding: 8px 20px;
+        cursor: pointer;
+        margin-bottom: 20px;
+
+        &:hover {
+            background-color: $white;
+            color: $anil;
+        }
+    }
+}
