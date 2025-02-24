@@ -108,7 +108,7 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
               </div>
             </div>
             <div className={styles['button-wrapper']}>
-              <button onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/${params.id}`}>
+              <button onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/ppea/${params.id}`}>
                 Solicitar acesso a esta comunidade
               </button>
             </div>
