@@ -66,7 +66,7 @@ function Monitora() {
 
           <div className={styles.bar}>
             <img className={styles.arrow} src={ArrowBlue} />
-            <div>O Sistema MonitoraEA está ancorado no <span className={styles.link}>ProNEA</span> <button onClick={console.log}><img src={download} /></button> (Programa Nacional de Educação Ambiental), em sua versão de 2018, na Linha e estratégia de ação nº 5 – M&A de Políticas, Programas e Projetos de EA.</div>
+            <div>O Sistema MonitoraEA está ancorado no <span className={styles.link}>ProNEA</span> <button onClick={() => window.open('https://pppzcm-files.s3.us-east-2.amazonaws.com/Pronea-Digital-final.pdf', '_blank')}><img src={download} /></button> (Programa Nacional de Educação Ambiental), em sua versão de 2018, na Linha e estratégia de ação nº 5 – M&A de Políticas, Programas e Projetos de EA.</div>
           </div>
 
         </div>
