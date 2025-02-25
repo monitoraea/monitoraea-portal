@@ -491,7 +491,7 @@ export default function MapPP() {
                             <div>{p.nm_regiao}</div>
                             <div>
                                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img onClick={() => window.open(`/iniciativa/cecsa/${p.id}`, '_blank')} src={Acesso} />
+                                <img onClick={() => window.open(`/iniciativa/cecsa/${p.cne_id}`, '_blank')} src={Acesso} />
                             </div>
                         </div>)}
 
