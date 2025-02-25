@@ -189,7 +189,7 @@ export default function MapPP() {
     }, [filters, fields])
  */
     const handleSelect = (p) => {
-        _selected(p.id)
+        _selected(p.cne_id)
         _bbox(p.bbox)
     }
 
@@ -450,7 +450,7 @@ export default function MapPP() {
                                         onChange={selectedOption => onFilterInstNameChange(selectedOption)}
                                         isMulti
                                         closeMenuOnSelect={false}
-                                        loadOptions={loadNameOptions('project/instiuicao/list/')}
+                                        loadOptions={loadNameOptions('cne/instiuicao/list/')}
                                         isClearable
                                         value={fields['instituicao']}
                                     />
