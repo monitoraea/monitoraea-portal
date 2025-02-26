@@ -269,21 +269,6 @@ function Monitora() {
         </div>
       </section>
 
-      <section className={styles.logos}>
-        <div className="width-limiter">
-
-          <div className={styles.main_title}>
-            Usuários apoiadores
-          </div>
-
-          <div className={styles.items}>
-            <img src={funbea} />
-            <img src={peregum} />
-          </div>
-
-        </div>
-      </section>
-
       {data && <section className={styles.team}>
         <div className="width-limiter">
 
