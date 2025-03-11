@@ -44,7 +44,7 @@ function prepareFilters(filters, togglers) {
     let preparedFilters = '';
 
     for (let filter in filters) {
-        if (filters[filter] && togglers[filter]) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
+        if (filter === 'ids' || (filters[filter] && togglers[filter])) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
     }
 
     return preparedFilters;
@@ -55,6 +55,26 @@ async function getUFs(filters, togglers) {
 
     return data;
 }
+
+const initialFieldsState = {
+    linhas_acao: null,
+    regioes: null,
+    ufs: null,
+    municipios: null,
+    instituicao_segmento: null,
+    instituicao: null,
+    id: null,
+}
+
+const initialTogglersState = {
+    linhas_acao: false,
+    regioes: false,
+    ufs: false,
+    municipios: false,
+    instituicao_segmento: false,
+    instituicao: false,
+    id: false,
+};
 
 export default function MapPP() {
     const [iniciativas, _iniciativas] = useState(null);
@@ -69,26 +89,11 @@ export default function MapPP() {
     const [page, _page] = useState(1);
 
     const [consultas_open, _consultas_open] = useState(false);
+    const [tab, _tab] = useState('filters');
 
     const [filters, _filters] = useState({});
-    const [fields, _fields] = useState({
-        linhas_acao: null,
-        regioes: null,
-        ufs: null,
-        municipios: null,
-        instituicao_segmento: null,
-        instituicao: null,
-        id: null,
-    });
-    const [togglers, _togglers] = useState({
-        linhas_acao: false,
-        regioes: false,
-        ufs: false,
-        municipios: false,
-        instituicao_segmento: false,
-        instituicao: false,
-        id: false,
-    });
+    const [fields, _fields] = useState(initialFieldsState);
+    const [togglers, _togglers] = useState(initialTogglersState);
 
     const [linhas, _linhas] = useState(null)
 
@@ -122,43 +127,43 @@ export default function MapPP() {
     }, []);
 
     useEffect(() => {
-       if(linhas_data) {
-        _linhas({
-            series: [
-                {
-                    data: linhas_data,
-                }
-            ],
-            options: {
-                chart: {
-                    type: 'treemap',
-                    toolbar: {
+        if (linhas_data) {
+            _linhas({
+                series: [
+                    {
+                        data: linhas_data,
+                    }
+                ],
+                options: {
+                    chart: {
+                        type: 'treemap',
+                        toolbar: {
+                            show: false,
+                        },
+                        animations: {
+                            enabled: false
+                        },
+                    },
+                    colors: ['#2d8bba'],
+                    title: {
                         show: false,
                     },
-                    animations: {
-                        enabled: false
+                    legend: {
+                        show: false,
                     },
-                },
-                colors: ['#2d8bba'],
-                title: {
-                    show: false,
-                },
-                legend: {
-                    show: false,
-                },
-                dataLabels: {
-                  enabled: true,
-                  style: {
-                    fontSize: '12px',
-                  },
-                  formatter: function(text, op) {
-                    return [text, op.value]
-                  },
-                  offsetY: -4
-                },
-            }
-        })
-       }
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            fontSize: '12px',
+                        },
+                        formatter: function (text, op) {
+                            return [text, op.value]
+                        },
+                        offsetY: -4
+                    },
+                }
+            })
+        }
     }, [linhas_data]);
 
     useEffect(() => {
@@ -341,6 +346,79 @@ export default function MapPP() {
                         callback(data);
                     });
             };
+    async function getClickedFeatureId(_map, latlng) {
+        const _url = import.meta.env.VITE_GEOSERVER_URL;
+
+        // Construct a GetFeatureInfo request URL given a point
+        var point = _map.latLngToContainerPoint(latlng, _map.getZoom()),
+            size = _map.getSize(),
+            params = {
+                request: 'GetFeatureInfo',
+                service: 'WMS',
+                srs: 'EPSG:4326',
+                transparent: true,
+                version: '1.1.1',
+                format: 'image/png',
+                bbox: _map.getBounds().toBBoxString(),
+                height: size.y,
+                width: size.x,
+                layers: 'pppzcm:proj_atuacao',
+                query_layers: 'pppzcm:proj_atuacao',
+                info_format: 'application/json',
+                x: Math.round(point.x),
+                y: Math.round(point.y),
+                feature_count: 20,
+            };
+
+        const getFeatureInfoURL = _url + L.Util.getParamString(params, _url, true);
+
+        /* console.log(getFeatureInfoURL) */
+
+        return await new Promise((resolve, reject) =>
+            fetch(getFeatureInfoURL)
+                .then(response => response.json())
+                .then(data => {
+                    const err = typeof data === 'object' ? null : data;
+                    if (err) reject(err);
+                    else if (!data.features.length) resolve(null);
+                    else {
+                        const [table] = data.features[0].id.split('.');
+                        const ids = data.features.map(f => f.properties.project_id);
+
+                        resolve({
+                            table,
+                            ids: [...new Set(ids)], // remove duplicates,
+                        });
+                    }
+                }),
+        );
+    }
+
+    const handleMapClick = async e => {
+        const data = await getClickedFeatureId(mapRef.current.leafletElement, e.latlng);
+
+        if (!data) {
+            return;
+        }
+
+        const { ids } = data;
+        
+        // /* filtrar pelos projetos ativos */ ?????????????????????????????????????
+        // const projectsToSee = projects_ids ? ids.filter(id => projects_ids.includes(id)) : ids;
+
+        console.log( { ids } )
+
+        _tab('clicked');
+        _consultas_open(true);
+        _filters({ ids: ids.join(',') });
+    };
+
+    const closeClickedTab = () => {
+        _filters({});
+        _fields(initialFieldsState);
+        _togglers(initialTogglersState);
+        _tab('filters');
+    }
 
     return (<>
         <section className={styles['ppea-dash']}>
@@ -404,7 +482,7 @@ export default function MapPP() {
 
             <div className={styles.container}>
                 <div className={styles['map-container']}>
-                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false}>
+                    <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false} onClick={handleMapClick}>
                         <TileLayer
                             attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -437,156 +515,166 @@ export default function MapPP() {
 
                     <div className={`row ${styles.filters}`}>
 
-                        <div className={styles.title}>
-                            <div></div>
-                            <div>Filtros de Busca</div>
-                        </div>
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['linhas_acao']} onToggle={(checked) => handleToggle('linhas_acao')(checked)} /></div>
-                            <div>Linhas de Ação</div>
-                            <div>
-                                {linhas_acao && (
-                                    <div>
-                                        <StyledReactSelect
-                                            classNamePrefix={reactSelectClassNamePrefix}
-                                            {...selectDefaults}
-                                            onChange={selectedOption => onFilterChange('linhas_acao', selectedOption)}
-                                            closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            isMulti
-                                            options={linhas_acao}
-                                            value={fields['linhas_acao']}
-                                        />
-                                    </div>
-                                )}
+                        {tab === 'clicked' && <>
+                            <div className={styles.title}>
+                                <div></div>
+                                <div>Lista de iniciativas selecionadas no mapa</div>
+                                <div className={styles.back2filters} onClick={closeClickedTab}>« voltar aos filtros</div>
                             </div>
-                        </div>
+                        </>}
 
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
-                            <div>Regiões</div>
-                            <div>
-                                {regioes && (
-                                    <div>
-                                        <StyledReactSelect
-                                            classNamePrefix={reactSelectClassNamePrefix}
-                                            {...selectDefaults}
-                                            onChange={selectedOption => onFilterChange('regioes', selectedOption)}
-                                            closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            isMulti
-                                            options={regioes}
-                                            value={fields['regioes']}
-                                        />
-                                    </div>
-                                )}
+                        {tab === 'filters' && <>
+                            <div className={styles.title}>
+                                <div></div>
+                                <div>Filtros de Busca</div>
                             </div>
-                        </div>
 
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['ufs']} onToggle={(checked) => handleToggle('ufs')(checked)} /></div>
-                            <div>Estado</div>
-                            <div>
-                                {ufs && (
-                                    <div>
-                                        <StyledReactSelect
-                                            classNamePrefix={reactSelectClassNamePrefix}
-                                            {...selectDefaults}
-                                            onChange={selectedOption => onFilterChange('ufs', selectedOption)}
-                                            closeMenuOnSelect={false}
-                                            components={animatedComponents}
-                                            isMulti
-                                            options={ufs}
-                                            value={fields['ufs']}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['municipios']} onToggle={(checked) => handleToggle('municipios')(checked)} /></div>
-                            <div>Município</div>
-                            <div>
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['linhas_acao']} onToggle={(checked) => handleToggle('linhas_acao')(checked)} /></div>
+                                <div>Linhas de Ação</div>
                                 <div>
-                                    <StyledAsyncReactSelect
-                                        classNamePrefix={reactSelectClassNamePrefix}
-                                        {...selectDefaults}
-                                        placeholder="digite..."
-                                        onChange={selectedOption => onFilterMunicipioChange(selectedOption)}
-                                        closeMenuOnSelect={false}
-                                        loadOptions={loadMunicipiosOptions}
-                                        isClearable
-                                        isMulti
-                                        value={fields['municipios']}
-                                    />
+                                    {linhas_acao && (
+                                        <div>
+                                            <StyledReactSelect
+                                                classNamePrefix={reactSelectClassNamePrefix}
+                                                {...selectDefaults}
+                                                onChange={selectedOption => onFilterChange('linhas_acao', selectedOption)}
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={linhas_acao}
+                                                value={fields['linhas_acao']}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
 
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
+                                <div>Regiões</div>
+                                <div>
+                                    {regioes && (
+                                        <div>
+                                            <StyledReactSelect
+                                                classNamePrefix={reactSelectClassNamePrefix}
+                                                {...selectDefaults}
+                                                onChange={selectedOption => onFilterChange('regioes', selectedOption)}
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={regioes}
+                                                value={fields['regioes']}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
 
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['ufs']} onToggle={(checked) => handleToggle('ufs')(checked)} /></div>
+                                <div>Estado</div>
+                                <div>
+                                    {ufs && (
+                                        <div>
+                                            <StyledReactSelect
+                                                classNamePrefix={reactSelectClassNamePrefix}
+                                                {...selectDefaults}
+                                                onChange={selectedOption => onFilterChange('ufs', selectedOption)}
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={ufs}
+                                                value={fields['ufs']}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
 
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['instituicao_segmento']} onToggle={(checked) => handleToggle('instituicao_segmento')(checked)} /></div>
-                            <div>Segmento da organização</div>
-                            <div>
-                                {segmentos && (
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['municipios']} onToggle={(checked) => handleToggle('municipios')(checked)} /></div>
+                                <div>Município</div>
+                                <div>
                                     <div>
-                                        <StyledReactSelect
+                                        <StyledAsyncReactSelect
                                             classNamePrefix={reactSelectClassNamePrefix}
                                             {...selectDefaults}
-                                            onChange={selectedOption => onFilterChange('instituicao_segmento', selectedOption)}
+                                            placeholder="digite..."
+                                            onChange={selectedOption => onFilterMunicipioChange(selectedOption)}
                                             closeMenuOnSelect={false}
-                                            components={animatedComponents}
+                                            loadOptions={loadMunicipiosOptions}
+                                            isClearable
                                             isMulti
-                                            options={segmentos}
-                                            value={fields['instituicao_segmento']}
+                                            value={fields['municipios']}
                                         />
                                     </div>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['instituicao']} onToggle={(checked) => handleToggle('instituicao')(checked)} /></div>
-                            <div>Nome da organização</div>
-                            <div>
-                                <div>
-                                    <StyledAsyncReactSelect
-                                        classNamePrefix={reactSelectClassNamePrefix}
-                                        {...selectDefaults}
-                                        placeholder="digite..."
-                                        onChange={selectedOption => onFilterInstNameChange(selectedOption)}
-                                        isMulti
-                                        closeMenuOnSelect={false}
-                                        loadOptions={loadNameOptions('project/instiuicao/list/')}
-                                        isClearable
-                                        value={fields['instituicao']}
-                                    />
                                 </div>
                             </div>
-                        </div>
 
-                        <div className={styles.each}>
-                            <div><Toggler checked={togglers['id']} onToggle={(checked) => handleToggle('id')(checked)} /></div>
-                            <div>Título da iniciativa</div>
-                            <div>
+
+
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['instituicao_segmento']} onToggle={(checked) => handleToggle('instituicao_segmento')(checked)} /></div>
+                                <div>Segmento da organização</div>
                                 <div>
-                                    <StyledAsyncReactSelect
-                                        classNamePrefix={reactSelectClassNamePrefix}
-                                        className="no-down"
-                                        {...selectDefaults}
-                                        placeholder="digite..."
-                                        onChange={selectedOption => onFilterNameChange(selectedOption)}
-                                        closeMenuOnSelect={false}
-                                        loadOptions={loadNameOptions()}
-                                        isClearable
-                                        value={fields['id']}
-                                    />
+                                    {segmentos && (
+                                        <div>
+                                            <StyledReactSelect
+                                                classNamePrefix={reactSelectClassNamePrefix}
+                                                {...selectDefaults}
+                                                onChange={selectedOption => onFilterChange('instituicao_segmento', selectedOption)}
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={segmentos}
+                                                value={fields['instituicao_segmento']}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
+
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['instituicao']} onToggle={(checked) => handleToggle('instituicao')(checked)} /></div>
+                                <div>Nome da organização</div>
+                                <div>
+                                    <div>
+                                        <StyledAsyncReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            {...selectDefaults}
+                                            placeholder="digite..."
+                                            onChange={selectedOption => onFilterInstNameChange(selectedOption)}
+                                            isMulti
+                                            closeMenuOnSelect={false}
+                                            loadOptions={loadNameOptions('project/instiuicao/list/')}
+                                            isClearable
+                                            value={fields['instituicao']}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.each}>
+                                <div><Toggler checked={togglers['id']} onToggle={(checked) => handleToggle('id')(checked)} /></div>
+                                <div>Título da iniciativa</div>
+                                <div>
+                                    <div>
+                                        <StyledAsyncReactSelect
+                                            classNamePrefix={reactSelectClassNamePrefix}
+                                            className="no-down"
+                                            {...selectDefaults}
+                                            placeholder="digite..."
+                                            onChange={selectedOption => onFilterNameChange(selectedOption)}
+                                            closeMenuOnSelect={false}
+                                            loadOptions={loadNameOptions()}
+                                            isClearable
+                                            value={fields['id']}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </>}
 
                         <div className={styles['list-header']}>
                             <div>PPEA Selecionadas</div>

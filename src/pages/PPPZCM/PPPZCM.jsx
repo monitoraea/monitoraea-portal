@@ -133,7 +133,7 @@ function PPPZCM() {
 
               <div>
                 <div className={styles.assista}>Assista ao vídeo e saiba mais</div>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/kEJQ2uG_Bco?si=h_tlWnF9i1755Tin" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/wiOmAusdq3I?si=kTfSvtzi_SNFx_Lj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
             </div>
 
@@ -350,7 +350,7 @@ function PPPZCM() {
               <div>
                 <div className={styles.assista}>Assista ao vídeo e
                   conheça os facilitadores</div>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/YTvA_DfhJXc?si=EZkiexfjLua4iZdN" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/zJ6uPdz9sOQ?si=5XW95T5h6KPc6UX_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               </div>
             </div>
 
