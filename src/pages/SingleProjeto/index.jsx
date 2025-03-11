@@ -87,7 +87,7 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         }
       }
 
-      _published(verify.analysis.published ? verify.analysis.published: false)
+      _published(verify.analysis.published ? verify.analysis.published : false)
 
       _status(st);
     }
@@ -131,7 +131,7 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
                 </div>
               </div>
               <div className={styles.action_line}>
-                <span>Linha de Ação PPPZCM</span> <span>{data.linhas.join(', ')}</span>
+                {data.linhas?.length && <><span>Linha de Ação PPPZCM</span> <span>{data.linhas.join(', ')}</span></>}
               </div>
               <div className={styles.modal}>
                 <span>Modalidade</span> <span>{data.modalidade_nome}</span>
@@ -188,14 +188,60 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
               <div className={styles.title}>Públicos</div>
             </div>
 
-            <div className={styles.text}>
+            {data.publicos?.length && <div className={styles.text}>
+              {data.publicos.join(',')}
+            </div>}
+
+            {!data.publicos?.length && <div className={styles.text}>
               {breakItems(data.publico_txt)}
-            </div>
+            </div>}
           </div>
         </div>
       </div>
 
       <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.title}>Temáticas socioambientais</div>
+            </div>
+
+            <div className={styles.text}>
+              {data.tematicas?.length && <>{data.tematicas.join(',')}</>}
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {data.status_desenvolvimento && <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}><img src={period_icon} /></div>
+              <div className={styles.title}>Status de desenvolvimento</div>
+            </div>
+
+            <div className={styles.text}>
+              {data.status_desenvolvimento === 'nao_iniciada' && <>
+                Não iniciada
+              </>}
+              {data.status_desenvolvimento === 'em_desenvolvimento' && <>
+                Em desenvolvimento (início:  {dayjs(data.mes_inicio).format('MM/YYYY')})
+              </>}
+              {data.status_desenvolvimento === 'finalizada' && <>
+                Finalizada (início:  {dayjs(data.mes_inicio).format('MM/YYYY')} - fim: {dayjs(data.mes_fim).format('MM/YYYY')})
+              </>}
+              {data.status_desenvolvimento === 'interrompida' && <>
+                Interrompida (início:  {dayjs(data.mes_inicio).format('MM/YYYY')} - fim: {dayjs(data.mes_fim).format('MM/YYYY')})
+              </>}
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {!data.status_desenvolvimento && <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
@@ -208,7 +254,7 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
