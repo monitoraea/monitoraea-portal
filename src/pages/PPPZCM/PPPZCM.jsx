@@ -1,6 +1,4 @@
 import Header from "../../components/Header";
-import { Link } from "react-router-dom";
-import imgplaceholder from "./placeholder.png";
 
 import DynamicContent from "../../components/DynamicContent";
 import ContentByType from "../../components/ContentByType";
@@ -33,7 +31,6 @@ import mam from "../../images/pppzcm/comite/mam.png";
 
 import mock_photo from "../../images/pppzcm/comite/mock-circle.png";
 import betania from "../../images/pppzcm/comite/people/betania.png";
-import jakeline from "../../images/pppzcm/comite/people/jakeline.png";
 import thais from "../../images/pppzcm/comite/people/thais.png";
 import erika from "../../images/pppzcm/comite/people/erika.png";
 import rachel from "../../images/pppzcm/comite/people/rachel.png";
@@ -45,6 +42,8 @@ import vladimir from "../../images/pppzcm/comite/people/vladimir.png";
 import ana_rosa from "../../images/pppzcm/comite/people/ana_rosa.png";
 import nadja from "../../images/pppzcm/comite/people/nadja.png";
 import patricia from "../../images/pppzcm/comite/people/patricia.png";
+
+import logos from "../../images/pppzcm/comite/logos.png";
 
 import {
   reactSelectClassNamePrefix,
@@ -267,81 +266,7 @@ function PPPZCM() {
             </div>
 
             <div className={styles.icones}>
-              <div className={styles.line1}>
-                <div className={styles.image}>
-                  <a href="https://www.monitoraea.org.br/" target="blank">
-                    <img src={anppea} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a
-                    href="https://www.gov.br/mma/pt-br/assuntos/biodiversidade-e-biomas/areas-protegidas/programas-e-projetos/gef-mar-1"
-                    target="blank"
-                  >
-                    <img src={gef_mar} />
-                  </a>
-                </div>
-              </div>
-              <div className={styles.line2}>
-                <div className={styles.image}>
-                  <a href="" target="blank">
-                    <img src={germany} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="" target="blank">
-                    <img src={iki} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a
-                    href="https://www.giz.de/en/html/index.html"
-                    target="blank"
-                  >
-                    <img src={giz} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a
-                    href="https://www.worldbank.org/pt/country/brazil"
-                    target="blank"
-                  >
-                    <img src={banco_mundial} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="" target="blank">
-                    <img src={gef} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="https://www.funbio.org.br/" target="blank">
-                    <img src={funbio} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="" target="blank">
-                    <img src={governos} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="https://www.ibama.gov.br/index.php" target="blank">
-                    <img src={ibama} />
-                  </a>
-                </div>
-              </div>
-              <div className={styles.line3}>
-                <div className={styles.image}>
-                  <a href="https://www.gov.br/icmbio/pt-br" target="blank">
-                    <img src={icmbio} />
-                  </a>
-                </div>
-                <div className={styles.image}>
-                  <a href="https://www.gov.br/mma/pt-br" target="blank">
-                    <img src={mam} />
-                  </a>
-                </div>
-              </div>
+              <img src={logos} />
             </div>
 
             <div className={styles.people}>
@@ -353,18 +278,6 @@ function PPPZCM() {
                   <div>Betânia Santos Fichino</div>
                   <div>DAP/MMA</div>
                   <div>betania.fichino@mma.gov.br</div>
-                  <div>DF</div>
-                </div>
-              </div>
-
-              <div className={styles.person}>
-                <div className={styles.photo}>
-                  <img src={jakeline} />
-                </div>
-                <div className={styles.info}>
-                  <div>Jakeline Borges de Souza</div>
-                  <div>Ibama</div>
-                  <div>jakeline.souza@ibama.gov.br</div>
                   <div>DF</div>
                 </div>
               </div>

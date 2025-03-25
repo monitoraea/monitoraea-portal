@@ -151,22 +151,8 @@
 .icones {
     margin-top: 60px;
     margin-bottom: 50px;
-
-    .line1,
-    .line2,
-    .line3 {
-        display: flex;
-        justify-content: center;
-        gap: 120px;
-
-        &>div {
-            flex-shrink: 0;
-        }
-    }
-
-    .line2,
-    .line3 {
-        gap: 20px;
+    img {
+        width: 45vw;
     }
 }
 
