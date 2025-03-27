@@ -1,26 +1,27 @@
-import { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import './style.scss';
+import { useEffect, useState } from "react";
+import Header from "../../components/Header";
+import "./style.scss";
 /* import { Link } from 'react-router-dom';  */
-import axios from 'axios';
-import { useQuery, useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
+import axios from "axios";
+import { useQuery, useMutation } from "react-query";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
-import objective_icon from '../../images/single-project/objective.png'
-import description_icon from '../../images/single-project/description.png'
-import audience_icon from '../../images/single-project/audience.png'
-import period_icon from '../../images/single-project/period.png'
-import partners_icon from '../../images/single-project/partners.png'
-import auto_check_icon from '../../images/single-project/auto_check.png'
-import fale_icon from '../../images/single-project/fale.png'
+import objective_icon from "../../images/single-project/objective.png";
+import description_icon from "../../images/single-project/description.png";
+import audience_icon from "../../images/single-project/audience.png";
+import period_icon from "../../images/single-project/period.png";
+import partners_icon from "../../images/single-project/partners.png";
+import auto_check_icon from "../../images/single-project/auto_check.png";
+import fale_icon from "../../images/single-project/fale.png";
 
-import Geo from '../../components/Geo';
+import Geo from "../../components/Geo";
 
-import Development from '../../components/Development';
+import TimelineSingle from "../../components/TimelineSingle";
+import Development from "../../components/Development";
 
-import Modal from '../../components/Modal';
-import styles from './styles.module.scss';
+import Modal from "../../components/Modal";
+import styles from "./styles.module.scss";
 
 function Single({ staleTime = 3600000 /* 1h */ }) {
   const params = useParams();
@@ -31,21 +32,22 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
 
   const [showParticipateDialog, _showParticipateDialog] = useState(false);
 
-  const [name, _name] = useState('');
-  const [email, _email] = useState('');
-  const [message, _message] = useState('');
+  const [name, _name] = useState("");
+  const [email, _email] = useState("");
+  const [message, _message] = useState("");
 
-  const { data } = useQuery(['single_proj', { id: params.id }], {
-    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}ppea/${params.id}`)).data,
+  const { data } = useQuery(["single_proj", { id: params.id }], {
+    queryFn: async () =>
+      (await axios.get(`${import.meta.env.VITE_SERVER}ppea/${params.id}`)).data,
     staleTime,
   });
 
   useEffect(() => {
     _showParticipateDialog(false);
-    _name('');
-    _email('');
-    _message('');
-  }, [])
+    _name("");
+    _email("");
+    _message("");
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -54,7 +56,9 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
 
       const {
         data: { atuacoes, bbox },
-      } = await axios.get(`${import.meta.env.VITE_SERVER}ppea/${params.id}/atuacoes`);
+      } = await axios.get(
+        `${import.meta.env.VITE_SERVER}ppea/${params.id}/atuacoes`,
+      );
 
       _loading(false);
       _pas(atuacoes);
@@ -69,8 +73,11 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
   }, [params.id]);
 
   const mutations = {
-    send: useMutation(
-      () => axios.post(`${import.meta.env.VITE_SERVER}ppea/${params.id}/send_contact`, { email, name, message })
+    send: useMutation(() =>
+      axios.post(
+        `${import.meta.env.VITE_SERVER}ppea/${params.id}/send_contact`,
+        { email, name, message },
+      ),
     ),
   };
 
@@ -82,10 +89,10 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
     await mutations.send.mutateAsync();
 
     _showParticipateDialog(false);
-    _name('');
-    _email('');
-    _message('');
-  }
+    _name("");
+    _email("");
+    _message("");
+  };
 
   return (
     <>
@@ -98,17 +105,25 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
               <div className={styles.initiative}>{data.nome}</div>
               <div className={styles.institution}>
                 {data.instituicao_nome}
-                <div className={styles.fale} onClick={() => _showParticipateDialog(true)}>
+                <div
+                  className={styles.fale}
+                  onClick={() => _showParticipateDialog(true)}
+                >
                   <div>Fale com o moderador</div>
                   <img src={fale_icon} />
                 </div>
               </div>
               <div className={styles.modal}>
-                <span>Área</span> <span>{data.area_name}</span> {data.area === 1 && <span>({data.area_tematica})</span>}
+                <span>Área</span> <span>{data.area_name}</span>{" "}
+                {data.area === 1 && <span>({data.area_tematica})</span>}
               </div>
             </div>
-            <div className={styles['button-wrapper']}>
-              <button onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/ppea/${params.id}`}>
+            <div className={styles["button-wrapper"]}>
+              <button
+                onClick={() =>
+                  (window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/ppea/${params.id}`)
+                }
+              >
                 Solicitar acesso a esta comunidade
               </button>
             </div>
@@ -124,12 +139,20 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.icon}>
+                <img src={description_icon} />
+              </div>
               <div className={styles.title}>Mais informações</div>
             </div>
 
             <div className={styles.text}>
-              {data.link && <><a href={data.link} target="_blank">{data.link}</a></>}
+              {data.link && (
+                <>
+                  <a href={data.link} target="_blank">
+                    {data.link}
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -139,7 +162,9 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.icon}>
+                <img src={description_icon} />
+              </div>
               <div className={styles.title}>Fase Atual da Política</div>
             </div>
 
@@ -151,13 +176,13 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
         </div>
       </div>
 
-
-
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={auto_check_icon} /></div>
+              <div className={styles.icon}>
+                <img src={auto_check_icon} />
+              </div>
               <div className={styles.title}>Data da Última Avaliação</div>
             </div>
 
@@ -167,6 +192,8 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
           </div>
         </div>
       </div>
+
+      <TimelineSingle entity_name="ppea" entity_id={params.id} />
 
       <div className={styles.last}></div>
 
@@ -280,19 +307,39 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
 
         </div>
       </section>*/}
-      <Modal open={showParticipateDialog} onClose={() => _showParticipateDialog(false)} title="Enviar mensagem para o responsável" onSend={handleSend}>
+      <Modal
+        open={showParticipateDialog}
+        onClose={() => _showParticipateDialog(false)}
+        title="Enviar mensagem para o responsável"
+        onSend={handleSend}
+      >
         <div className={styles.fields}>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>E-mail</label>
-            <input type="text" name="email" value={email} onChange={(e) => _email(e.target.value)} />
+            <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={(e) => _email(e.target.value)}
+            />
           </div>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>Nome</label>
-            <input type="text" name="name" value={name} onChange={(e) => _name(e.target.value)} />
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => _name(e.target.value)}
+            />
           </div>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>Mensagem</label>
-            <textarea rows={4} name="message" value={message} onChange={(e) => _message(e.target.value)} />
+            <textarea
+              rows={4}
+              name="message"
+              value={message}
+              onChange={(e) => _message(e.target.value)}
+            />
           </div>
         </div>
       </Modal>
@@ -302,8 +349,12 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
 
 /* Aux functions */
 function breakItems(txt) {
-  if (!txt) return '';
-  return txt.split('\n').filter(txt => txt.length).join(', ').replace('null', '');
+  if (!txt) return "";
+  return txt
+    .split("\n")
+    .filter((txt) => txt.length)
+    .join(", ")
+    .replace("null", "");
 }
 
 export default Single;

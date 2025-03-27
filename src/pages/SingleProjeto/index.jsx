@@ -1,26 +1,27 @@
-import { useEffect, useState } from 'react';
-import Header from '../../components/Header';
-import './style.scss';
+import { useEffect, useState } from "react";
+import Header from "../../components/Header";
+import "./style.scss";
 /* import { Link } from 'react-router-dom';  */
-import axios from 'axios';
-import { useQuery, useMutation } from 'react-query';
-import { useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
+import axios from "axios";
+import { useQuery, useMutation } from "react-query";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
-import objective_icon from '../../images/single-project/objective.png'
-import description_icon from '../../images/single-project/description.png'
-import audience_icon from '../../images/single-project/audience.png'
-import period_icon from '../../images/single-project/period.png'
-import partners_icon from '../../images/single-project/partners.png'
-import auto_check_icon from '../../images/single-project/auto_check.png'
-import fale_icon from '../../images/single-project/fale.png'
+import objective_icon from "../../images/single-project/objective.png";
+import description_icon from "../../images/single-project/description.png";
+import audience_icon from "../../images/single-project/audience.png";
+import period_icon from "../../images/single-project/period.png";
+import partners_icon from "../../images/single-project/partners.png";
+import auto_check_icon from "../../images/single-project/auto_check.png";
+import fale_icon from "../../images/single-project/fale.png";
 
-import Geo from '../../components/Geo';
+import Geo from "../../components/Geo";
 
-import Development from '../../components/Development';
+import TimelineSingle from "../../components/TimelineSingle";
+import Development from "../../components/Development";
 
-import Modal from '../../components/Modal';
-import styles from './styles.module.scss';
+import Modal from "../../components/Modal";
+import styles from "./styles.module.scss";
 
 function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
   const params = useParams();
@@ -33,27 +34,37 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
   const [published, _published] = useState(false);
   const [showParticipateDialog, _showParticipateDialog] = useState(false);
 
-  const [name, _name] = useState('');
-  const [email, _email] = useState('');
-  const [message, _message] = useState('');
+  const [name, _name] = useState("");
+  const [email, _email] = useState("");
+  const [message, _message] = useState("");
 
-  const { data } = useQuery(['single_proj', { id: params.id }], {
-    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/${params.id}`)).data,
+  const { data } = useQuery(["single_proj", { id: params.id }], {
+    queryFn: async () =>
+      (await axios.get(`${import.meta.env.VITE_SERVER}project/${params.id}`))
+        .data,
     staleTime,
   });
 
-  const { data: verify } = useQuery(['project_indics', { project_id: params.id }], {
-    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}project/${params.id}/verify`)).data,
-    enabled: !!params.id,
-    staleTime,
-  });
+  const { data: verify } = useQuery(
+    ["project_indics", { project_id: params.id }],
+    {
+      queryFn: async () =>
+        (
+          await axios.get(
+            `${import.meta.env.VITE_SERVER}project/${params.id}/verify`,
+          )
+        ).data,
+      enabled: !!params.id,
+      staleTime,
+    },
+  );
 
   useEffect(() => {
     _showParticipateDialog(false);
-    _name('');
-    _email('');
-    _message('');
-  }, [])
+    _name("");
+    _email("");
+    _message("");
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -62,7 +73,9 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
 
       const {
         data: { atuacoes, bbox },
-      } = await axios.get(`${import.meta.env.VITE_SERVER}project/${params.id}/atuacoes`);
+      } = await axios.get(
+        `${import.meta.env.VITE_SERVER}project/${params.id}/atuacoes`,
+      );
 
       _loading(false);
       _pas(atuacoes);
@@ -78,26 +91,27 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
 
   useEffect(() => {
     if (!!verify) {
-      let st = 'complete';
+      let st = "complete";
 
       for (let i of Object.values(verify.analysis.indics)) {
         if (!i.ready) {
-          st = 'incomplete';
+          st = "incomplete";
           break;
         }
       }
 
-      _published(verify.analysis.published ? verify.analysis.published : false)
+      _published(verify.analysis.published ? verify.analysis.published : false);
 
       _status(st);
     }
-  }, [verify])
-
-
+  }, [verify]);
 
   const mutations = {
-    send: useMutation(
-      () => axios.post(`${import.meta.env.VITE_SERVER}project/${params.id}/send_contact`, { email, name, message })
+    send: useMutation(() =>
+      axios.post(
+        `${import.meta.env.VITE_SERVER}project/${params.id}/send_contact`,
+        { email, name, message },
+      ),
     ),
   };
 
@@ -109,10 +123,10 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
     await mutations.send.mutateAsync();
 
     _showParticipateDialog(false);
-    _name('');
-    _email('');
-    _message('');
-  }
+    _name("");
+    _email("");
+    _message("");
+  };
 
   return (
     <>
@@ -125,20 +139,32 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
               <div className={styles.initiative}>{data.nome}</div>
               <div className={styles.institution}>
                 <div>{data.instituicao_nome}</div>
-                <div className={styles.fale} onClick={() => _showParticipateDialog(true)}>
+                <div
+                  className={styles.fale}
+                  onClick={() => _showParticipateDialog(true)}
+                >
                   <div>Fale com o moderador</div>
                   <img src={fale_icon} />
                 </div>
               </div>
               <div className={styles.action_line}>
-                {data.linhas?.length && <><span>Linha de Ação PPPZCM</span> <span>{data.linhas.join(', ')}</span></>}
+                {data.linhas?.length && (
+                  <>
+                    <span>Linha de Ação PPPZCM</span>{" "}
+                    <span>{data.linhas.join(", ")}</span>
+                  </>
+                )}
               </div>
               <div className={styles.modal}>
                 <span>Modalidade</span> <span>{data.modalidade_nome}</span>
               </div>
             </div>
-            <div className={styles['button-wrapper']}>
-              <button onClick={() => window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/project/${params.id}`}>
+            <div className={styles["button-wrapper"]}>
+              <button
+                onClick={() =>
+                  (window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/project/${params.id}`)
+                }
+              >
                 Solicitar acesso a esta comunidade
               </button>
             </div>
@@ -154,13 +180,13 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={objective_icon} /></div>
+              <div className={styles.icon}>
+                <img src={objective_icon} />
+              </div>
               <div className={styles.title}>Objetivo</div>
             </div>
 
-            <div className={styles.text}>
-              {breakItems(data.objetivos_txt)}
-            </div>
+            <div className={styles.text}>{breakItems(data.objetivos_txt)}</div>
           </div>
         </div>
       </div>
@@ -169,7 +195,9 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.icon}>
+                <img src={description_icon} />
+              </div>
               <div className={styles.title}>Descrição</div>
             </div>
 
@@ -184,17 +212,19 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={audience_icon} /></div>
+              <div className={styles.icon}>
+                <img src={audience_icon} />
+              </div>
               <div className={styles.title}>Públicos</div>
             </div>
 
-            {data.publicos?.length && <div className={styles.text}>
-              {data.publicos.join(',')}
-            </div>}
+            {data.publicos?.length && (
+              <div className={styles.text}>{data.publicos.join(",")}</div>
+            )}
 
-            {!data.publicos?.length && <div className={styles.text}>
-              {breakItems(data.publico_txt)}
-            </div>}
+            {!data.publicos?.length && (
+              <div className={styles.text}>{breakItems(data.publico_txt)}</div>
+            )}
           </div>
         </div>
       </div>
@@ -203,70 +233,88 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={description_icon} /></div>
+              <div className={styles.icon}>
+                <img src={description_icon} />
+              </div>
               <div className={styles.title}>Temáticas socioambientais</div>
             </div>
 
             <div className={styles.text}>
-              {data.tematicas?.length && <>{data.tematicas.join(',')}</>}
+              {data.tematicas?.length && <>{data.tematicas.join(",")}</>}
             </div>
-
           </div>
         </div>
       </div>
 
-      {data.status_desenvolvimento && <div className={`${styles.section} ${styles.titled}`}>
-        <div className="width-limiter">
-          <div className={styles.content}>
-            <div className={styles.title}>
-              <div className={styles.icon}><img src={period_icon} /></div>
-              <div className={styles.title}>Status de desenvolvimento</div>
-            </div>
+      {data.status_desenvolvimento && (
+        <div className={`${styles.section} ${styles.titled}`}>
+          <div className="width-limiter">
+            <div className={styles.content}>
+              <div className={styles.title}>
+                <div className={styles.icon}>
+                  <img src={period_icon} />
+                </div>
+                <div className={styles.title}>Status de desenvolvimento</div>
+              </div>
 
-            <div className={styles.text}>
-              {data.status_desenvolvimento === 'nao_iniciada' && <>
-                Não iniciada
-              </>}
-              {data.status_desenvolvimento === 'em_desenvolvimento' && <>
-                Em desenvolvimento (início:  {dayjs(data.mes_inicio).format('MM/YYYY')})
-              </>}
-              {data.status_desenvolvimento === 'finalizada' && <>
-                Finalizada (início:  {dayjs(data.mes_inicio).format('MM/YYYY')} - fim: {dayjs(data.mes_fim).format('MM/YYYY')})
-              </>}
-              {data.status_desenvolvimento === 'interrompida' && <>
-                Interrompida (início:  {dayjs(data.mes_inicio).format('MM/YYYY')} - fim: {dayjs(data.mes_fim).format('MM/YYYY')})
-              </>}
+              <div className={styles.text}>
+                {data.status_desenvolvimento === "nao_iniciada" && (
+                  <>Não iniciada</>
+                )}
+                {data.status_desenvolvimento === "em_desenvolvimento" && (
+                  <>
+                    Em desenvolvimento (início:{" "}
+                    {dayjs(data.mes_inicio).format("MM/YYYY")})
+                  </>
+                )}
+                {data.status_desenvolvimento === "finalizada" && (
+                  <>
+                    Finalizada (início:{" "}
+                    {dayjs(data.mes_inicio).format("MM/YYYY")} - fim:{" "}
+                    {dayjs(data.mes_fim).format("MM/YYYY")})
+                  </>
+                )}
+                {data.status_desenvolvimento === "interrompida" && (
+                  <>
+                    Interrompida (início:{" "}
+                    {dayjs(data.mes_inicio).format("MM/YYYY")} - fim:{" "}
+                    {dayjs(data.mes_fim).format("MM/YYYY")})
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
 
-      {!data.status_desenvolvimento && <div className={`${styles.section} ${styles.titled}`}>
-        <div className="width-limiter">
-          <div className={styles.content}>
-            <div className={styles.title}>
-              <div className={styles.icon}><img src={period_icon} /></div>
-              <div className={styles.title}>Período de desenvolvimento</div>
-            </div>
+      {!data.status_desenvolvimento && (
+        <div className={`${styles.section} ${styles.titled}`}>
+          <div className="width-limiter">
+            <div className={styles.content}>
+              <div className={styles.title}>
+                <div className={styles.icon}>
+                  <img src={period_icon} />
+                </div>
+                <div className={styles.title}>Período de desenvolvimento</div>
+              </div>
 
-            <div className={styles.text}>
-              {breakItems(data.periodo_txt)}
+              <div className={styles.text}>{breakItems(data.periodo_txt)}</div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
 
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={partners_icon} /></div>
+              <div className={styles.icon}>
+                <img src={partners_icon} />
+              </div>
               <div className={styles.title}>Parceiros</div>
             </div>
 
-            <div className={styles.text}>
-              {breakItems(data.parceiros_txt)}
-            </div>
+            <div className={styles.text}>{breakItems(data.parceiros_txt)}</div>
           </div>
         </div>
       </div>
@@ -275,20 +323,27 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
-              <div className={styles.icon}><img src={auto_check_icon} /></div>
+              <div className={styles.icon}>
+                <img src={auto_check_icon} />
+              </div>
               <div className={styles.title}>Autoavaliação</div>
             </div>
 
             <div className={styles.text}>
-              {!!status && <>{status === 'incomplete' ? 'Incompleta' : <>
-                Completa
-              </>}</>}
-              {!status && <>Verificando...</>}<br />
-              {published && <>Publicado em {dayjs(published).format('DD/MM/YYYY')}</>}
+              {!!status && (
+                <>{status === "incomplete" ? "Incompleta" : <>Completa</>}</>
+              )}
+              {!status && <>Verificando...</>}
+              <br />
+              {published && (
+                <>Publicado em {dayjs(published).format("DD/MM/YYYY")}</>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      <TimelineSingle entity_name="project" entity_id={params.id} />
 
       <div className={styles.last}></div>
 
@@ -402,19 +457,39 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
 
         </div>
       </section>*/}
-      <Modal open={showParticipateDialog} onClose={() => _showParticipateDialog(false)} title="Enviar mensagem para o responsável" onSend={handleSend}>
+      <Modal
+        open={showParticipateDialog}
+        onClose={() => _showParticipateDialog(false)}
+        title="Enviar mensagem para o responsável"
+        onSend={handleSend}
+      >
         <div className={styles.fields}>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>E-mail</label>
-            <input type="text" name="email" value={email} onChange={(e) => _email(e.target.value)} />
+            <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={(e) => _email(e.target.value)}
+            />
           </div>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>Nome</label>
-            <input type="text" name="name" value={name} onChange={(e) => _name(e.target.value)} />
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={(e) => _name(e.target.value)}
+            />
           </div>
-          <div className={styles['field-wrap']}>
+          <div className={styles["field-wrap"]}>
             <label>Mensagem</label>
-            <textarea rows={4} name="message" value={message} onChange={(e) => _message(e.target.value)} />
+            <textarea
+              rows={4}
+              name="message"
+              value={message}
+              onChange={(e) => _message(e.target.value)}
+            />
           </div>
         </div>
       </Modal>
@@ -424,8 +499,12 @@ function SingleProjeto({ staleTime = 3600000 /* 1h */ }) {
 
 /* Aux functions */
 function breakItems(txt) {
-  if (!txt) return '';
-  return txt.split('\n').filter(txt => txt.length).join(', ').replace('null', '');
+  if (!txt) return "";
+  return txt
+    .split("\n")
+    .filter((txt) => txt.length)
+    .join(", ")
+    .replace("null", "");
 }
 
 export default SingleProjeto;

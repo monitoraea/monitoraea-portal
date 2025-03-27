@@ -1,0 +1,109 @@
+@use "../../app" as *;
+
+.timeline_main {
+    padding-bottom: 0;
+
+    .inner-title-box.inner-timeline {
+        background-color: $cristal;
+
+        .left-side {
+            background-color: $indigo;
+            color: $white;
+            z-index: 2;
+        }
+    }
+
+    .timeline {
+        .timeline-each {
+            display: grid;
+            grid-template-columns: 10fr 120px 32fr 4fr;
+
+            .timeline-each-date {
+                display: flex;
+                align-items: center;
+                margin-right: -2px;
+
+                .timeline-each-date-miolo {
+                    display: flex;
+                    align-items: center;
+                    background-color: $cristal;
+                    width: 100%;
+                    border-top-left-radius: $border-radius-big;
+                    border-bottom-left-radius: $border-radius-big;
+
+                    .left-side {
+                        background-color: $anil;
+                        color: $white;
+                        z-index: 2;
+                        padding: 8px 12px;
+                        font-size: $small-font;
+                        border-radius: $border-radius-big;
+                        min-width: 150px;
+                        text-align: right;
+                    }
+                }
+            }
+
+            .timeline-each-thumb {
+                background: linear-gradient($cristal, $cristal) no-repeat
+                    center/4px 100%;
+                padding: 10px 0;
+
+                .timeline-each-thumb-image {
+                    width: 120px;
+                    height: 120px;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    border: solid 4px $cristal;
+                    background-color: #fff;
+
+                    img {
+                        display: inline;
+                        margin: 0 auto;
+                        height: 100%;
+                        width: auto;
+                    }
+                }
+            }
+
+            .timeline-each-text {
+                display: flex;
+                align-items: center;
+                background-color: $cristal;
+                text-align: justify;
+                padding: 5px 25px;
+                margin-left: -58px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding-left: 85px;
+            }
+
+            .timeline-each-more {
+                margin-left: -45px;
+                margin-top: -5px;
+
+                a {
+                    color: $anil;
+
+                    &:hover {
+                        color: $indigo;
+                    }
+                }
+            }
+        }
+
+        .timeline-each-thumb.empty {
+            height: 132px;
+            margin-top: -132px;
+            padding: 0;
+        }
+
+        .end {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            padding: 0;
+        }
+    }
+}
