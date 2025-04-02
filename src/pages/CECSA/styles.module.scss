@@ -36,9 +36,24 @@
     }
 }
 
-.button-wrapper {
-    max-width: 80vw;
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
+    .button-wrapper {
+        max-width: 80vw;
+    }
+
+    .download {
+
+        button {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+    }
+    
     button {
         color: $white;
         border: solid 3px $anil;
