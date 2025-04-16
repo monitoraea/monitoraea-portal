@@ -88,8 +88,14 @@
                 .second_line {
                     display: flex;
                     padding-top: 8px;
-                    align-items: center;
-                    justify-content: space-between;
+                    justify-content: flex-start;
+
+                    .sl_content {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 100%;
+                    }
 
                     .space {
                         min-width: 10vh;
