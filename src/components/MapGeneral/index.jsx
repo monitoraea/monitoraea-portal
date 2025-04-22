@@ -11,7 +11,8 @@ import Enquadramentos from './Enquadramentos'
 import styles from './styles.module.scss';
 
 
-import Arrow from '../../images/arrow.svg?react';
+import title from '../../images/home_map_title.png';
+import seta from '../../images/home_map_seta.png';
 
 
 const mapRef = createRef();
@@ -33,7 +34,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
     _perspective(p)
   }
 
-  const navigateToPerspective = () => {
+  const navigateToPerspective = (perspective) => {
     navigate(`/sobre/${perspective}`)
   }
 
@@ -88,25 +89,56 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               opacity={0.5}
             />}
 
+            {perspective === 'ciea' && <WMSTileLayer
+              url={import.meta.env.VITE_GEOSERVER_URL}
+              layers="pppzcm:ufs-staging"
+              format="image/png"
+              transparent={true}
+              opacity={0.5}
+            />}
+
+            {perspective === 'centros-nucleos-equipamentos' && <WMSTileLayer
+              url={import.meta.env.VITE_GEOSERVER_URL}
+              layers="pppzcm:cecsa"
+              format="image/png"
+              transparent={true}
+              opacity={0.5}
+            />}
+
             <ZoomControl position="bottomright" />
           </Map>
         </div>
+        <div className={styles.perspective_panel}>
+          <div className={styles.title_bar}>
+            <img src={title} />
+          </div>
 
-        <div className={`p-4 ${styles.perspective_panel}`}>
-          <div className={`${styles.perspective} ${perspective === 'ppea' ? styles.active : ''}`} onClick={handlePerspective('ppea')}>Políticas Públicas de Educação Ambiental</div>
-          <div className={`${styles.perspective} ${styles.disabled}`}>Projetos e Ações de Educação Ambiental</div>
-          <div className={`${styles.perspective} ${styles.disabled}`}>Instâncias e Espaços de articulação e controle social</div>
-          <div className={`${styles.perspective} ${perspective === 'pppzcm' ? styles.active : ''}`} onClick={handlePerspective('pppzcm')}>Projeto Político-Pedagógico da Zona Costeira e Marinha do Brasil</div>
-          <div className={`${styles.perspective} ${styles.disabled}`}>Risco climático e a contribuição da Educação Ambiental</div>
-        </div>
-
-        <div className={`p-4 ${styles['perspective-access']}`}>
-          <button className="button-more" onClick={navigateToPerspective}>
-            Acesse a perspectiva selecionada
-            <div className="icon">
-              <Arrow />
+          <div className={`p-4 ${styles.perspective_panel_options}`}>
+            <div className={`${styles.perspective_container} ${perspective === 'ppea' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('ppea')}>Políticas Públicas de Educação Ambiental</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('ppea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
             </div>
-          </button>
+            <div className={`${styles.perspective_container} ${perspective === 'pppzcm' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('pppzcm')}>Iniciativas vinculadas ao Projeto Político-Pedagógico da Zona Costeira e Marinha do Brasil</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('pppzcm')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
+            </div>
+            <div className={`${styles.perspective_container} ${perspective === 'ciea' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('ciea')}>Instâncias e Espaços de articulação e controle social (CA-OG, CIEA e CIMEA)</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('ciea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
+            </div>
+            <div className={`${styles.perspective_container} ${perspective === 'centros-nucleos-equipamentos' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('centros-nucleos-equipamentos')}>Centros, Núcleos e Equipamentos de Educação e Cooperação Socioambiental</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('centros-nucleos-equipamentos')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
+            </div>
+            <div className={styles.perspective_container}>
+              <div className={`${styles.perspective} ${styles.disabled}`}>Iniciativas não governamentais de Educação Ambiental</div>
+              {/* <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('ppea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div> */}
+            </div>
+            <div className={styles.perspective_container}>
+              <div className={`${styles.perspective} ${styles.disabled}`}>Risco climático e a contribuição da Educação Ambiental</div>
+              {/* <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('ppea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div> */}
+            </div>
+          </div>
         </div>
       </div>
     </section>

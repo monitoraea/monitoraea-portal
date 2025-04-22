@@ -45,85 +45,109 @@
 }
 
 .perspective_panel {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
   position: absolute;
-  height: calc(100vh - 16rem);
   margin: 4rem;
-  width: 24rem;
-  // background-color: #fff;
   z-index: 1;
-  border-radius: .5rem;
   top: 0;
+  gap: 5px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-
-  .perspective {
-    color: #fff;
-    cursor: pointer;
-    width: 100px;
-    height: 100px;
-    background-color: $anil;
-    opacity: 0.8;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 15px;
+  .title_bar {
     display: flex;
+    height: 100%;
+    width: 24px;
+    background-color: $indigo;
     align-items: center;
-    text-align: center;
-    border-radius: 30px;
+    justify-content: center;
 
-    &:hover,
-    &.active {
-      background-color: $indigo;
-    }
-
-    &.disabled {
-      cursor: default;
-      background-color: $anil;
+    img {
+      width: 20px;
     }
   }
 
-  /* .separator {
-    display: block;
-    width: 100%;
-    height: 2px;
-    color: $light-gray;
-    background-color: $light-gray;
-    margin: 1rem 0;
-  }
-
-  .custom_switch_filter {
+  .perspective_panel_options {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-  }
+    gap: 4px;
 
-  // global override
-  :global {
+    .perspective_container {
+      display: flex;
 
-    .MuiSwitch-root {
-      border-radius: $border-radius-2;
-      padding: 0;
-      width: 1.5rem;
-      height: 1rem;
+      .acessar {
+        visibility: hidden;
+        width: 100px;
 
-      .MuiSwitch-switchBase {
-        padding: 2px;
+        background-color: $anil;
 
-        &.Mui-checked {
-          left: -8px;
+        .acessar_button {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 5px;
+
+          cursor: pointer;
+
+          margin-left: 10px;
+          width: 80px;
+          height: calc(100% - 40px);
+          background-color: #344876;
+          color: $white;
+          border-radius: 10px;
+          /* opacity: 0.8; */
+          padding: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
         }
       }
 
-      .MuiSwitch-thumb {
-        background-color: $white;
-        width: .75rem;
-        height: .75rem;
+      // &:hover:not(.disabled) {
+      //   .acessar {
+      //     visibility: visible;
+      //   }
+      // }
+
+      &.active {
+        .acessar {
+          visibility: visible;
+        }
       }
+
+      .perspective {
+        display: flex;
+        color: #fff;
+        cursor: pointer;
+        width: 150px;
+        height: 100px;
+        background-color: $anil;
+        opacity: 0.8;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 15px;
+        align-items: center;
+        text-align: center;
+
+        &:hover {
+          background-color: $indigo;
+        }
+
+        &.disabled {
+          cursor: default;
+          background-color: #4a616d;
+          color: #9da7ad;
+        }
+      }
+
+      &.active {
+        .perspective {
+          background-color: $indigo;
+        }
+      }
+
     }
-  } */
+  }
 }
 
 
