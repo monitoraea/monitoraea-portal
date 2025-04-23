@@ -31,13 +31,6 @@ export default function MapPP() {
   const [ppea_mun, _ppea_mun] = useState(false);
   const [ppea_reg, _ppea_reg] = useState(false);
   const [ppea_uc, _ppea_uc] = useState(false);
-  const [ppea_ch, _ppea_ch] = useState(false);
-  const [ppea_sc, _ppea_sc] = useState(false);
-  const [ppea_cr, _ppea_cr] = useState(false);
-  const [ppea_eu, _ppea_eu] = useState(false);
-  const [ppea_sp, _ppea_sp] = useState(false);
-  const [ppea_ou, _ppea_ou] = useState(false);
-  const [ppea_nom, _ppea_nom] = useState(false);
 
   const [limit] = useState(6);
   const [page, _page] = useState(1);
@@ -83,13 +76,6 @@ export default function MapPP() {
         ppea_uf,
         ppea_mun,
         ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
       },
     ],
     {
@@ -112,13 +98,6 @@ export default function MapPP() {
         ppea_uf,
         ppea_mun,
         ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
       },
     ],
     {
@@ -141,13 +120,6 @@ export default function MapPP() {
         ppea_uf,
         ppea_mun,
         ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
       },
     ],
     {
@@ -170,13 +142,6 @@ export default function MapPP() {
         ppea_uf,
         ppea_mun,
         ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
       },
     ],
     {
@@ -218,13 +183,6 @@ export default function MapPP() {
     ppea_uf,
     ppea_mun,
     ppea_uc,
-    ppea_ch,
-    ppea_sc,
-    ppea_cr,
-    ppea_eu,
-    ppea_ou,
-    ppea_nom,
-    ppea_sp,
   ]);
   // TODO: melhorar estes states, vide zcm recortes
 
@@ -234,13 +192,7 @@ export default function MapPP() {
     if (ppea_reg) enquads.push(0);
     if (ppea_uf) enquads.push(1);
     if (ppea_mun) enquads.push(2);
-    if (ppea_sc) enquads.push(3);
-    if (ppea_eu) enquads.push(4);
     if (ppea_uc) enquads.push(5);
-    if (ppea_ch) enquads.push(6);
-    if (ppea_cr) enquads.push(7);
-    if (ppea_sp) enquads.push(8);
-    if (ppea_ou) enquads.push(9);
 
     return enquads;
   };
@@ -394,48 +346,6 @@ export default function MapPP() {
                   <Toggler checked={ppea_uc} onToggle={_ppea_uc} />
                 </div>
                 <div>PPEA a partir de UC</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_ch} onToggle={_ppea_ch} />
-                </div>
-                <div>PPEA a partir de CBH</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_sc} onToggle={_ppea_sc} />
-                </div>
-                <div>PPEA a partir de Sociedade Civil Org.</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_cr} onToggle={_ppea_cr} />
-                </div>
-                <div>PPEA a partir de coletivos e redes</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_eu} onToggle={_ppea_eu} />
-                </div>
-                <div>PPEA a partir de escolas e universidades</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_sp} onToggle={_ppea_sp} />
-                </div>
-                <div>PPEA a partir de setor privado</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_ou} onToggle={_ppea_ou} />
-                </div>
-                <div>Outras PPEA</div>
               </div>
 
               <div className={styles["list-header"]}>
