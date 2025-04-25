@@ -102,7 +102,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               layers="pppzcm:cecsa"
               format="image/png"
               transparent={true}
-              opacity={0.5}
+              opacity={0.8}
             />}
 
             <ZoomControl position="bottomright" />
