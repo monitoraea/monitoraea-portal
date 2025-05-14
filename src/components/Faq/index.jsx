@@ -11,6 +11,8 @@ export default function Faq({ portal = 'main', bg = 'default', staleTime = 36000
         staleTime,
     });
 
+    if(!data || data.length === 0) return null;
+
     return (
         <section id="perguntas_frequentes" className={bg}>
 
