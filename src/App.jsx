@@ -16,6 +16,7 @@ import Facilitadores from './pages/Facilitadores/Facilitadores';
 import Novidades from './pages/Novidades/Novidades';
 import NovidadeSingle from './pages/NovidadeSingle/NovidadeSingle';
 import PPEA from './pages/PPEA/PPEA';
+import ING from './pages/ING/ING';
 import CECSA from './pages/CECSA/CECSA';
 import PPPZCM from './pages/PPPZCM/PPPZCM';
 import CIEA from './pages/CIEA/CIEA';
@@ -59,6 +60,7 @@ function App() {
         <Route path="/iniciativa/ppea/:id" element={<SinglePPEA />} />        
         <Route path="/sobre" element={<Monitora />} />
         <Route path="/sobre/ppea" element={<PPEA />} />
+        <Route path="/sobre/iniciativas" element={<ING />} />
         <Route path="/sobre/centros-nucleos-equipamentos" element={<CECSA />} />        
         <Route path="/sobre/ciea" element={<CIEA />} />        
         <Route path="/sobre/risco_climatico" element={<Risco />} />        

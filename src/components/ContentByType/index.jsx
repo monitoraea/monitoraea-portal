@@ -15,6 +15,8 @@ export default function ContentByType({ id, title, portal = "main", className, c
         staleTime,
     });
 
+    if(!data || !data.entities?.length) return <></>
+
     return (<section id={id} className={className}>
 
         <div className="width-limiter">
