@@ -452,7 +452,7 @@ export default function MapPP() {
                       <img
                         onClick={() =>
                           window.open(
-                            `/iniciativa/ppea/${p.politica_id}`,
+                            `/iniciativa/iniciativa/${p.politica_id}`,
                             "_blank",
                           )
                         }
