@@ -362,8 +362,8 @@ export default function MapPP() {
                 bbox: _map.getBounds().toBBoxString(),
                 height: size.y,
                 width: size.x,
-                layers: 'pppzcm:proj_atuacao',
-                query_layers: 'pppzcm:proj_atuacao',
+                layers: 'pppzcm:zcm_atuacao',
+                query_layers: 'pppzcm:zcm_atuacao',
                 info_format: 'application/json',
                 x: Math.round(point.x),
                 y: Math.round(point.y),
@@ -402,7 +402,7 @@ export default function MapPP() {
         }
 
         const { ids } = data;
-        
+
         // /* filtrar pelos projetos ativos */ ?????????????????????????????????????
         // const projectsToSee = projects_ids ? ids.filter(id => projects_ids.includes(id)) : ids;
 
@@ -490,7 +490,7 @@ export default function MapPP() {
 
                         <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:proj_atuacao"
+                            layers="pppzcm:zcm_atuacao"
                             format="image/png"
                             transparent={true}
                             opacity={0.8}
@@ -499,7 +499,7 @@ export default function MapPP() {
 
                         {!!selected && <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:proj_atuacao"
+                            layers="pppzcm:zcm_atuacao"
                             format="image/png"
                             transparent={true}
                             opacity={0.7}
