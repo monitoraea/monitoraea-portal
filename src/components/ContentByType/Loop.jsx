@@ -12,11 +12,11 @@ export default function Loop({ data, portal = 'main' }) {
             <div className="loop">
                 {data.map((item) => (
                     <Link to={`/novidade-single/${item.id}`} key={item.id}>
-                        
+
                         <div className="loop-item" >
                             {!!item.featured_images && <img src={item.featured_images} alt="Figura Descritiva" className="image" />}
                             {!item.featured_images && <img src={imgplaceholder} alt="Figura Descritiva" className="image" />}
-                        </div>                        
+                        </div>
 
                         <div className="info-box">
                             <div className={`left-side ${item.portal}`}>{portals[item.portal][0]}</div>

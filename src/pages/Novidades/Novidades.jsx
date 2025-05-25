@@ -13,7 +13,7 @@ import './style.scss';
 
 function Novidades({ staleTime = 3600000 /* 1h */, limit = 16 }) {
 
-  const { content_type: contentType, portal = 'main' } = useParams();
+  const { content_type: contentType, portal = 'general' } = useParams();
 
   const [page, _page] = useState(1);
   const [currentPortal, _currentPortal] = useState(portal); /* somente para main, onde vc pode filtrar por portal */
@@ -57,11 +57,14 @@ function Novidades({ staleTime = 3600000 /* 1h */, limit = 16 }) {
 
             <div></div>
 
-            {portal === 'main' && <div className='filter'>
-              <div className={`filter-item ${currentPortal === 'main' ? 'active' : ''}`} onClick={() => handlePortalFilter('main')}>Todos</div>
-              {data?.totalsByPortal.monitoraea && <div className={`filter-item ${currentPortal === 'monitoraea' ? 'active' : ''}`} onClick={() => handlePortalFilter('monitoraea')}>MONITORAEA <div className="indicator">{data.totalsByPortal.monitoraea}</div></div>}
+            {portal === 'general' && <div className='filter'>
+              <div className={`filter-item ${currentPortal === 'general' ? 'active' : ''}`} onClick={() => handlePortalFilter('general')}>Todos</div>
+              {data?.totalsByPortal.main && <div className={`filter-item ${currentPortal === 'main' ? 'active' : ''}`} onClick={() => handlePortalFilter('main')}>MONITORAEA <div className="indicator">{data.totalsByPortal.main}</div></div>}
               {data?.totalsByPortal.pp && <div className={`filter-item ${currentPortal === 'pp' ? 'active' : ''}`} onClick={() => handlePortalFilter('pp')}>PPEA <div className="indicator">{data.totalsByPortal.pp}</div></div>}
               {data?.totalsByPortal.pppzcm && <div className={`filter-item ${currentPortal === 'pppzcm' ? 'active' : ''}`} onClick={() => handlePortalFilter('pppzcm')}>PPPZCM <div className="indicator">{data.totalsByPortal.pppzcm}</div></div>}
+              {data?.totalsByPortal.ciea && <div className={`filter-item ${currentPortal === 'ciea' ? 'active' : ''}`} onClick={() => handlePortalFilter('ciea')}>CIEAS <div className="indicator">{data.totalsByPortal.ciea}</div></div>}
+              {data?.totalsByPortal.risco && <div className={`filter-item ${currentPortal === 'risco' ? 'active' : ''}`} onClick={() => handlePortalFilter('risco')}>RISCO CLIMÁTICO <div className="indicator">{data.totalsByPortal.risco}</div></div>}
+              {data?.totalsByPortal.cecsa && <div className={`filter-item ${currentPortal === 'cecsa' ? 'active' : ''}`} onClick={() => handlePortalFilter('cecsa')}>CECSA <div className="indicator">{data.totalsByPortal.cecsa}</div></div>}
             </div>}
           </div>
 

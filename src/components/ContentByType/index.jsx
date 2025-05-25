@@ -8,7 +8,7 @@ import Loop from './Loop';
 
 import './style.scss';
 
-export default function ContentByType({ id, title, portal = "main", className, contentType, moreText = 'Ver todos', staleTime = 3600000, /* 1h */ }) {
+export default function ContentByType({ id, title, portal = "general", className, contentType, moreText = 'Ver todos', staleTime = 3600000, /* 1h */ }) {
 
     const { data } = useQuery(['news', { portal, contentType }], { /* TODO: tudo que pode variar: limit, offset */
         queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}content/by_type/${contentType}?portal=${portal}&limit=3&offset=0`)).data, /* TODO: se nao vou reaproveitar, fixar limit e offset? */
