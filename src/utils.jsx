@@ -3,6 +3,7 @@ export const portals = {
   'monitoraea': ['MonitoraEA', 'monitoraea'],
   'pp': ['Políticas Públicas e Projetos', 'ppea'],
   'ing': ['Iniciativas Não Governamentais', 'ing'],
+  'educom_clima': ['Educom&Clima', 'educom_clima'],
   'pppzcm': ['Políticas Públicas e Projetos', 'pppzcm'],
   'ciea': ['Instâncias e Espaços', 'ciea'],
   'cecsa': ['Centros/Núcleos/Equipamentos', 'cecsa'],
