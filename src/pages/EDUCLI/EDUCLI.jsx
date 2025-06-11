@@ -9,6 +9,7 @@ import Faq from "../../components/Faq";
 import { content_types } from "../../utils";
 
 // import MapING from "../../components/MapING";
+import Timeline from './timeline';
 
 import "./style.scss";
 import styles from "./styles.module.scss";
@@ -106,15 +107,7 @@ function EDUCLI() {
 
       <>[TODO: MAPA]</>
 
-      <div className={styles["diagrams"]}>
-        <div className={styles.d3}>
-          <div className="width-limiter">
-            <div className={styles["title-box"]}>
-              Linha do tempo do Projeto Educom&Clima
-            </div>
-          </div>
-        </div>
-      </div>
+      <Timeline />
 
       {["news" /* ,'learning' */].map((c) => (
         <ContentByType
