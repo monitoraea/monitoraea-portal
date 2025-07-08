@@ -8,7 +8,7 @@ import Faq from "../../components/Faq";
 
 import { content_types } from "../../utils";
 
-// import MapING from "../../components/MapING";
+import MapEDUCLI from "../../components/MapEDUCLI";
 import Timeline from './timeline';
 
 import "./style.scss";
@@ -105,7 +105,7 @@ function EDUCLI() {
         </div>
       </section>
 
-      <>[TODO: MAPA]</>
+      <MapEDUCLI />
 
       <Timeline />
 
