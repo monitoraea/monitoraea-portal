@@ -105,6 +105,14 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               opacity={0.8}
             />}
 
+            {perspective === 'iniciativas' && <WMSTileLayer
+              url={import.meta.env.VITE_GEOSERVER_URL}
+              layers="pppzcm:iniciativas"
+              format="image/png"
+              transparent={true}
+              opacity={0.8}
+            />}
+
             <ZoomControl position="bottomright" />
           </Map>
         </div>
@@ -130,9 +138,9 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               <div className={`${styles.perspective}`} onClick={handlePerspective('centros-nucleos-equipamentos')}>Centros, Núcleos e Equipamentos de Educação e Cooperação Socioambiental</div>
               <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('centros-nucleos-equipamentos')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
             </div>
-            <div className={styles.perspective_container}>
-              <div className={`${styles.perspective} ${styles.disabled}`}>Iniciativas não governamentais de Educação Ambiental</div>
-              {/* <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('ppea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div> */}
+            <div className={`${styles.perspective_container} ${perspective === 'iniciativas' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('iniciativas')}>Iniciativas não governamentais de Educação Ambiental</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={()=>navigateToPerspective('iniciativas')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
             </div>
             <div className={styles.perspective_container}>
               <div className={`${styles.perspective} ${styles.disabled}`}>Risco climático e a contribuição da Educação Ambiental</div>
