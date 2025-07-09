@@ -36,11 +36,28 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
   const [email, _email] = useState("");
   const [message, _message] = useState("");
 
+  const [status, _status] = useState(null);
+  const [published, _published] = useState(false);
+
   const { data } = useQuery(["single_proj", { id: params.id }], {
     queryFn: async () =>
       (await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/${params.id}`)).data,
     staleTime,
   });
+
+  const { data: verify } = useQuery(
+    ["project_indics", { project_id: params.id }],
+    {
+      queryFn: async () =>
+        (
+          await axios.get(
+            `${import.meta.env.VITE_SERVER}iniciativa/${params.id}/verify`,
+          )
+        ).data,
+      enabled: !!params.id,
+      staleTime,
+    },
+  );
 
   useEffect(() => {
     _showParticipateDialog(false);
@@ -71,6 +88,25 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
     }
     if (params.id) fetchData();
   }, [params.id]);
+
+
+
+  useEffect(() => {
+    if (!!verify) {
+      let st = "complete";
+
+      for (let i of Object.values(verify.analysis.indics)) {
+        if (!i.ready) {
+          st = "incomplete";
+          break;
+        }
+      }
+
+      _published(verify.analysis.published ? verify.analysis.published : false);
+
+      _status(st);
+    }
+  }, [verify]);
 
   const mutations = {
     send: useMutation(() =>
@@ -113,15 +149,16 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
                   <img src={fale_icon} />
                 </div>
               </div>
-              <div className={styles.modal}>
-                <span>Área</span> <span>{data.area_name}</span>{" "}
-                {data.area === 1 && <span>({data.area_tematica})</span>}
-              </div>
+              {data?.tema?.length && <div className={styles.modal}>
+                <span>Áreas</span> <span>
+                  {data?.tema.join(', ')}
+                </span>
+              </div>}
             </div>
             <div className={styles["button-wrapper"]}>
               <button
                 onClick={() =>
-                  (window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/ppea/${params.id}`)
+                  (window.location = `${import.meta.env.VITE_PPZCM_URL}colabora/participate/iniviativa/${params.id}`)
                 }
               >
                 Solicitar acesso a esta comunidade
@@ -133,6 +170,55 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
 
       <div>
         <Geo loading={loading} pas={pas} bounds={bounds} />
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}>
+                <img src={objective_icon} />
+              </div>
+              <div className={styles.title}>Objetivo</div>
+            </div>
+
+            <div className={styles.text}>{data.objetivos}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}>
+                <img src={description_icon} />
+              </div>
+              <div className={styles.title}>Descrição</div>
+            </div>
+
+            <div className={styles.text}>
+              {data.resumo}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}>
+                <img src={audience_icon} />
+              </div>
+              <div className={styles.title}>Públicos</div>
+            </div>
+
+            {data.publicos?.length && (
+              <div className={styles.text}>{data.publicos.join(",")}</div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className={`${styles.section} ${styles.titled}`}>
@@ -158,23 +244,23 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
         </div>
       </div>
 
-      {/* <div className={`${styles.section} ${styles.titled}`}>
+      <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
               <div className={styles.icon}>
-                <img src={description_icon} />
+                <img src={period_icon} />
               </div>
-              <div className={styles.title}>Fase Atual da Política</div>
+              <div className={styles.title}>Periodo</div>
             </div>
 
             <div className={`${styles.text}`}>
-              {data.fase_name}
-              {data.fase_ano && <> ({data.fase_ano})</>}
+              {!!data.data_inicio && <>{dayjs(data.data_inicio).format('MM/YYYY')}</>}
+              {!!data.data_fim && <> - {dayjs(data.data_fim).format('MM/YYYY')}</>}
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
@@ -183,17 +269,24 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
               <div className={styles.icon}>
                 <img src={auto_check_icon} />
               </div>
-              <div className={styles.title}>Data da Última Avaliação</div>
+              <div className={styles.title}>Autoavaliação</div>
             </div>
 
             <div className={styles.text}>
-              {/* {data.data_criacao && <>{data.data_criacao}</>} */}
+              {!!status && (
+                <>{status === "incomplete" ? "Incompleta" : <>Completa</>}</>
+              )}
+              {!status && <>Verificando...</>}
+              <br />
+              {published && (
+                <>Publicado em {dayjs(published).format("DD/MM/YYYY")}</>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <TimelineSingle entity_name="ppea" entity_id={params.id} />
+      <TimelineSingle entity_name="iniciativa" entity_id={params.id} />
 
       <div className={styles.last}></div>
 

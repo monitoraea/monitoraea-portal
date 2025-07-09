@@ -585,7 +585,7 @@ export default function MapPP() {
               <div>{p.regioes?.filter(r => !!r).join(',')}</div>
               <div>
                 <img onClick={() => handleSelect(p)} src={Mapa} />
-                <img onClick={() => window.open(`/iniciativa/pppzcm/${p.id}`, '_blank')} src={Acesso} />
+                <img onClick={() => window.open(`/iniciativa/iniciativa/${p.politica_id}`, '_blank')} src={Acesso} />
               </div>
             </div>)}
 
