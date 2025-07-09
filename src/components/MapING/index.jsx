@@ -1,198 +1,117 @@
-import { useState, useEffect, createRef } from "react";
-import {
-  Map,
-  TileLayer,
-  WMSTileLayer /* , Popup */,
-  ZoomControl,
-} from "react-leaflet";
+import { useState, useEffect, createRef } from 'react';
+import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-leaflet';
+//import { GestureHandling } from "leaflet-gesture-handling";
+import makeAnimated from 'react-select/animated';
+
+import Chart from "react-apexcharts";
 
 // import L from 'leaflet';
 
-import axios from "axios";
-import { useQuery } from "react-query";
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
-import ToggleLeft from "../../components/icons/toggle-left.svg?react";
-import ToggleRight from "../../components/icons/toggle-right.svg?react";
+import {
+  reactSelectClassNamePrefix,
+  StyledReactSelect,
+  StyledAsyncReactSelect,
+} from '../../components/StyledReactSelect';
 
-import Consultas from "../../images/consultas.png";
-import ConsultasR from "../../images/consultas_reverse.png";
+import ToggleLeft from '../../components/icons/toggle-left.svg?react';
+import ToggleRight from '../../components/icons/toggle-right.svg?react';
 
-import Mapa from "../../images/mapa.png";
-import Acesso from "../../images/acesso.png";
+import DashExample from '../../images/pppzcm/mock-view.png'
+import Consultas from '../../images/consultas.png'
+import ConsultasR from '../../images/consultas_reverse.png'
 
-import styles from "./styles.module.scss";
+import Mapa from '../../images/mapa.png'
+import Acesso from '../../images/acesso.png'
+
+import styles from './styles.module.scss';
+
+const animatedComponents = makeAnimated();
 
 const mapRef = createRef();
 const position = [-15, -42];
 const zoom = 5;
 
-export default function MapPP() {
-  const [ppea_uf, _ppea_uf] = useState(false);
-  const [ppea_mun, _ppea_mun] = useState(false);
-  const [ppea_reg, _ppea_reg] = useState(false);
-  const [ppea_uc, _ppea_uc] = useState(false);
-  const [ppea_ch, _ppea_ch] = useState(false);
-  const [ppea_sc, _ppea_sc] = useState(false);
-  const [ppea_cr, _ppea_cr] = useState(false);
-  const [ppea_eu, _ppea_eu] = useState(false);
-  const [ppea_sp, _ppea_sp] = useState(false);
-  const [ppea_ou, _ppea_ou] = useState(false);
-  const [ppea_nom, _ppea_nom] = useState(false);
+const selectDefaults = {
+  placeholder: 'Selecione...',
+  noOptionsMessage: () => 'Nenhuma opção encontrada!',
+  loadingMessage: () => 'Carregando...',
+};
 
-  const [limit] = useState(6);
+function prepareFilters(filters, togglers) {
+  let preparedFilters = '';
+
+  for (let filter in filters) {
+    if (filter === 'ids' || (filters[filter] && togglers[filter])) preparedFilters = `${preparedFilters}&f_${filter}=${filters[filter]}`;
+  }
+
+  return preparedFilters;
+}
+
+async function getRegioes(urlFilters) {
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/regions?${urlFilters}`);
+
+  return data;
+}
+
+async function getUFs(urlFilters) {
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/ufs?${urlFilters}`);
+
+  return data;
+}
+
+const initialFieldsState = {
+  regioes: null,
+  ufs: null,
+  instituicao: null,
+  id: null,
+}
+
+const initialTogglersState = {
+  regioes: false,
+  municipios: false,
+  instituicao: false,
+  id: false,
+};
+
+export default function MapPP() {
+  const [iniciativas, _iniciativas] = useState(null);
+  const [iniciativas_ids, _iniciativas_ids] = useState(null);
+
+  const [regioes, _regioes] = useState(null);
+  const [ufs, _ufs] = useState(null);
+  const [segmentos, _segmentos] = useState(null);
+  const [loading, _loading] = useState(true);
+
   const [page, _page] = useState(1);
-  const [enquads, _enquads] = useState(null);
 
   const [consultas_open, _consultas_open] = useState(false);
-  const [politicas, _politicas] = useState(null);
+  const [tab, _tab] = useState('filters');
 
-  const [bbox, _bbox] = useState(null);
-  const [selected, _selected] = useState(null);
+  const [filters, _filters] = useState({});
+  const [fields, _fields] = useState(initialFieldsState);
+  const [togglers, _togglers] = useState(initialTogglersState);
 
-  /*
-    - value: 0
-      label: 'Poder Público - Nível Federal'
-    - value: 1
-      label: 'Poder Público - Nível Estadual'
-    - value: 2
-      label: 'Poder Público - Nível Municipal'
-    - value: 3
-      label: 'Organização da Sociedade Civil'
-    - value: 4
-      label: 'Escolas e Universidades'
-    - value: 5
-      label: 'Comitê gestor de Unidade de Conservação'
-    - value: 6
-      label: 'Bacia Hidrogrãfica'
-    - value: 7
-      label: 'Coletivos e Redes'
-    - value: 8
-      label: 'Setor Privado e outros'
-    - value: 9
-      label: 'Outro'
-    */
+  const [limit, _limit] = useState(6);
 
-  const { data } = useQuery(
-    [
-      "news",
-      {
-        limit,
-        page,
-        enquads,
-        ppea_reg,
-        ppea_uf,
-        ppea_mun,
-        ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
-      },
-    ],
-    {
-      queryFn: async () =>
-        (
-          await axios.get(
-            `${import.meta.env.VITE_SERVER}iniciativa/?limit=${limit}&page=${page}${enquads ? `&enquads=${enquads.join(",")}` : ""}`,
-          )
-        ).data,
-      staleTime: 3600000,
-    },
-  );
+  const [isFiltered, _isFiltered] = useState(false);
+  
+  const [bbox, _bbox] = useState(null)
+  const [selected, _selected] = useState(null)
+  
+  const [urlFilters, _urlFilters] = useState('');
 
-  const { data: iniciatives } = useQuery(
-    [
-      "ppea-initiatives",
-      {
-        enquads,
-        ppea_reg,
-        ppea_uf,
-        ppea_mun,
-        ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
-      },
-    ],
-    {
-      queryFn: async () =>
-        (
-          await axios.get(
-            `${import.meta.env.VITE_SERVER}iniciativa/statistics/iniciatives/?${enquads ? `&enquads=${enquads.join(",")}` : ""}`,
-          )
-        ).data,
-      staleTime: 3600000,
-    },
-  );
+  const { data: iniciatives } = useQuery(['zcm-initiatives', { urlFilters }], {
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/statistics/iniciatives/?${urlFilters}`)).data,
+    staleTime: 3600000,
+  })  
 
-  const { data: institutions } = useQuery(
-    [
-      "ppea-institutions",
-      {
-        enquads,
-        ppea_reg,
-        ppea_uf,
-        ppea_mun,
-        ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
-      },
-    ],
-    {
-      queryFn: async () =>
-        (
-          await axios.get(
-            `${import.meta.env.VITE_SERVER}iniciativa/statistics/institutions/?${enquads ? `&enquads=${enquads.join(",")}` : ""}`,
-          )
-        ).data,
-      staleTime: 3600000,
-    },
-  );
-
-  const { data: members } = useQuery(
-    [
-      "ppea-members",
-      {
-        enquads,
-        ppea_reg,
-        ppea_uf,
-        ppea_mun,
-        ppea_uc,
-        ppea_ch,
-        ppea_sc,
-        ppea_cr,
-        ppea_eu,
-        ppea_ou,
-        ppea_nom,
-        ppea_sp,
-      },
-    ],
-    {
-      queryFn: async () =>
-        (
-          await axios.get(
-            `${import.meta.env.VITE_SERVER}iniciativa/statistics/members/?${enquads ? `&enquads=${enquads.join(",")}` : ""}`,
-          )
-        ).data,
-      staleTime: 3600000,
-    },
-  );
-
-  useEffect(() => {
-    if (data) _politicas(data);
-  }, [data]);
+  const { data: members } = useQuery(['zcm-members', { urlFilters }], {
+    queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/statistics/members/?${urlFilters}`)).data,
+    staleTime: 3600000,
+  })
 
   useEffect(() => {
     if (!bbox) return;
@@ -204,311 +123,507 @@ export default function MapPP() {
       [bbox.y2, bbox.x2],
     ];
     //console.log('focus on', bounds);
-    mapRef &&
-      mapRef.current &&
-      mapRef.current.leafletElement.flyToBounds(bounds); //fitBounds
+    mapRef && mapRef.current && mapRef.current.leafletElement.flyToBounds(bounds); //fitBounds
 
-    setTimeout(() => _bbox(null), 1000);
-  }, [bbox]);
+    setTimeout(() => _bbox(null), 1000)
+  }, [bbox])
+
+  useEffect(()=>{
+    // _urlFilters
+    _urlFilters(prepareFilters(filters, togglers))
+  },[filters, togglers])
 
   useEffect(() => {
-    _enquads(getEnquads());
-  }, [
-    ppea_reg,
-    ppea_uf,
-    ppea_mun,
-    ppea_uc,
-    ppea_ch,
-    ppea_sc,
-    ppea_cr,
-    ppea_eu,
-    ppea_ou,
-    ppea_nom,
-    ppea_sp,
-  ]);
-  // TODO: melhorar estes states, vide zcm recortes
+    let isFiltered = false;
+    for (let f of Object.values(filters)) {
+      if (!!f) {
+        isFiltered = true;
+        break;
+      }
+    }
+    _isFiltered(isFiltered)
+  }, [filters])
 
-  const getEnquads = () => {
-    let enquads = [];
+  useEffect(() => {
+    async function fetchData(page = 1, filters) {
+      _loading(true);
+      const {
+        data,
+      } = await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/?limit=${limit}&page=${page}?${urlFilters}`);
+      _loading(false);
 
-    if (ppea_reg) enquads.push(0);
-    if (ppea_uf) enquads.push(1);
-    if (ppea_mun) enquads.push(2);
-    if (ppea_sc) enquads.push(3);
-    if (ppea_eu) enquads.push(4);
-    if (ppea_uc) enquads.push(5);
-    if (ppea_ch) enquads.push(6);
-    if (ppea_cr) enquads.push(7);
-    if (ppea_sp) enquads.push(8);
-    if (ppea_ou) enquads.push(9);
+      _iniciativas(data);
+    }
 
-    return enquads;
-  };
+    fetchData(page, filters);
+  }, [page, urlFilters]);
 
-  const getCQL = () => {
-    const enquads = getEnquads();
+  useEffect(() => {
+    _page(1);
+    //_showPop(null);
 
-    let cql_filter;
-    if (!enquads.length) cql_filter = { cql_filter: `id > 0` };
-    else cql_filter = { cql_filter: `enquadramento in (${enquads.join(",")})` };
+    async function fetchGeoData() {
+      if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
+        _iniciativas_ids(null);
+        return;
+      }
 
-    return cql_filter;
-  };
+      const { data } = await axios.get(`${import.meta.env.VITE_SERVER}iniciativa/geo/?${urlFilters}`);
 
+      _iniciativas_ids(data);
+    }
+
+    /* reset zoom and position */
+    mapRef && mapRef.current && mapRef.current.leafletElement.setView(position, zoom);
+    fetchGeoData(filters);
+  }, [urlFilters]);
+
+  useEffect(() => {
+    async function fetchRegioes() {
+      _regioes(await getRegioes(urlFilters));
+    }
+    async function fetchUFs() {
+      _ufs(await getUFs(urlFilters));
+    }
+
+    fetchRegioes();
+    fetchUFs();
+  }, [urlFilters]);
+
+  useEffect(() => {
+    if (!selected) return;
+  }, [selected])
+
+  /* useEffect(() => {
+      console.log({ filters, fields })
+  }, [filters, fields])
+*/
   const handleSelect = (p) => {
-    _selected(p.politica_id);
-    _bbox(p.bbox);
+    _selected(p.politica_id)
+    _bbox(p.bbox)
+  }
+
+  const onFilterChange = (type, selectedOption) => {
+    _page(1);
+
+    let newFilters;
+    let newFields = { ...fields, [type]: selectedOption, id: null };
+
+    if (selectedOption && selectedOption.length) {
+      newFilters = {
+        ...filters,
+        [type]: selectedOption.map(s => s.value).join(','),
+        id: null,
+      };
+      _togglers(togglers => ({ ...togglers, [type]: true }));
+    } else {
+      newFilters = { ...filters, [type]: null, id: null };
+      _togglers(togglers => ({ ...togglers, [type]: false }));
+    }
+
+    if (type === 'regioes') {
+      newFields.ufs = null;
+      newFilters.ufs = null;
+    }
+    if (['regioes', 'ufs'].includes(type)) {
+      newFields.municipios = null;
+      newFilters.municipios = null;
+    }
+
+    _fields(newFields);
+    _filters(newFilters);
   };
 
-  return (
-    <>
-      <section className={styles["ppea-dash"]}>
-        <div className="width-limiter">
-          <div className={styles["ppea-dash-inner"]}>
-            <div className={styles.left}>
-              <div className={styles["title"]}>
-                Iniciativas Não<br />Governamentais
-              </div>
+  const onFilterMunicipioChange = selectedOption => {
+    _fields({ ...fields, municipios: selectedOption });
+
+    if (selectedOption && selectedOption.length) {
+      const municipios = selectedOption.map(s => s.value);
+      _filters({ ...filters, municipios });
+      _togglers(togglers => ({ ...togglers, municipios: true }));
+    } else {
+      _filters({ ...filters, municipios: null });
+      _togglers(togglers => ({ ...togglers, municipios: false }));
+    }
+  };
+
+  const onFilterInstNameChange = selectedOption => {
+    _fields({ ...fields, instituicao: selectedOption });
+
+    if (selectedOption && selectedOption.length) {
+      _filters({ ...filters, instituicao: selectedOption.map(o => o.value) });
+      _togglers(togglers => ({ ...togglers, instituicao: true }));
+    } else {
+      _filters({ ...filters, instituicao: null });
+      _togglers(togglers => ({ ...togglers, instituicao: false }));
+    }
+  };
+
+  const onFilterNameChange = selectedOption => {
+    _fields({ ...fields, id: selectedOption });
+
+    if (selectedOption) {
+      _filters({ ...filters, id: selectedOption.value });
+      _togglers(togglers => ({ ...togglers, id: true }));
+    } else {
+      _filters({ ...filters, id: null });
+      _togglers(togglers => ({ ...togglers, id: false }));
+    }
+  };
+
+  const handleToggle = (filter) => (checked) => {
+    _togglers(togglers => ({ ...togglers, [filter]: checked }))
+  }
+
+  const loadMunicipiosOptions = (inputValue, callback) => {
+    axios
+      .get(`${import.meta.env.VITE_SERVER}project/municipios/?nome=${inputValue}${prepareFilters(filters, togglers)}`)
+      .then(function ({ data }) {
+        callback(data);
+      });
+  };
+
+  const loadNameOptions =
+    (url = 'project/list/') =>
+      (inputValue, callback) => {
+        axios
+          .get(`${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${prepareFilters(filters, togglers)}`)
+          .then(function ({ data }) {
+            callback(data);
+          });
+      };
+  async function getClickedFeatureId(_map, latlng) {
+    const _url = import.meta.env.VITE_GEOSERVER_URL;
+
+    // Construct a GetFeatureInfo request URL given a point
+    var point = _map.latLngToContainerPoint(latlng, _map.getZoom()),
+      size = _map.getSize(),
+      params = {
+        request: 'GetFeatureInfo',
+        service: 'WMS',
+        srs: 'EPSG:4326',
+        transparent: true,
+        version: '1.1.1',
+        format: 'image/png',
+        bbox: _map.getBounds().toBBoxString(),
+        height: size.y,
+        width: size.x,
+        layers: 'pppzcm:iniciativas',
+        query_layers: 'pppzcm:iniciativas',
+        info_format: 'application/json',
+        x: Math.round(point.x),
+        y: Math.round(point.y),
+        feature_count: 20,
+      };
+
+    const getFeatureInfoURL = _url + L.Util.getParamString(params, _url, true);
+
+    /* console.log(getFeatureInfoURL) */
+
+    return await new Promise((resolve, reject) =>
+      fetch(getFeatureInfoURL)
+        .then(response => response.json())
+        .then(data => {
+          const err = typeof data === 'object' ? null : data;
+          if (err) reject(err);
+          else if (!data.features.length) resolve(null);
+          else {
+            const [table] = data.features[0].id.split('.');
+            const ids = data.features.map(f => f.properties.politica_id);
+
+            resolve({
+              table,
+              ids: [...new Set(ids)], // remove duplicates,
+            });
+          }
+        }),
+    );
+  }
+
+  const handleMapClick = async e => {
+    const data = await getClickedFeatureId(mapRef.current.leafletElement, e.latlng);
+
+    if (!data) {
+      return;
+    }
+
+    const { ids } = data;
+
+    // /* filtrar pelos projetos ativos */ ?????????????????????????????????????
+    // const projectsToSee = projects_ids ? ids.filter(id => projects_ids.includes(id)) : ids;
+
+    console.log({ ids })
+
+    _tab('clicked');
+    _consultas_open(true);
+    _filters({ ids: ids.join(',') });
+  };
+
+  const closeClickedTab = () => {
+    _filters({});
+    _fields(initialFieldsState);
+    _togglers(initialTogglersState);
+    _tab('filters');
+  }
+
+  return (<>
+    <section className={styles["ppea-dash"]}>
+      <div className="width-limiter">
+        <div className={styles["ppea-dash-inner"]}>
+          <div className={styles.left}>
+            <div className={styles["title"]}>
+              Iniciativas Não<br />Governamentais
             </div>
-            <div className={styles.right}>
-              <div className={styles["big-numbers"]}>
-                <div className={styles["box-with-image"]}>
-                  <div className={`${styles["box"]} ${styles["box-1"]}`}>
-                    {!iniciatives && iniciatives !== 0 && (
-                      <div className={styles.number}>...</div>
-                    )}
-                    {iniciatives !== null && (
-                      <div className={styles.number}>{iniciatives}</div>
-                    )}
-                    <div className={styles.text}>Iniciativas</div>
-                  </div>
+          </div>
+          <div className={styles.right}>
+            <div className={styles["big-numbers"]}>
+              <div className={styles["box-with-image"]}>
+                <div className={`${styles["box"]} ${styles["box-1"]}`}>
+                  {!iniciatives && iniciatives !== 0 && (
+                    <div className={styles.number}>...</div>
+                  )}
+                  {iniciatives !== null && (
+                    <div className={styles.number}>{iniciatives}</div>
+                  )}
+                  <div className={styles.text}>Iniciativas</div>
                 </div>
+              </div>
 
-                <div className={styles["box-with-image"]}>
-                  <div className={`${styles["box"]}`}>
-                    {!institutions && institutions !== 0 && (
-                      <div className={styles.number}>...</div>
-                    )}
-                    {institutions !== null && (
-                      <div className={styles.number}>{institutions}</div>
-                    )}
-                    <div className={styles.text}>Instituições</div>
-                  </div>
+              {/* <div className={styles["box-with-image"]}>
+                <div className={`${styles["box"]}`}>
+                  {!institutions && institutions !== 0 && (
+                    <div className={styles.number}>...</div>
+                  )}
+                  {institutions !== null && (
+                    <div className={styles.number}>{institutions}</div>
+                  )}
+                  <div className={styles.text}>Instituições</div>
                 </div>
+              </div> */}
 
-                <div className={styles["box-with-image"]}>
-                  <div className={`${styles["box"]}`}>
-                    {!members && members !== 0 && (
-                      <div className={styles.number}>...</div>
-                    )}
-                    {members !== null && (
-                      <div className={styles.number}>{members}</div>
-                    )}
-                    <div className={styles.text}>Pessoas</div>
-                  </div>
+              <div className={styles["box-with-image"]}>
+                <div className={`${styles["box"]}`}>
+                  {!members && members !== 0 && (
+                    <div className={styles.number}>...</div>
+                  )}
+                  {members !== null && (
+                    <div className={styles.number}>{members}</div>
+                  )}
+                  <div className={styles.text}>Pessoas</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="mapa">
-        <div className={styles.container}>
-          <div className={styles["map-container"]}>
-            <Map
-              center={position}
-              zoomControl={false}
-              zoom={zoom}
-              ref={mapRef}
-              maxZoom={18}
-              minZoom={3}
-              scrollWheelZoom={false} /*  onClick={handleMapClick} */
-            >
-              <TileLayer
-                attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
+    <section id="mapa">
 
-              <WMSTileLayer
-                url={import.meta.env.VITE_GEOSERVER_URL}
-                layers="pppzcm:iniciativas"
-                format="image/png"
-                transparent={true}
-                opacity={0.8}
-                {...getCQL()}
-              />
+      <div className={styles.container}>
+        <div className={styles['map-container']}>
+          <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false} onClick={handleMapClick}>
+            <TileLayer
+              attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
-              {!!selected && (
-                <WMSTileLayer
-                  url={import.meta.env.VITE_GEOSERVER_URL}
-                  layers="pppzcm:ppea-staging"
-                  format="image/png"
-                  transparent={true}
-                  opacity={0.7}
-                  styles="ppea-feature"
-                  cql_filter={`id=${selected ? selected : 0}`}
-                />
-              )}
+            <WMSTileLayer
+              url={import.meta.env.VITE_GEOSERVER_URL}
+              layers="pppzcm:iniciativas"
+              format="image/png"
+              transparent={true}
+              opacity={0.8}
+              cql_filter={iniciativas_ids ? `politica_id in (${iniciativas_ids.join(',')})` : 'politica_id>0'}
+            />
 
-              <ZoomControl position="bottomright" />
-            </Map>
-          </div>
+            {!!selected && <WMSTileLayer
+              url={import.meta.env.VITE_GEOSERVER_URL}
+              layers="pppzcm:iniciativas"
+              format="image/png"
+              transparent={true}
+              opacity={0.7}
+              styles="ppea-feature"
+              cql_filter={`politica_id=${selected ? selected : 0}`}
+            />}
 
-          <div
-            className={`p-4 ${styles.filter_panel} ${consultas_open ? styles.open : styles.closed}`}
-          >
-            <div className={`row ${styles.filters}`}>
+            <ZoomControl position="bottomright" />
+          </Map>
+        </div>
+
+        <div className={`p-4 ${styles.filter_panel} ${consultas_open ? styles.open : styles.closed}`}>
+
+          <div className={`row ${styles.filters}`}>
+
+            {tab === 'clicked' && <>
+              <div className={styles.title}>
+                <div></div>
+                <div>Lista de iniciativas selecionadas no mapa</div>
+                <div className={styles.back2filters} onClick={closeClickedTab}>« voltar aos filtros</div>
+              </div>
+            </>}
+
+            {tab === 'filters' && <>
               <div className={styles.title}>
                 <div></div>
                 <div>Filtros de Busca</div>
               </div>
 
-              <div className={`${styles.each} ${styles.full}`}>
+              <div className={styles.each}>
+                <div><Toggler checked={togglers['regioes']} onToggle={(checked) => handleToggle('regioes')(checked)} /></div>
+                <div>Regiões</div>
                 <div>
-                  <Toggler checked={ppea_uf} onToggle={_ppea_uf} />
-                </div>
-                <div>PPEA Estaduais</div>
-                {/* <div><input type="text" placeholder='Digite' /></div> */}
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_mun} onToggle={_ppea_mun} />
-                </div>
-                <div>PPEA Municipais</div>
-                {/* <div><input type="text" placeholder='Digite' /></div> */}
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_reg} onToggle={_ppea_reg} />
-                </div>
-                <div>PPEA Regionais ou Federais</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_uc} onToggle={_ppea_uc} />
-                </div>
-                <div>PPEA a partir de UC</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_ch} onToggle={_ppea_ch} />
-                </div>
-                <div>PPEA a partir de CBH</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_sc} onToggle={_ppea_sc} />
-                </div>
-                <div>PPEA a partir de Sociedade Civil Org.</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_cr} onToggle={_ppea_cr} />
-                </div>
-                <div>PPEA a partir de coletivos e redes</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_eu} onToggle={_ppea_eu} />
-                </div>
-                <div>PPEA a partir de escolas e universidades</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_sp} onToggle={_ppea_sp} />
-                </div>
-                <div>PPEA a partir de setor privado</div>
-              </div>
-
-              <div className={`${styles.each} ${styles.full}`}>
-                <div>
-                  <Toggler checked={ppea_ou} onToggle={_ppea_ou} />
-                </div>
-                <div>Outras PPEA</div>
-              </div>
-
-              <div className={styles["list-header"]}>
-                <div>PPEA Selecionadas</div>
-                <div>Organização</div>
-                <div>Conecte-se</div>
-              </div>
-
-              {!!politicas &&
-                politicas.entities.map((p) => (
-                  <div key={p.id} className={styles["list-item"]}>
-                    <div>{p.nome}</div>
-                    <div>{p.instituicao_nome}</div>
+                  {regioes && (
                     <div>
-                      <img onClick={() => handleSelect(p)} src={Mapa} />
-                      <img
-                        onClick={() =>
-                          window.open(
-                            `/iniciativa/iniciativa/${p.politica_id}`,
-                            "_blank",
-                          )
-                        }
-                        src={Acesso}
+                      <StyledReactSelect
+                        classNamePrefix={reactSelectClassNamePrefix}
+                        {...selectDefaults}
+                        onChange={selectedOption => onFilterChange('regioes', selectedOption)}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={regioes}
+                        value={fields['regioes']}
                       />
                     </div>
-                  </div>
-                ))}
+                  )}
+                </div>
+              </div>
 
-              {politicas && (
-                <div className={styles["list-pag"]}>
-                  <div
-                    onClick={() => {
-                      if (politicas.hasPrevious) _page(page - 1);
-                    }}
-                    className={`${politicas.hasPrevious ? styles.active : ""}`}
-                  >
-                    {"<"}
-                  </div>
-                  <div>página</div>
-                  <div>{page}</div>
-                  <div>/</div>
-                  <div>{politicas.pages}</div>
-                  <div
-                    onClick={() => {
-                      if (politicas.hasNext) _page(page + 1);
-                    }}
-                    className={`${politicas.hasNext ? styles.active : ""}`}
-                  >
-                    {">"}
+              <div className={styles.each}>
+                <div><Toggler checked={togglers['ufs']} onToggle={(checked) => handleToggle('ufs')(checked)} /></div>
+                <div>Estado</div>
+                <div>
+                  {ufs && (
+                    <div>
+                      <StyledReactSelect
+                        classNamePrefix={reactSelectClassNamePrefix}
+                        {...selectDefaults}
+                        onChange={selectedOption => onFilterChange('ufs', selectedOption)}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={ufs}
+                        value={fields['ufs']}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/*<div className={styles.each}>
+                <div><Toggler checked={togglers['municipios']} onToggle={(checked) => handleToggle('municipios')(checked)} /></div>
+                <div>Município</div>
+                <div>
+                  <div>
+                    <StyledAsyncReactSelect
+                      classNamePrefix={reactSelectClassNamePrefix}
+                      {...selectDefaults}
+                      placeholder="digite..."
+                      onChange={selectedOption => onFilterMunicipioChange(selectedOption)}
+                      closeMenuOnSelect={false}
+                      loadOptions={loadMunicipiosOptions}
+                      isClearable
+                      isMulti
+                      value={fields['municipios']}
+                    />
                   </div>
                 </div>
-              )}
+              </div>*/}
+
+              {/*<div className={styles.each}>
+                <div><Toggler checked={togglers['instituicao']} onToggle={(checked) => handleToggle('instituicao')(checked)} /></div>
+                <div>Nome da organização</div>
+                <div>
+                  <div>
+                    <StyledAsyncReactSelect
+                      classNamePrefix={reactSelectClassNamePrefix}
+                      {...selectDefaults}
+                      placeholder="digite..."
+                      onChange={selectedOption => onFilterInstNameChange(selectedOption)}
+                      isMulti
+                      closeMenuOnSelect={false}
+                      loadOptions={loadNameOptions('project/instiuicao/list/')}
+                      isClearable
+                      value={fields['instituicao']}
+                    />
+                  </div>
+                </div>
+              </div>*/}
+
+              <div className={styles.each}>
+                <div><Toggler checked={togglers['id']} onToggle={(checked) => handleToggle('id')(checked)} /></div>
+                <div>Título da iniciativa</div>
+                <div>
+                  <div>
+                    <StyledAsyncReactSelect
+                      classNamePrefix={reactSelectClassNamePrefix}
+                      className="no-down"
+                      {...selectDefaults}
+                      placeholder="digite..."
+                      onChange={selectedOption => onFilterNameChange(selectedOption)}
+                      closeMenuOnSelect={false}
+                      loadOptions={loadNameOptions()}
+                      isClearable
+                      value={fields['id']}
+                    />
+                  </div>
+                </div>
+              </div>
+            </>}
+
+            <div className={styles['list-header']}>
+              <div>Iniciativas Selecionadas</div>
+              {/* <div>Organização</div> */}
+              <div>Região</div>
+              <div>Conecte-se</div>
             </div>
 
-            <div
-              className={styles["open-close"]}
-              onClick={() => _consultas_open(!consultas_open)}
-            >
-              <div className={styles.label}>
-                {!consultas_open && <img src={ConsultasR} />}
-                {consultas_open && <img src={Consultas} />}
+            {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+              <div>{p.nome}</div>
+              {/* <div>{p.instituicao_nome}</div> */}
+              <div>{p.regioes?.filter(r => !!r).join(',')}</div>
+              <div>
+                <img onClick={() => handleSelect(p)} src={Mapa} />
+                <img onClick={() => window.open(`/iniciativa/pppzcm/${p.id}`, '_blank')} src={Acesso} />
               </div>
+            </div>)}
+
+            {loading && [1, 2, 3, 4, 5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>)}
+
+            {iniciativas && <div className={styles['list-pag']}>
+              <div onClick={() => { if (iniciativas.hasPrevious) _page(page - 1) }} className={`${iniciativas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
+              <div>página</div>
+              <div>{page}</div>
+              <div>/</div>
+              <div>{iniciativas.pages}</div>
+              <div onClick={() => { if (iniciativas.hasNext) _page(page + 1) }} className={`${iniciativas.hasNext ? styles.active : ''}`}>{'>'}</div>
+            </div>}
+
+          </div>
+
+          <div className={styles['open-close']} onClick={() => _consultas_open(!consultas_open)}>
+            <div className={styles.label}>
+              {!consultas_open && <img src={ConsultasR} />}
+              {consultas_open && <img src={Consultas} />}
             </div>
           </div>
+
         </div>
-      </section>
-    </>
-  );
+      </div>
+    </section>
+  </>)
+
 }
 
 function Toggler({ checked, onToggle }) {
-  return (
-    <div className={styles.toggler} onClick={() => onToggle(!checked)}>
-      {!checked && <ToggleLeft className={styles["toggle-left"]} />}
-      {checked && <ToggleRight className={styles["toggle-right"]} />}
-    </div>
-  );
+  return (<div className={styles.toggler} onClick={() => onToggle(!checked)}>
+    {!checked && <ToggleLeft className={styles['toggle-left']} />}
+    {checked && <ToggleRight className={styles['toggle-right']} />}
+  </div>)
 }

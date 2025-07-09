@@ -1,50 +1,5 @@
 @use "../../app" as *;
 
-@keyframes mock {
-    0% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 0.8;
-    }
-}
-@-o-keyframes mock {
-    0% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 0.8;
-    }
-}
-@-moz-keyframes mock {
-    0% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 0.8;
-    }
-}
-@-webkit-keyframes mock {
-    0% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 0.8;
-    }
-}
-
 .container {
     position: relative;
 }
@@ -229,14 +184,12 @@
             font-size: $super-big-font;
             color: $indigo;
             font-weight: bold;
-            min-width: 50vh;
         }
 
         .big-numbers {
             display: flex;
             gap: 10px;
             margin-top: 10px;
-            align-items: center;
 
             .box-with-image {
                 display: flex;
@@ -250,16 +203,14 @@
                     /* Bordas arredondadas */
                     padding: 20px 10px;
                     width: 110px;
-                    height: 50px;
+                    height: 100px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
 
                     &.box-1 {
-                        width: 200px;
-                        height: 150px;
-                        text-align: center;
+                        width: 220px;
                     }
 
                     .number {
@@ -270,27 +221,8 @@
                     }
 
                     .text {
-                        text-align: center;
-                        font-size: $medium-font;
+                        font-size: 18px;
                         color: $indigo;
-                    }
-                }
-            }
-
-            .second {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-
-                .box-with-image {
-                    .box {
-                        .number {
-                            font-size: 28px;
-                        }
-
-                        .text {
-                            font-size: $small-font;
-                        }
                     }
                 }
             }
@@ -326,15 +258,6 @@
         .filters {
             visibility: hidden;
         }
-    }
-
-    .back2filters {
-        text-align: left;
-        background-color: $indigo;
-        color: $white;
-        padding: 2px 10px;
-        border-radius: 6px;
-        cursor: pointer;
     }
 
     .filters {
@@ -412,7 +335,7 @@
             display: flex;
 
             & > div:nth-child(1) {
-                width: 34%;
+                width: 51%;
                 max-height: 50px;
                 overflow: hidden;
             }
@@ -427,34 +350,15 @@
             }
 
             & > div:nth-child(3) {
-                width: 15%;
-                text-align: center;
-            }
-
-            & > div:nth-child(4) {
                 background: rgb(5 30 89 / 5%);
                 display: flex;
                 justify-content: end;
                 align-items: center;
                 gap: 4px;
                 width: 24%;
-
                 img {
                     cursor: pointer;
                 }
-            }
-        }
-
-        .mock {
-            height: 50px;
-
-            -webkit-animation: mock 2s infinite;
-            -moz-animation: mock 2s infinite;
-            -o-animation: mock 2s infinite;
-            animation: mock 2s infinite;
-
-            & > div {
-                height: 100%;
             }
         }
 
@@ -481,7 +385,6 @@
 
             & > div:nth-child(1) {
                 margin-right: 2px;
-
                 &.active {
                     cursor: pointer;
                 }
