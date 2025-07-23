@@ -3,6 +3,8 @@ import { Map, TileLayer, WMSTileLayer/* , Popup */, ZoomControl } from 'react-le
 //import { GestureHandling } from "leaflet-gesture-handling";
 import makeAnimated from 'react-select/animated';
 
+import { Legend } from '../Legend';
+
 // import L from 'leaflet';
 
 import axios from 'axios';
@@ -282,11 +284,11 @@ export default function MapPP() {
 
                         <WMSTileLayer
                             url={import.meta.env.VITE_GEOSERVER_URL}
-                            layers="pppzcm:educom_clima"
+                            layers="pppzcm:educom_clima_count"
                             format="image/png"
                             transparent={true}
-                            opacity={0.8}
-                            cql_filter={iniciativas_ids ? `id in (${iniciativas_ids.join(',')})` : 'id>0'}
+                            opacity={1}
+                            /* cql_filter={iniciativas_ids ? `id in (${iniciativas_ids.join(',')})` : 'id>0'} */
                         />
 
                         {!!selected && <WMSTileLayer
@@ -298,6 +300,8 @@ export default function MapPP() {
                             styles="ppea-feature"
                             cql_filter={`id=${selected ? selected : 0}`}
                         />}
+
+                        <Legend />
 
                         <ZoomControl position="bottomright" />
                     </Map>
