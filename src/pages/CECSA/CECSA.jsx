@@ -87,7 +87,7 @@ function CECSA() {
               <button
                 onClick={() => (window.location.href = "/colabora/minha_area")}
               >
-                Cadastre um Centros de Educação e Cooperação Socioambiental
+                Cadastre um Centro de Educação e Cooperação Socioambiental
               </button>
             </div>
 
