@@ -33,6 +33,7 @@ import SingleCentro from  './pages/SingleCentro';
 import SingleCIEA from  './pages/SingleCIEA';
 import SinglePPEA from  './pages/SinglePPEA';
 import SingleING from  './pages/SingleING';
+import SingleEC from  './pages/SingleEC';
 
 dayjs.locale('pt-br')
 
@@ -61,6 +62,7 @@ function App() {
         <Route path="/iniciativa/ciea/:id" element={<SingleCIEA />} />
         <Route path="/iniciativa/ppea/:id" element={<SinglePPEA />} />
         <Route path="/iniciativa/iniciativa/:id" element={<SingleING />} />
+        <Route path="/iniciativa/educom_clima/:id" element={<SingleEC />} />
         <Route path="/sobre" element={<Monitora />} />
         <Route path="/sobre/ppea" element={<PPEA />} />
         <Route path="/sobre/iniciativas" element={<ING />} />
