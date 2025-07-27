@@ -402,7 +402,7 @@ export default function MapPP() {
               </div> */}
 
               <div className={styles["box-with-image"]}>
-                <div className={`${styles["box"]}`}>
+                <div className={`${styles["box"]} ${styles["box-1"]}`}>
                   {!members && members !== 0 && (
                     <div className={styles.number}>...</div>
                   )}
@@ -412,6 +412,7 @@ export default function MapPP() {
                   <div className={styles.text}>Pessoas</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
