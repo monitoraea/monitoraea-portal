@@ -28,7 +28,13 @@ import MapGeneral from '../../components/MapGeneral';
 
 import { content_types } from '../../utils';
 
+import { useMediaQuery } from 'react-responsive'; 
+
 function Home() {
+  const isMobile = useMediaQuery({ maxWidth: 991 });
+
+  if(isMobile) return (<><Header /></>)
+
   return (
     <>
 

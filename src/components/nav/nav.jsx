@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './style.scss';
-import logomonitoraea from './logo-monitoraea.png';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
@@ -35,6 +33,7 @@ function Nav() {
 
   // Função para alternar o estado do menu mobile
   const toggleMobileMenu = () => {
+    console.log('CLICKED!')
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
@@ -50,7 +49,7 @@ function Nav() {
   );
 
   useEffect(() => {
-    if (!!data) {      
+    if (!!data) {
 
       _menu(data);
     }
@@ -75,25 +74,24 @@ function Nav() {
 
   return (
     <>
-      <div className="nav">
-        
+      <div className={styles.nav}>
 
         {!!menu && isDesktop && (
           <>
-            <ul className="menu">
-              <li className="menu-item"><Link to="/">Inicio</Link></li>
-              {menu.children.map(i => <li key={i.id} className="menu-item">
+            <ul className={styles.menu}>
+              <li className={styles['menu-item']}><Link to="/">Inicio</Link></li>
+              {menu.children.map(i => <li key={i.id} className={styles['menu-item']}>
                 <MenuItem data={i} />
 
-                {!!i.children.length && <ul className="sub-menu">
-                  {i.children.map(c => <li key={c.id} className="sub-menu-item">
+                {!!i.children.length && <ul className={styles['sub-menu']}>
+                  {i.children.map(c => <li key={c.id} className={styles['sub-menu-item']}>
                     <MenuItem data={c} />
                   </li>)}
                 </ul>}
 
               </li>)}
 
-              <li className="menu-item"><div className="contact" onClick={() => _showContactDialog(true)}>Contato</div></li>
+              <li className={styles['menu-item']}><div className={styles.contact} onClick={() => _showContactDialog(true)}>Contato</div></li>
 
             </ul>
 
@@ -102,9 +100,9 @@ function Nav() {
 
         {isMobile && (
           <>
-            <div className="mobile-toggle" onClick={toggleMobileMenu}>
-              <div className="icon">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
+            <div className={styles['mobile-toggle']} onClick={toggleMobileMenu}>
+              <div className={styles.icon}>
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="#fff" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
                   <line x1="3" y1="12" x2="21" y2="12"></line>
                   <line x1="3" y1="6" x2="21" y2="6"></line>
                   <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -114,26 +112,37 @@ function Nav() {
           </>
         )}
       </div>
-      {!!menu && isMobile && (
-        <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-          <ul className="menu">
-            <Link to="/">Início</Link>
 
-            {menu.children.map(i => <li key={i.id} className="menu-item">
+      {/* {isMobileMenuOpen ? <>OPEN {JSON.stringify(isMobile)} {JSON.stringify(menu)}</> : <>CLOSE</>} */}
+
+      {!!menu && isMobile && (
+        <div className={`${styles['mobile-menu']} ${isMobileMenuOpen ? styles.open : ''}`}>
+          <ul className={styles.menu}>
+            <li className={styles['menu-item']}>
+              <MenuItem data={{
+                title: 'Início',
+                type: 'link',
+                link: '/',
+              }} />
+            </li>
+
+            {menu.children.map(i => <li key={i.id} className={styles['menu-item']}>
               <MenuItem data={i} />
 
-              {!!i.children.length && <ul className="sub-menu">
-                {i.children.map(c => <li key={c.id} className="sub-menu-item">
+              {!!i.children.length && <ul className={styles['sub-menu']}>
+                {i.children.map(c => <li key={c.id} className={styles['sub-menu-item']}>
                   <MenuItem data={c} onClick={closeMobileMenu} />
                 </li>)}
               </ul>}
 
             </li>)}
 
-            <li className="menu-item"><div className="contact">Contato</div></li>
+            <div className={styles['menu-item']}><a className={styles.contact}>Instagram</a></div>
+
+            <div className={styles['menu-item']}><a className={styles.contact}>Contato</a></div>
 
           </ul>
-          <div className="close" onClick={toggleMobileMenu}>
+          <div className={styles.close} onClick={toggleMobileMenu}>
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
