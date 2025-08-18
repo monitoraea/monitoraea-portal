@@ -49,6 +49,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
+      "@tailwindcss/oxide",
       "core-js",
       "core-js-pure",
       "esbuild"

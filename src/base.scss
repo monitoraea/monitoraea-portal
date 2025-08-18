@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+// RESET
+
+a {
+    text-decoration: none;
+}
+
+// Variables
+
+$black: #222222;
+$white: #ffffff;
+$gray-1: #666666;
+$gray-2: #cccccc;
+$gray-3: #999999;
+
+$green-1: #599559;
+$green-2: #f6faf3;
+$yellow-1: #f7b134;
+$blue-1: #1d49a7;
+$orange-1: #df9039;
+$lima-1: #8cc13a;
+
+$shadow-1: 0 0 4px rgba(0, 0, 0, 0.15);
+
+$border-radius-small: 4px;
+$border-radius-medium: 8px;
+$border-radius-big: 30px;
+$border-radius-full: 9999px;
+
+$indigo: #051e59;
+$cristal: #d6e6f8;
+$anil: #2d8bba;
+$unknown: #bdd8ef;
+
+$amarelo: #faad23; //amarelo da paleta MonitoraEA-KV
+$verde: #409a4d; //verde da paleta
+$azul: #3c6dbc; //azul da paleta
+$chumbo: #070707; //cor da letra - chumbo da paleta
+$disabled: #737373;
+
+$super-smallest-font: 0.7rem;
+$smallest-font: 0.8rem;
+$small-font: 0.95rem;
+$less-than-medium-font: 1rem;
+$medium-font: 1.1rem;
+$medium-big-font: 1.15rem;
+$big-font: 1.25rem;
+$more-than-big-font: 1.5rem;
+$super-big-font: 2rem;
+$insane-big-font: 3.5rem;

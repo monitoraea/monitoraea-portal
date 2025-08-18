@@ -1,0 +1,121 @@
+@use '../../base' as *;
+
+.banner {
+    height: 400px;
+    width: 100%;
+    font-family: "Poppins";
+    position: relative;
+    background-color: $indigo;
+
+
+
+    @media screen and (max-width: 500px) {
+        height: 300px;
+    }
+
+    .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: 0.25s ease;
+    }
+
+    .backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: linear-gradient(transparent, $black);
+        opacity: 0.8;
+    }
+
+    .content {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        box-sizing: border-box;
+        /* row-gap: 2rem; */
+        max-width: 1199px;
+        /* margin: auto; */
+        transform: translate(-50%, 0);
+
+        .title {
+            display: flex;
+            flex-direction: column;
+            color: $white;
+            font-size: 2.1rem;
+            align-items: flex-start;
+
+            .text {
+                margin-top: -15px;
+                padding-left: 90px;
+            }
+
+            @media screen and (max-width: 500px) {
+                font-size: 1.5rem;
+
+                .text {
+                    text-align: center;
+                    width: 300px;
+                }
+
+                img {
+                    transform: scale(0.5, 0.5);
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        .right {
+            display: flex;
+            margin-left: 40px;
+            max-height: 70%;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            @media screen and (max-width: 991px) {
+                display: none;
+            }
+
+            .social-media {
+                display: flex;
+                justify-content: right;
+                gap: 10px;
+                margin-right: 10px;
+            }
+
+            .login {
+                color: $white;
+                border: 0;
+                border-radius: $border-radius-big;
+                background-color: $anil;
+                font-size: $big-font;
+                font-family: "Poppins";
+                padding: 8px 10px;
+                min-width: 160px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $indigo;
+                }
+            }
+        }
+
+        .date {
+            color: $white;
+            text-align: center;
+        }
+    }
+}
