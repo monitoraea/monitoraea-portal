@@ -67,64 +67,70 @@ function Footer() {
     <div id="footer">
       <div className={styles.footer}>
 
-        <div className={`width-limiter ${styles.inner}`}>
-          <div className="inner-title-box rodape">
-            <div className="left-side">Mapa do Site</div>
-            <div className="right-side"></div>
+        <div className="width-limiter">
+          <div className={styles['title-box']}>
+            <div className={styles['left-side']}>Mapa do Site</div>
           </div>
         </div>
 
-        <div className={`width-limiter ${styles.inner}`}>
-          <div className={styles.logo}><img src={logomonitoraea} /></div>
+        <div className={`${styles['width-limiter']} ${styles.inner}`}>
+          <div className={styles.links}>
 
-          <div className={styles.line1}>
+            <div className={styles.line1}>
 
-            <div className={`${styles.menu}`}>
-              <div>Sobre</div>
-              <ul>
-                {menu.children.filter(m => m.id === 1)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
-              </ul>
-            </div>
-
-            <div className={`${styles.menu}`}>
-              <div>Fique por dentro</div>
-              <ul>
-                <li><Link to={`/page/81`}>Passo a passo</Link></li>
-                {menu.children.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
-              </ul>
-            </div>
-
-            <div className={styles.contato}>
-              <div>
-                <div>Fale conosco:</div>
-                <a href="mailto:portal.monitoraea@gmail.com">portal.monitoraea@gmail.com</a>
+              <div className={`${styles.menu}`}>
+                <div>Sobre</div>
+                <ul>
+                  {menu.children.filter(m => m.id === 1)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                </ul>
               </div>
-              <div>
-                <div>Acesse nossas redes sociais:</div>
-                <div>
-                  <div className={styles['social-media']}><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
-                </div>
+
+              <div className={`${styles.menu}`}>
+                <div>Fique por dentro</div>
+                <ul>
+                  <li><Link to={`/page/81`}>Passo a passo</Link></li>
+                  {menu.children.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                </ul>
               </div>
+
+              <div className={`${styles.menu}`}>
+                <div>Perspectivas de mapeamento</div>
+                <ul>
+                  {menu.children.filter(m => m.id === 21)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
+                </ul>
+              </div>
+
             </div>
 
           </div>
-          <div className={styles.line2}>
 
-            <div className={`${styles.menu}`}>
-              <div>Perspectivas de mapeamento</div>
-              <ul>
-                {menu.children.filter(m => m.id === 21)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
-              </ul>
-            </div>
+          <div className={styles.info}>
+            <div className={styles.logo}><img src={logomonitoraea} /></div>
 
-            <div className={styles.right}>
-              <div>
-                <div>Associe-se à </div>
-                <img src={anppea} />
+            <div className={styles.line2}>
+
+              <div className={styles.contato}>
+                <div>
+                  <div>Fale conosco:</div>
+                  <a href="mailto:portal.monitoraea@gmail.com">portal.monitoraea@gmail.com</a>
+                </div>
+                <div>
+                  <div>Acesse nossas redes sociais:</div>
+                  <div>
+                    <div className={styles['social-media']}><img src={youtube} alt="" /><img src={instagram} alt="" /></div>
+                  </div>
+                </div>
               </div>
-              <div className={styles.end}>
-                <div>LGPD</div>
-                <div>Termos de uso</div>
+
+              <div className={styles.etc}>
+                <div>
+                  <div>Associe-se à </div>
+                  <img src={anppea} />
+                </div>
+                <div className={styles.end}>
+                  <div>LGPD</div>
+                  <div>Termos de uso</div>
+                </div>
               </div>
             </div>
 

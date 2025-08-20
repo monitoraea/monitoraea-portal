@@ -75,7 +75,7 @@ function App() {
         <Route path="/publicacoes" element={<Publications />} />
         <Route path="/login" element={<Login />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   </QueryClientProvider>);
 }
