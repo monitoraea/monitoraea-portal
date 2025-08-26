@@ -1,5 +1,45 @@
 @use '../../app' as *;
 
+.perspectivas {
+  padding: 2rem;
+  padding-bottom: 0;
+  text-align: center;
+  /* width: 100%; */
+
+  .width-limiter {
+    max-width: 991px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title-container {
+      flex: 1;
+      text-align: left;
+      padding-right: 2rem;
+
+      .perspectivas-1 {
+        font-size: 3.5rem;
+        line-height: 50px;
+        color: #051e59;
+      }
+
+      .perspectivas-2 {
+        font-size: 2rem;
+        color: #051e59;
+      }
+    }
+  }
+
+}
+
 .container {
   position: relative;
   margin-bottom: 60px;
@@ -11,9 +51,17 @@
   position: relative;
   height: 100vh;
 
+  @media screen and (max-width: 500px) {
+    height: 70vh;
+  }
+
   &>div {
     width: 100%;
     height: 100vh;
+
+    @media screen and (max-width: 500px) {
+      height: 70vh;
+    }
   }
 }
 
