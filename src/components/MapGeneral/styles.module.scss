@@ -1,5 +1,92 @@
 @use '../../app' as *;
 
+.map_container {
+  position: relative;
+
+  .map_menu_button {
+    position: absolute;
+    z-index: 700;
+    bottom: 40px;
+    right: 20px;
+    background-color: $white;
+    padding: 4px;
+    border-radius: 50%;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+  }
+
+  .map_menu {
+    position: absolute;
+    z-index: 800;
+    height: 70vh;
+    background-color: $cristal;
+    width: 100vw;
+    opacity: 1;
+
+    transform: translate(100%, 0);
+    transition: .5s ease;
+
+    &.open {
+      transform: translate(0, 0);
+    }
+
+    .menu_header {
+      display: flex;
+      justify-content: space-between;
+      padding: 1px 12px 1px 6px;
+      background-color: $anil;
+      font-weight: bold;
+      color: $white;
+      align-items: center;
+
+      .close {
+        cursor: pointer;
+        border: solid 1px $white;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-top: -1px;
+      }
+    }
+
+    ul.options {
+      list-style: none;
+      margin: 10px;
+      padding-left: 0;
+
+      li {
+        font-size: 15px;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1px;
+
+        &.active {
+          font-weight: 500;
+        }
+
+        .enter {
+          cursor: pointer;
+        }
+      }
+
+      li:nth-child(odd) {
+        background-color: $unknown;
+        color: black;
+      }
+    }
+  }
+}
+
 .perspectivas {
   padding: 2rem;
   padding-bottom: 0;

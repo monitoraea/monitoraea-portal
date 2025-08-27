@@ -16,10 +16,13 @@ import styles from './styles.module.scss';
 import title from '../../images/home_map_title.png';
 import seta from '../../images/home_map_seta.png';
 
+import Enter from '../icons/log-in2.svg?react';
 
 const mapRef = createRef();
 const position = [-15.559793, -62.58506];
+const positionMobile = [-15.559793, -50.58506];
 const zoom = 5;
+const zoomMobile = 4;
 
 export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
 
@@ -28,6 +31,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
   const navigate = useNavigate()
 
   const [perspective, _perspective] = useState('ppea')
+  const [menu_mobile_open, _menu_mobile_open] = useState(false)
 
   const { data } = useQuery(['total_initiatives'], {
     queryFn: async () => (await axios.get(`${import.meta.env.VITE_SERVER}adm/statistics/total_iniciatives`)).data,
@@ -36,6 +40,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
 
   const handlePerspective = (p) => () => {
     _perspective(p)
+    _menu_mobile_open(false)
   }
 
   const navigateToPerspective = (perspective) => {
@@ -46,13 +51,13 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
     <section className={styles.perspectivas}>
       {!isMobile && <div className={styles['width-limiter']}>
         <div className={styles.content}>
-          
+
           <div className={styles['title-container']}>
             <div className={styles['perspectivas-1']}>Perspectivas</div>
             <div className={styles['perspectivas-2']}>do Sistema MonitoraEA</div>
           </div>
 
-          {/* Novo quadrado com texto */}
+          {/* TODO: aqui, ainda precisa passar estilos para module! */}
           <div className='box-with-image'>
             <div className="box">
               {!data && <div className="number">...</div>}
@@ -70,10 +75,54 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
       </div>}
     </section>
 
-    <section id="mapa">
+    <section id="mapa" className={styles.map_container}>
+      {isMobile && <div className={`${styles.map_menu} ${menu_mobile_open ? styles.open : ''}`}>
+        <div className={styles.menu_header}>
+          <div>Perspectivas do Sistema MonitoraEA</div>
+          <div className={styles.close} onClick={() => _menu_mobile_open(false)}>x</div>
+        </div>
+        <ul className={`p-4 ${styles.options}`}>
+
+          <li className={`${perspective === 'ppea' ? styles.active : ''}`} onClick={handlePerspective('ppea')}>
+            <div className={styles.title}>Políticas Públicas de Educação Ambiental</div>
+            <div className={styles.enter} onClick={()=>navigateToPerspective('ppea')}>
+              <Enter />
+            </div>
+          </li>
+          <li className={`${perspective === 'pppzcm' ? styles.active : ''}`} onClick={handlePerspective('pppzcm')}>
+            <div className={styles.title}>Iniciativas vinculadas ao Projeto Político-Pedagógico da Zona Costeira e Marinha do Brasil</div>
+            <div className={styles.enter} onClick={()=>navigateToPerspective('pppzcm')}>
+              <Enter />
+            </div>
+          </li>
+          <li className={`${perspective === 'ciea' ? styles.active : ''}`} onClick={handlePerspective('ciea')}>
+            <div className={styles.title}>Instâncias e Espaços de articulação e controle social (CA-OG, CIEA e CIMEA)</div>
+            <div className={styles.enter} onClick={()=>navigateToPerspective('ciea')}>
+              <Enter />
+            </div>
+          </li>
+          <li className={`${perspective === 'centros-nucleos-equipamentos' ? styles.active : ''}`} onClick={handlePerspective('centros-nucleos-equipamentos')}>
+            <div className={styles.title}>Centros, Núcleos e Equipamentos de Educação e Cooperação Socioambiental</div>
+            <div className={styles.enter} onClick={()=>navigateToPerspective('centros-nucleos-equipamentos')}>
+              <Enter />
+            </div>
+          </li>
+          <li className={`${perspective === 'iniciativas' ? styles.active : ''}`} onClick={handlePerspective('iniciativas')}>
+            <div className={styles.title}>Iniciativas não governamentais de Educação Ambiental</div>
+            <div className={styles.enter} onClick={()=>navigateToPerspective('iniciativas')}>
+              <Enter />
+            </div>
+          </li>
+          <li className={` ${styles.disabled}`}>Risco climático e a contribuição da Educação Ambiental</li>
+
+        </ul>
+      </div>}
+      {isMobile && <div className={`${styles.map_menu_button}`} onClick={() => _menu_mobile_open(true)}>
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="#fff" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </div>}
       <div className={styles.container}>
         <div className={styles['map-container']}>
-          <Map center={position} zoomControl={false} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={3} scrollWheelZoom={false} /*  onClick={handleMapClick} */>
+          <Map center={!isMobile ? position : positionMobile} zoomControl={false} zoom={!isMobile ? zoom : zoomMobile} ref={mapRef} maxZoom={18} minZoom={!isMobile ? 3 : 1} scrollWheelZoom={false} /*  onClick={handleMapClick} */>
             <TileLayer
               attribution='<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -119,7 +168,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               opacity={0.8}
             />}
 
-            <ZoomControl position="bottomright" />
+            <ZoomControl position="bottomleft" />
           </Map>
         </div>
 
