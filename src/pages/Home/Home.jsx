@@ -45,6 +45,8 @@ function Home() {
         className={`content-type-${c}`}
       />)
     }
+
+    <NaMidia />
   </>)
 
   return (
