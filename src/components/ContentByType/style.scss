@@ -144,3 +144,31 @@
         }
     }
 }
+
+.fixed-text {
+    font-weight: bold;
+    /* Definindo negrito */
+    font-size: 18px;
+    /* Definindo tamanho do texto */
+    color: $chumbo;
+    /* Cor do texto */
+    text-align: left;
+    /* Centralizando o texto */
+    margin-top: 10px;
+    /* Distância entre o infobox e o texto fixo */
+}
+
+.description-text {
+    font-size: 16px;
+    /* Definindo tamanho do texto */
+    color: $chumbo;
+    /* Cor do texto */
+    text-align: left;
+    /* Centralizando o texto */
+    margin-top: 10px;
+    /* Distância entre o texto fixo e a descrição */
+    line-height: 1.6;
+    /* Espaçamento entre linhas */
+
+    text-align: justify;
+}
