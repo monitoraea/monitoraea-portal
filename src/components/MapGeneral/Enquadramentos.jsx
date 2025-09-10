@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts'
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
-export default function ApexChart({ staleTime = 3600000, /* 1h */ }) {
+export default function ApexChart({ mobile, staleTime = 3600000, /* 1h */ }) {
     const [state, _state] = useState(null);
 
     const { data: enquadramentos } = useQuery(['enquadramentos'], {
@@ -25,7 +25,7 @@ export default function ApexChart({ staleTime = 3600000, /* 1h */ }) {
                         type: 'bar',
                         width: "100%",
                         height: 'auto',
-                        foreColor: '#373d3f', // TODO: cor da fonte
+                        foreColor: '#373d3f',                        
 
                         toolbar: {
                             show: false,
@@ -36,7 +36,7 @@ export default function ApexChart({ staleTime = 3600000, /* 1h */ }) {
                         bar: {
                             borderRadius: 4,
                             borderRadiusApplication: 'end',
-                            horizontal: true,
+                            horizontal: !mobile,
                             barHeight: '90%',
                         }
                     },
@@ -45,13 +45,18 @@ export default function ApexChart({ staleTime = 3600000, /* 1h */ }) {
                     },
                     xaxis: {
                         categories: enquadramentos.categories,
+                        labels: {
+                            style: {
+                                fontSize: !mobile ? '14px' : '10px',
+                            },
+                        },
                     },
                     yaxis: {
                         labels: {
                             maxWidth: 500,
                             style: {
                                 colors: ['#051e59'],
-                                fontSize: '14px',
+                                fontSize: !mobile ? '14px' : '10px',
                                 fontFamily: 'Poppins',
                                 fontWeight: 500,
                                 cssClass: 'apexcharts-xaxis-label',

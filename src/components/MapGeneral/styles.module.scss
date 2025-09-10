@@ -84,6 +84,10 @@
         background-color: $unknown;
         color: black;
       }
+
+      li.disabled {
+        color: #666;
+      }
     }
   }
 }
@@ -108,10 +112,20 @@
     justify-content: space-between;
     align-items: center;
 
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
+
     .title-container {
       flex: 1;
       text-align: left;
       padding-right: 2rem;
+
+      @media screen and (max-width: 500px) {
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 0;
+      }
 
       .perspectivas-1 {
         font-size: 3.5rem;
@@ -239,12 +253,6 @@
         }
       }
 
-      // &:hover:not(.disabled) {
-      //   .acessar {
-      //     visibility: visible;
-      //   }
-      // }
-
       &.active {
         .acessar {
           visibility: visible;
@@ -286,8 +294,44 @@
   }
 }
 
+.dash {
+  .box-with-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.enquadramentos {
-  margin-left: 20px;
-  min-width: 30vw;
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
+
+    .box {
+      background-color: $cristal;
+      /* Cor azul */
+      border-radius: 15px;
+      /* Bordas arredondadas */
+      width: 200px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      /* Espaço entre o título e o quadrado */
+
+      .number {
+        font-size: 48px;
+        /* Tamanho maior para o número */
+        font-weight: bold;
+        color: $indigo;
+      }
+    }
+
+    .enquadramentos {
+      margin-left: 20px;
+      min-width: 30vw;
+
+      @media screen and (max-width: 500px) {
+        margin-bottom: 10px;
+      }
+    }
+  }
 }
