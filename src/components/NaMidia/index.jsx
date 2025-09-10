@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import MoreTip from '../../images/more_timeline_tip.svg?react'
 
 import styles from './styles.module.scss';
+import './style.scss';
 
 export default function NaMidia({ staleTime = 3600000, /* 1h */ }) {
     const isMobile = useMediaQuery({ maxWidth: 991 });
