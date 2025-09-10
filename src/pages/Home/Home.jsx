@@ -45,44 +45,16 @@ function Home() {
         className={`content-type-${c}`}
       />)
     }
+    
+
+    <IniciativaCadastradas />
 
     <NaMidia />
+
+    {/* <Faq /> */}
+
+    <Development />
   </>)
-
-  return (
-    <>
-
-      <Header />
-
-      <section className={styles.sobre}>
-        <div className={styles['width-limiter']}>
-          <img src={imgsobre} />
-        </div>
-      </section>
-
-      <MapGeneral />
-
-      {
-        ['news'/* , 'learning' */].map(c => <ContentByType
-          key={c}
-          id={content_types[c][2]}
-          contentType={c}
-          title={content_types[c][1]}
-          moreText={content_types[c][3]}
-          className={`content-type-${c}`}
-        />)
-      }
-
-      <IniciativaCadastradas />
-
-      <NaMidia />
-
-      <Faq />
-
-      <Development />
-
-    </>
-  );
 }
 
 export default Home;

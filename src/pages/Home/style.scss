@@ -397,6 +397,10 @@
     font-size: $medium-font;
     color: $indigo;
     border-radius: $border-radius-big;
+
+    @media screen and (max-width: 500px) {
+      padding: 5px 10px;
+    }
   }
 
   .ic-loading {
@@ -407,6 +411,10 @@
   .ic-loop {
     margin-bottom: 20px;
     display: flex;
+
+    @media screen and (max-width: 500px) {
+      padding: 0 1rem;
+    }
 
     align-items: center;
 
@@ -471,6 +479,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+    }
   }
 
   .button-more {
@@ -630,9 +641,9 @@
       }
 
       .accordeon-title {
-       
+
         .icon {
-         
+
           svg {
 
             path,
