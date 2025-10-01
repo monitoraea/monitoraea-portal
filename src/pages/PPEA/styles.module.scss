@@ -1,9 +1,122 @@
 @use '../../app' as *;
 
+.width-limiter {
+    max-width: 991px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.sobre {
+    padding: 5rem 2rem;
+
+    @media screen and (max-width: 500px) {
+        padding: 2rem;
+    }
+
+    background-color: #d6e6f8;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        color: $indigo;
+        font-size: $big-font;
+
+        span {
+            color: $anil;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: $super-big-font;
+            margin-bottom: 15px;
+        }
+    }
+}
+
+.dash {
+    padding: 2rem;
+    /* width: 100%; */
+
+    .dash-inner {
+        display: flex;
+
+        @media screen and (max-width: 500px) {
+            justify-content: center;
+        }
+
+        gap: 10px;
+
+        .title {
+            font-size: $super-big-font;
+            color: $indigo;
+            font-weight: bold;
+        }
+
+        .big-numbers {
+            display: flex;
+
+            gap: 10px;
+            margin-top: 10px;
+
+            @media screen and (max-width: 500px) {
+                flex-direction: column;
+            }
+
+            .box-with-image {
+                display: flex;
+                align-items: center;
+                flex: 1;
+
+                .box {
+                    background-color: $cristal;
+                    /* Cor azul */
+                    border-radius: 15px;
+                    /* Bordas arredondadas */
+                    padding: 20px 10px;
+                    width: 110px;
+                    height: 100px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    &.box-1 {
+                        width: 220px;
+                    }
+
+                    .number {
+                        font-size: 48px;
+                        /* Tamanho maior para o número */
+                        font-weight: bold;
+                        color: $indigo;
+                    }
+
+                    .text {
+                        font-size: 18px;
+                        color: $indigo;
+                    }
+
+                    @media screen and (max-width: 500px) {
+                        width: 220px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .diagrams {
     display: flex;
     flex-direction: column;
     text-align: center;
+
+    @media screen and (max-width: 500px) {
+        padding: 5rem 2rem;
+        font-family: "Poppins";
+    }
 
     &>div {
         width: 100%;
@@ -41,9 +154,14 @@
 
             padding: 8px 20px;
             color: $white;
+
+            @media screen and (max-width: 500px) {
+                padding-left: 70px;
+            }
         }
 
-        .texto {
+        .texto,
+        .dimensoes {
 
             color: $indigo;
             font-size: $big-font;
@@ -55,8 +173,19 @@
             }
         }
 
-        .diagrama {
+        .dimensoes {
+            .dimensao {
+                .title {
+                    font-weight: bold;
+                    margin: 10px 0;
+                }
 
+                .indicador {
+                    display: flex;
+                    gap: 5px;
+                    font-size: 0.9rem;
+                }
+            }
         }
     }
 }
