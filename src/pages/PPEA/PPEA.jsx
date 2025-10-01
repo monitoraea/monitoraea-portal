@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 
 import pa_sep from "../../images/pa-sep.png";
 import d1 from "../../images/diagram-1.png";
+import { options } from "sanitize-html";
 
 function PPEA() {
   const isMobile = useMediaQuery({ maxWidth: 991 });
@@ -29,8 +30,9 @@ function PPEA() {
   const [ppea_uc, _ppea_uc] = useState(false);
   const [enquads, _enquads] = useState(null);
 
-  const [limit] = useState(6);
-  const [page, _page] = useState(1);
+  const [filtersString, _filtersString] = useState('');
+
+  /* TODO: ZCM -> PPEA */
 
   const { data: iniciatives } = useQuery(
     [
@@ -98,6 +100,46 @@ function PPEA() {
     },
   );
 
+  const { data: linhas_acao } = useQuery(["linhas_acao",], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/linhas_acao`, /* TODO: ZCM -> PPEA */
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: regioes } = useQuery(["regioes"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/regions_options`, /* TODO: ZCM -> PPEA */
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: segmentos } = useQuery(["segmentos"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/segmentos`, /* TODO: ZCM -> PPEA */
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: ufs } = useQuery(["ufs", { filtersString }], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/ufs_options?${filtersString}`, /* TODO: ZCM -> PPEA */
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
   useEffect(() => {
     _enquads(getEnquads());
   }, [
@@ -118,6 +160,15 @@ function PPEA() {
 
     return enquads;
   };
+
+  const loadNameOptions = (url = `project/list/`) => /* TODO: ZCM -> PPEA */
+    (inputValue, callback) => {
+      axios
+        .get(`${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${filtersString}`)
+        .then(function ({ data }) {
+          callback(data);
+        });
+    }
 
   return (
     <>
@@ -219,7 +270,86 @@ function PPEA() {
           </div>
         </section>
 
-        <Map perspective="ppea" /* filters */ />
+        <Map config={{ /* TODO: ZCM -> PPEA */
+          perspective: 'zcm',
+          entity: 'project',
+          geo: {
+            layer: 'pppzcm:zcm_atuacao',
+            field: 'project_id',
+          },
+          fields: [
+            {
+              key: 'linhas_acao',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Linhas de Ação',
+              type: 'select',
+              options: linhas_acao,
+              isMulti: true,
+            },
+            {
+              key: 'regioes',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Regiões',
+              type: 'select',
+              options: regioes,
+              isMulti: true,
+            },
+            {
+              key: 'ufs',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Estado',
+              type: 'select',
+              options: ufs,
+              isMulti: true,
+            },
+            {
+              key: 'municipios',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Município',
+              type: 'async_select',
+              options: (inputValue, callback) => {
+                axios
+                  .get(`${import.meta.env.VITE_SERVER}project/municipios/?nome=${inputValue}${filtersString}`)
+                  .then(function ({ data }) {
+                    callback(data);
+                  });
+              },
+              isMulti: true,
+            },
+            {
+              key: 'instituicao_segmento',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Segmento da organização',
+              type: 'select',
+              options: segmentos,
+              isMulti: true,
+            },
+            {
+              key: 'instituicao',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Nome da organização',
+              type: 'async_select',
+              options: loadNameOptions('project/instiuicao/list/'),
+              isMulti: true,
+            },
+            {
+              key: 'id',
+              initialFieldState: null,
+              initialToggleState: false,
+              title: 'Título da iniciativa',
+              type: 'async_select',
+              options: loadNameOptions()
+            },
+          ]
+        }}
+          onFiltersChange={_filtersString}
+        />
       </>}
 
       {!isMobile && <>
