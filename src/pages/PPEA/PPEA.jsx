@@ -22,7 +22,7 @@ import d1 from "../../images/diagram-1.png";
 import { options } from "sanitize-html";
 
 function PPEA() {
-  const isMobile = useMediaQuery({ maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 991 }) && import.meta.env.MODE === 'development';
 
   const [ppea_uf, _ppea_uf] = useState(false);
   const [ppea_mun, _ppea_mun] = useState(false);
