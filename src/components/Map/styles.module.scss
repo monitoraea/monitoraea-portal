@@ -410,34 +410,27 @@
         .list-header,
         .list-item {
             display: flex;
+            gap: 4px;
+
+            & > div {
+                flex: 1;
+                background: rgb(5 30 89 / 5%);
+                max-height: 50px;
+                overflow: hidden;
+            }
 
             & > div:nth-child(1) {
-                width: 34%;
+                background-color: unset;
+                flex: 2;
                 max-height: 50px;
                 overflow: hidden;
             }
 
-            & > div:nth-child(2) {
-                width: 25%;
-                max-height: 50px;
-                overflow: hidden;
-                background: rgb(5 30 89 / 5%);
-                padding: 0 4px;
-                margin: 0 4px;
-            }
-
-            & > div:nth-child(3) {
-                width: 15%;
-                text-align: center;
-            }
-
-            & > div:nth-child(4) {
-                background: rgb(5 30 89 / 5%);
+            & > div.final {
                 display: flex;
-                justify-content: end;
+                justify-content: center;
                 align-items: center;
-                gap: 4px;
-                width: 24%;
+                gap: 8px;
 
                 img {
                     cursor: pointer;
