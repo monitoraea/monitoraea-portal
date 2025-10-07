@@ -8,7 +8,8 @@ import Faq from "../../components/Faq";
 
 import { content_types } from "../../utils";
 
-import MapZCM from "../../components/MapZCM";
+import Dash from "../../components/DashZCM";
+import Map from "../../components/Map";
 
 import styles from "./styles.module.scss";
 
@@ -53,7 +54,7 @@ import {
 import axios from "axios";
 import { useQuery } from "react-query";
 import makeAnimated from "react-select/animated";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const animatedComponents = makeAnimated();
 
@@ -66,15 +67,9 @@ const selectDefaults = {
 function PPPZCM() {
   const [uf_selected, _uf_selected] = useState({ value: "-1", label: "Todos" });
 
-  const { data: ufs } = useQuery(["ufs"], {
-    queryFn: async () =>
-      (
-        await axios.get(
-          `${import.meta.env.VITE_SERVER}project/facilitators_states`,
-        )
-      ).data,
-    staleTime: 3600000,
-  });
+  const [ufs, _ufs] = useState(null);
+
+  const [filtersString, _filtersString] = useState("");
 
   const { data: facilitators } = useQuery(
     ["facilitators", { uf_selected: uf_selected?.label }],
@@ -88,6 +83,62 @@ function PPPZCM() {
       staleTime: 3600000,
     },
   );
+
+  const { data: linhas_acao } = useQuery(["linhas_acao"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/linhas_acao` /* TODO: ZCM -> PPEA */,
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: regioes } = useQuery(["regioes"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/regions_options` /* TODO: ZCM -> PPEA */,
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: segmentos } = useQuery(["segmentos"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/segmentos` /* TODO: ZCM -> PPEA */,
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: ufsRaw } = useQuery(["ufs", { filtersString }], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/ufs_options?${filtersString}`,
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  useEffect(() => {
+    if (ufsRaw) _ufs(ufsRaw);
+  }, [ufsRaw]);
+
+  const loadNameOptions =
+    (url = `project/list/`) =>
+    (inputValue, callback) => {
+      axios
+        .get(
+          `${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${filtersString}`,
+        )
+        .then(function ({ data }) {
+          callback(data);
+        });
+    };
 
   return (
     <>
@@ -146,7 +197,106 @@ function PPPZCM() {
         </div>
       </section>
 
-      <MapZCM />
+      <Dash />
+
+      <Map
+        config={{
+          perspective: "zcm",
+          entity: "project",
+          geo: {
+            layer: "pppzcm:zcm_atuacao",
+            field: "project_id",
+          },
+          resultsTable: {
+            headers: ["Iniciativas Selecionadas", "Organização", "Região"],
+            singleUrl: "/iniciativa/pppzcm",
+            data: (results) => [
+              results.nome,
+              results.instituicao_nome,
+              results.regioes.filter((r) => !!r).join(","),
+            ],
+          },
+          fields: [
+            {
+              key: "linhas_acao",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Linhas de Ação",
+              type: "select",
+              options: linhas_acao,
+              isMulti: true,
+              reset: ["id"],
+            },
+            {
+              key: "regioes",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Regiões",
+              type: "select",
+              options: regioes,
+              isMulti: true,
+              reset: ["id", "ufs", "municipios"],
+            },
+            {
+              key: "ufs",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Estado",
+              type: "select",
+              options: ufs,
+              isMulti: true,
+              reset: ["id", "municipios"],
+            },
+            {
+              key: "municipios",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Município",
+              type: "async_select",
+              options: (inputValue, callback) => {
+                axios
+                  .get(
+                    `${import.meta.env.VITE_SERVER}project/municipios/?nome=${inputValue}${filtersString}`,
+                  )
+                  .then(function ({ data }) {
+                    callback(data);
+                  });
+              },
+              isMulti: true,
+              reset: ["id"],
+            },
+            {
+              key: "instituicao_segmento",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Segmento da organização",
+              type: "select",
+              options: segmentos,
+              isMulti: true,
+              reset: ["id"],
+            },
+            {
+              key: "instituicao",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Nome da organização",
+              type: "async_select",
+              options: loadNameOptions("project/instiuicao/list/"),
+              isMulti: true,
+              reset: ["id"],
+            },
+            {
+              key: "id",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Título da iniciativa",
+              type: "async_select",
+              options: loadNameOptions(),
+            },
+          ],
+        }}
+        onFiltersChange={_filtersString}
+      />
 
       <div className={styles["more-content"]}>
         <div className={styles.inner}>

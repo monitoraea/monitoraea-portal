@@ -30,6 +30,8 @@ function PPEA() {
   const [ppea_uc, _ppea_uc] = useState(false);
   const [enquads, _enquads] = useState(null);
 
+  const [ufs, _ufs] = useState(null)
+
   const [filtersString, _filtersString] = useState('');
 
   /* TODO: ZCM -> PPEA */
@@ -130,7 +132,7 @@ function PPEA() {
     staleTime: 3600000,
   });
 
-  const { data: ufs } = useQuery(["ufs", { filtersString }], {
+  const { data: ufsRaw } = useQuery(["ufs", { filtersString }], {
     queryFn: async () =>
       (
         await axios.get(
@@ -149,6 +151,10 @@ function PPEA() {
     ppea_uc,
   ]);
   // TODO: melhorar estes states, vide zcm recortes
+
+  useEffect(()=>{
+    if(ufsRaw) _ufs(ufsRaw)
+  },[ufsRaw])
 
   const getEnquads = () => {
     let enquads = [];
@@ -277,6 +283,15 @@ function PPEA() {
             layer: 'pppzcm:zcm_atuacao',
             field: 'project_id',
           },
+          resultsTable: {
+            headers: ['Iniciativas Selecionadas','Organização','Região'],
+            singleUrl: '/iniciativa/pppzcm',
+            data: (results) => [
+              results.nome,
+              results.instituicao_nome,
+              results.regioes.filter(r => !!r).join(','),
+            ],
+          },
           fields: [
             {
               key: 'linhas_acao',
@@ -286,6 +301,7 @@ function PPEA() {
               type: 'select',
               options: linhas_acao,
               isMulti: true,
+              reset: ['id'],
             },
             {
               key: 'regioes',
@@ -295,6 +311,7 @@ function PPEA() {
               type: 'select',
               options: regioes,
               isMulti: true,
+              reset: ['id', 'ufs', 'municipios'],
             },
             {
               key: 'ufs',
@@ -304,6 +321,7 @@ function PPEA() {
               type: 'select',
               options: ufs,
               isMulti: true,
+              reset: ['id', 'municipios'],
             },
             {
               key: 'municipios',
@@ -319,6 +337,7 @@ function PPEA() {
                   });
               },
               isMulti: true,
+              reset: ['id'],
             },
             {
               key: 'instituicao_segmento',
@@ -328,6 +347,7 @@ function PPEA() {
               type: 'select',
               options: segmentos,
               isMulti: true,
+              reset: ['id'],
             },
             {
               key: 'instituicao',
@@ -337,6 +357,7 @@ function PPEA() {
               type: 'async_select',
               options: loadNameOptions('project/instiuicao/list/'),
               isMulti: true,
+              reset: ['id'],
             },
             {
               key: 'id',

@@ -21,6 +21,7 @@ import Mapa from '../../images/mapa.png'
 import Acesso from '../../images/acesso.png'
 
 import styles from './styles.module.scss';
+import { Fragment } from 'react';
 
 const animatedComponents = makeAnimated();
 
@@ -44,26 +45,6 @@ function prepareFilters(filters, togglers) {
     return preparedFilters;
 }
 
-const initialFieldsState = { /* TODO */
-    linhas_acao: null,
-    regioes: null,
-    ufs: null,
-    municipios: null,
-    instituicao_segmento: null,
-    instituicao: null,
-    id: null,
-}
-
-const initialTogglersState = { /* TODO */
-    linhas_acao: false,
-    regioes: false,
-    ufs: false,
-    municipios: false,
-    instituicao_segmento: false,
-    instituicao: false,
-    id: false,
-};
-
 export default function GeneralMap({ config, onFiltersChange }) {
     const [iniciativas, _iniciativas] = useState(null);
     const [iniciativas_ids, _iniciativas_ids] = useState(null);
@@ -77,8 +58,8 @@ export default function GeneralMap({ config, onFiltersChange }) {
     const [tab, _tab] = useState('filters');
 
     const [filters, _filters] = useState({});
-    const [fields, _fields] = useState(initialFieldsState);
-    const [togglers, _togglers] = useState(initialTogglersState);
+    const [fields, _fields] = useState(config.fields.reduce((acc, f) => ({[f.key]: f.initialFieldState,...acc}), {}));
+    const [togglers, _togglers] = useState(config.fields.reduce((acc, f) => ({[f.key]: f.initialTogglersState,...acc}), {}));
 
     const [bbox, _bbox] = useState(null)
     const [selected, _selected] = useState(null)
@@ -127,8 +108,6 @@ export default function GeneralMap({ config, onFiltersChange }) {
     }, [data]);
 
     useEffect(() => {
-        _page(1);
-        //_showPop(null);
 
         async function fetchGeoData() {
             if (Object.keys(filters).filter(k => !!filters[k]).length === 0) {
@@ -140,21 +119,29 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
             _iniciativas_ids(data);
         }
+        fetchGeoData(filters);
+
+        /* --------------------------- */
+
+        _page(1);
 
         /* reset zoom and position */
         mapRef && mapRef.current && mapRef.current.leafletElement.setView(position, zoom);
-        fetchGeoData(filters);
 
         onFiltersChange(prepareFilters(filters, togglers))
     }, [filters, togglers]);
 
-    useEffect(() => {
-        console.log({ filters, pFilters: prepareFilters(filters, togglers) })
-    }, [filters])
+    // useEffect(() => {
+    //     console.log({ filters, pFilters: prepareFilters(filters, togglers) })
+    // }, [filters])
 
-    useEffect(() => {
-        if (!selected) return;
-    }, [selected])
+    // useEffect(() => {
+    //     if (!selected) return;
+    // }, [selected])
+
+    // useEffect(()=> {
+    //   console.log({ filters, togglers })
+    // }, [filters, togglers]);
 
     const handleSelect = (p) => {
         _selected(p.id)
@@ -178,18 +165,12 @@ export default function GeneralMap({ config, onFiltersChange }) {
             _togglers(togglers => ({ ...togglers, [type]: false }));
         }
 
-        if (type !== 'id') {   /* TODO: reset ufs (fields and filters) */
-            newFields.id = null;
-            newFilters.id = null;
-        }
-
-        if (type === 'regioes') { /* TODO: reset ufs (fields and filters) */
-            newFields.ufs = null;
-            newFilters.ufs = null;
-        }
-        if (['regioes', 'ufs'].includes(type)) { /* TODO: reset municipios (fields and filters)  */
-            newFields.municipios = null;
-            newFilters.municipios = null;
+        const fieldConfig = config.fields.find(f => f.key === type);
+        if(fieldConfig && fieldConfig.reset?.length) {
+            for(let rF of fieldConfig.reset) {
+                newFields[rF] = null;
+                newFilters[rF] = null;
+            }
         }
 
         _fields(newFields);
@@ -216,8 +197,8 @@ export default function GeneralMap({ config, onFiltersChange }) {
                 bbox: _map.getBounds().toBBoxString(),
                 height: size.y,
                 width: size.x,
-                layers: 'pppzcm:zcm_atuacao',
-                query_layers: 'pppzcm:zcm_atuacao',
+                layers: config.geo.layer,
+                query_layers: config.geo.layer,
                 info_format: 'application/json',
                 x: Math.round(point.x),
                 y: Math.round(point.y),
@@ -266,8 +247,8 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
     const closeClickedTab = () => {
         _filters({});
-        _fields(initialFieldsState);
-        _togglers(initialTogglersState);
+        _fields(config.fields.reduce((acc, f) => ({[f.key]: f.initialFieldState,...acc}), {}));
+        _togglers(config.fields.reduce((acc, f) => ({[f.key]: f.initialTogglersState,...acc}), {}));
         _tab('filters');
     }
 
@@ -326,17 +307,17 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
                             {config.fields.map(f => <div key={f.key} className={styles.each}>
                                 <div><Toggler checked={togglers[f.key]} onToggle={(checked) => handleToggle(f.key)(checked)} /></div>
-                                <div>{f.title}</div>
+                              <div>{f.title}</div>
                                 <div>
                                     {f.options && <>
                                         {f.type === 'select' && <div>
                                             <StyledReactSelect
                                                 classNamePrefix={reactSelectClassNamePrefix}
                                                 {...selectDefaults}
-                                                onChange={selectedOption => onFilterChange(f.key, selectedOption)}
+                                                onChange={selectedOption => onFilterChange(f.key, selectedOption, !!f.isMulti)}
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
-                                                isMulti={f.isMulti}
+                                                isMulti={!!f.isMulti}
                                                 options={f.options}
                                                 value={fields[f.key]}
                                             />
@@ -348,53 +329,61 @@ export default function GeneralMap({ config, onFiltersChange }) {
                                                     classNamePrefix={reactSelectClassNamePrefix}
                                                     {...selectDefaults}
                                                     placeholder="digite..."
-                                                    onChange={selectedOption => onFilterChange(f.key, selectedOption)}
+                                                    onChange={selectedOption => onFilterChange(f.key, selectedOption, !!f.isMulti)}
                                                     closeMenuOnSelect={false}
                                                     loadOptions={f.options}
                                                     isClearable
-                                                    isMulti={f.isMulti}
+                                                    isMulti={!!f.isMulti}
                                                     value={fields[f.key]}
                                                 />
                                             </div>
                                         </div>}
                                     </>}
                                 </div>
-                            </div>)}                            
+                            </div>)}
                         </>}
 
-                        <div className={styles['list-header']}>
-                            <div>PPEA Selecionadas</div>
-                            <div>Organização</div>
-                            <div>Região</div>
-                            <div>Conecte-se</div>
-                        </div>
+                        {config.resultsTable && <>
+                            <div className={styles['list-header']}>
+                                {/* headers */}
+                                {config.resultsTable.headers.map((h, idx) => <div key={idx}>{h}</div>)}
 
-                        {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
-                            <div>{p.nome}</div>
-                            <div>{p.instituicao_nome}</div>
-                            <div>{p.regioes.filter(r => !!r).join(',')}</div>
-                            <div>
-                                <img onClick={() => handleSelect(p)} src={Mapa} />
-                                <img onClick={() => window.open(`/iniciativa/pppzcm/${p.id}`, '_blank')} src={Acesso} />
+                                {(config.resultsTable.hasGoToMap !== false || config.resultsTable.singleUrl?.length) &&
+                                  <div>Conecte-se</div>
+                                }
                             </div>
-                        </div>)}
 
-                        {loading && [1, 2, 3, 4, 5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>)}
+                            {!loading && !!iniciativas && iniciativas.entities.map(p => <div key={p.id} className={styles['list-item']}>
+                                {/* columns */}
+                                {config.resultsTable?.data && typeof config.resultsTable?.data === 'function' && config.resultsTable.data(p).map((value, idx) => <div key={idx}>
+                                  {value}
+                                </div>)}
 
-                        {iniciativas && <div className={styles['list-pag']}>
-                            <div onClick={() => { if (iniciativas.hasPrevious) _page(page - 1) }} className={`${iniciativas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
-                            <div>página</div>
-                            <div>{page}</div>
-                            <div>/</div>
-                            <div>{iniciativas.pages}</div>
-                            <div onClick={() => { if (iniciativas.hasNext) _page(page + 1) }} className={`${iniciativas.hasNext ? styles.active : ''}`}>{'>'}</div>
-                        </div>}
+                                <div>
+                                    {/* hasGoToMap */}
+                                    {config.resultsTable.hasGoToMap !== false && <img onClick={() => handleSelect(p)} src={Mapa} />}
+                                    {/* singleUrl - if no singleUrl, no image */}
+                                    <img onClick={() => window.open(`${config.resultsTable.singleUrl || ''}/${p.id}`, '_blank')} src={Acesso} />
+                                </div>
+                            </div>)}
 
+                            {/* total headers*/}
+                            {loading && [1, 2, 3, 4, 5].map(m => <div key={`mock_${m}`} className={`${styles['list-item']} ${styles['mock']}`}>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>)}
+
+                            {iniciativas && <div className={styles['list-pag']}>
+                                <div onClick={() => { if (iniciativas.hasPrevious) _page(page - 1) }} className={`${iniciativas.hasPrevious ? styles.active : ''}`}>{'<'}</div>
+                                <div>página</div>
+                                <div>{page}</div>
+                                <div>/</div>
+                                <div>{iniciativas.pages}</div>
+                                <div onClick={() => { if (iniciativas.hasNext) _page(page + 1) }} className={`${iniciativas.hasNext ? styles.active : ''}`}>{'>'}</div>
+                            </div>}
+                        </>}
                     </div>
 
                     <div className={styles['open-close']} onClick={() => _consultas_open(!consultas_open)}>
