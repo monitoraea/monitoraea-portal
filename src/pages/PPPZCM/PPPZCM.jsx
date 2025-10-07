@@ -197,7 +197,7 @@ function PPPZCM() {
         </div>
       </section>
 
-      <Dash />
+      <Dash filtersString={filtersString} />
 
       <Map
         config={{
