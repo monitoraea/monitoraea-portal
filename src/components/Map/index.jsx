@@ -21,6 +21,7 @@ import Mapa from "../../images/mapa.png";
 import Acesso from "../../images/acesso.png";
 
 import styles from "./styles.module.scss";
+import { Fragment } from "react";
 
 const animatedComponents = makeAnimated();
 
@@ -145,7 +146,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
       mapRef.current &&
       mapRef.current.leafletElement.setView(position, zoom);
 
-    onFiltersChange(prepareFilters(filters, togglers));
+    if(onFiltersChange) onFiltersChange(prepareFilters(filters, togglers));
   }, [filters, togglers]);
 
   // useEffect(() => {
@@ -315,7 +316,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
                 layers={config.geo.layer}
                 format="image/png"
                 transparent={true}
-                opacity={0.8}
+                opacity={config.geo.opacity || 0.8}
                 cql_filter={
                   iniciativas_ids
                     ? `${config.geo.field} in (${iniciativas_ids.join(",")})`
@@ -334,6 +335,10 @@ export default function GeneralMap({ config, onFiltersChange }) {
                   cql_filter={`${config.geo.field}=${selected ? selected : 0}`}
                 />
               )}
+
+              {config.legends && config.legends?.length && config.legends.map((l, idx) => <Fragment key={idx}>
+                {l}
+              </Fragment>)}
 
               <ZoomControl position="bottomright" />
             </Map>

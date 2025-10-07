@@ -357,19 +357,7 @@ export default function MapPP() {
     }
 
     return (<>
-        <section className={styles['ciea-dash']}>
 
-            <div className="width-limiter">
-
-                <div className={styles['ciea-dash-inner']}>
-                    <div className={styles['title']}>
-                        Conheça as Iniciativas do Educom&Clima
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
 
         <section id="mapa">
 

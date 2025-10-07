@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "../../components/Header";
 //import imgplaceholder from './placeholder.png';
 //import bg from './bg.png';
@@ -9,10 +10,50 @@ import Faq from "../../components/Faq";
 import { content_types } from "../../utils";
 
 import MapEDUCLI from "../../components/MapEDUCLI";
-import Timeline from './timeline';
+
+import Map from "../../components/Map";
+import { Legend } from "./legend";
+import Timeline from "./timeline";
 
 import "./style.scss";
 import styles from "./styles.module.scss";
+
+const ufs = [
+  { value: 12, label: "ACRE" },
+  { value: 27, label: "ALAGOAS" },
+  { value: 16, label: "AMAPÁ" },
+  { value: 13, label: "AMAZONAS" },
+  { value: 29, label: "BAHIA" },
+  { value: 23, label: "CEARÁ" },
+  { value: 53, label: "DISTRITO FEDERAL" },
+  { value: 32, label: "ESPÍRITO SANTO" },
+  { value: 52, label: "GOIÁS" },
+  { value: 21, label: "MARANHÃO" },
+  { value: 51, label: "MATO GROSSO" },
+  { value: 50, label: "MATO GROSSO DO SUL" },
+  { value: 31, label: "MINAS GERAIS" },
+  { value: 15, label: "PARÁ" },
+  { value: 25, label: "PARAÍBA" },
+  { value: 41, label: "PARANÁ" },
+  { value: 26, label: "PERNAMBUCO" },
+  { value: 22, label: "PIAUÍ" },
+  { value: 33, label: "RIO DE JANEIRO" },
+  { value: 24, label: "RIO GRANDE DO NORTE" },
+  { value: 43, label: "RIO GRANDE DO SUL" },
+  { value: 11, label: "RONDÔNIA" },
+  { value: 14, label: "RORAIMA" },
+  { value: 42, label: "SANTA CATARINA" },
+  { value: 35, label: "SÃO PAULO" },
+  { value: 28, label: "SERGIPE" },
+  { value: 17, label: "TOCANTINS" },
+];
+
+const definicao = [
+  { value: 5, label: "Corporativa (ligada ao setor empresarial)" },
+  { value: 2, label: "Governamental (inclui escolas públicas, por exemplo)" },
+  { value: 3, label: "Movimento social" },
+  { value: 1, label: "Organização da social civil" },
+];
 
 function EDUCLI() {
   return (
@@ -21,7 +62,7 @@ function EDUCLI() {
 
       <section id="sobre">
         <div className="width-limiter">
-          <div className={styles['iniciativas-about']}>
+          <div className={styles["iniciativas-about"]}>
             <div>
               <div className={styles.title}>Projeto Educom&Clima</div>
             </div>
@@ -105,7 +146,58 @@ function EDUCLI() {
         </div>
       </section>
 
-      <MapEDUCLI />
+      <section className={styles["ciea-dash"]}>
+        <div className="width-limiter">
+          <div className={styles["ciea-dash-inner"]}>
+            <div className={styles["title"]}>
+              Conheça as Iniciativas do Educom&Clima
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/*<MapEDUCLI />*/}
+
+      <Map
+        config={{
+          perspective: "educom_clima",
+          entity: "educom_clima/formap",
+          geo: {
+            layer: "pppzcm:educom_clima_count",
+            field: "cd_uf",
+            opacity: "1",
+          },
+          resultsTable: {
+            headers: ["Iniciativas Selecionadas", "Região"],
+            singleUrl: "/iniciativa/educom_clima",
+            data: (results) => [
+              results.nome,
+              results.regioes.filter((r) => !!r).join(","),
+            ],
+          },
+          fields: [
+            {
+              key: "ufs",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Estado",
+              type: "select",
+              options: ufs,
+              isMulti: true,
+            },
+            {
+              key: "definicao",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Tipo de Organizaço",
+              type: "select",
+              options: definicao,
+              isMulti: true,
+            },
+          ],
+          legends: [<Legend />],
+        }}
+      />
 
       <Timeline />
 
