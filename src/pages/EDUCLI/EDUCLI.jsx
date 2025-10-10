@@ -168,10 +168,11 @@ function EDUCLI() {
             opacity: "1",
           },
           resultsTable: {
-            headers: ["Iniciativas Selecionadas", "Região"],
+            headers: ["Iniciativas Selecionadas", "Tipo", "Região"],
             singleUrl: "/iniciativa/educom_clima",
             data: (results) => [
               results.nome,
+              (definicao.find(d => d.value == results.definicao) || {label: ''}).label,
               results.regioes.filter((r) => !!r).join(","),
             ],
           },
