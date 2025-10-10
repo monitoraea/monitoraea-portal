@@ -130,6 +130,8 @@ function EDUCLI() {
           geo: {
             layer: "pppzcm:educom_clima_count",
             field: "cd_uf",
+            cql_field: "uf",
+            cql_field_array: true,
             opacity: "1",
           },
           resultsTable: {

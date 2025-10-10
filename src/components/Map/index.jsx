@@ -122,6 +122,10 @@ export default function GeneralMap({ config, onFiltersChange }) {
     }
   }, [data]);
 
+  // useEffect(() => {
+  //     console.log(selected, `${config.geo.field}=${selected ? selected : 0}`)
+  // }, [selected, config])
+
   useEffect(() => {
     async function fetchGeoData() {
       if (Object.keys(filters).filter((k) => !!filters[k]).length === 0) {
@@ -162,7 +166,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
   // }, [filters, togglers]);
 
   const handleSelect = (p) => {
-    _selected(p.id);
+    _selected(p[config.geo.cql_field || 'id']);
     _bbox(p.bbox);
   };
 
@@ -332,7 +336,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
                   transparent={true}
                   opacity={0.7}
                   styles="ppea-feature"
-                  cql_filter={`${config.geo.field}=${selected ? selected : 0}`}
+                  cql_filter={selected ? (!config.geo.cql_field_array ? `${config.geo.field}=${selected}` : `${config.geo.field} IN (${selected.join(',')})`) : `${config.geo.field}=0`}
                 />
               )}
 

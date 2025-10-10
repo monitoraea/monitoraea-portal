@@ -310,6 +310,7 @@ function PPEA() {
               geo: {
                 layer: "pppzcm:ppea",
                 field: "politica_id",
+                cql_field: "politica_id",
               },
               resultsTable: {
                 headers: ["PPEA Selecionadas", "Organização"],
