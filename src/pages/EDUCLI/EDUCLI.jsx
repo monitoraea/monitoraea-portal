@@ -222,6 +222,7 @@ function EDUCLI() {
           resultsTable: {
             headers: ["Iniciativas Selecionadas", "Tipo", "Região"],
             singleUrl: "/iniciativa/educom_clima",
+            singleField: "iniciativa_id",
             data: (results) => [
               results.nome,
               (definicao.find(d => d.value == results.definicao) || {label: ''}).label,

@@ -471,7 +471,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
                           <img
                             onClick={() =>
                               window.open(
-                                `${config.resultsTable.singleUrl || ""}/${p.id}`,
+                                `${config.resultsTable.singleUrl || ""}/${p[config.resultsTable.singleField || 'id']}`,
                                 "_blank",
                               )
                             }

@@ -314,6 +314,7 @@ function PPEA() {
               resultsTable: {
                 headers: ["PPEA Selecionadas", "Organização"],
                 singleUrl: "/iniciativa/ppea",
+                singleField: "politica_id",
                 data: (results) => [results.nome, results.instituicao_nome],
               },
               fields: [
