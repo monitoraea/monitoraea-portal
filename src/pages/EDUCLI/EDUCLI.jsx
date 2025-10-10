@@ -55,6 +55,58 @@ const definicao = [
   { value: 1, label: "Organização da social civil" },
 ];
 
+const faixa_etaria = [
+  { value: 1, label: "Jovens (15 a 29 anos)" },
+  { value: 2, label: "Adultos (30 a 59 anos)" },
+  { value: 3, label: "Crianças (4 a 14 anos)" },
+  { value: 4, label: "Idosos (a partir de 60 anos)" },
+  { value: 5, label: "Bebês (até 3 anos)" },
+];
+
+const participantes_genero = [
+  { value: 2, label: "Homens cisgênero" },
+  { value: 4, label: "Homens transgênero" },
+  { value: 1, label: "Mulheres cisgênero" },
+  { value: 3, label: "Mulheres transgênero" },
+  { value: 5, label: "Não binário" },
+];
+
+const racas_etnias = [
+  { value: 5, label: "Amarelos(as)" },
+  { value: 2, label: "Brancos(as)" },
+  { value: 4, label: "Indígenas" },
+  { value: 3, label: "Pardos(as)" },
+  { value: 1, label: "Pretos(as)" },
+];
+
+const temas = [
+  { value: 1, label: "Água" },
+  { value: 6, label: "Biodiversidade " },
+  { value: 8, label: "Degradação Ambiental " },
+  { value: 9, label: "Educação Ambiental " },
+  { value: 2, label: "Emergência climática " },
+  { value: 4, label: "Energias Renováveis " },
+  { value: 3, label: "ODS - Agenda 2030" },
+  { value: 5, label: "Resíduos e Reciclagem " },
+  { value: 7, label: "Transição energética" },
+];
+
+const midias = [
+  { value: 4, label: "Intervenções e projetos" },
+  { value: 5, label: "Pesquisa " },
+  { value: 3, label: "Processos formativos" },
+  { value: 2, label: "Produção de Conteúdo" },
+  { value: 1, label: "Reunião Online" },
+];
+
+const estrategias_educativas = [
+  { value: 5, label: "Campanhas" },
+  { value: 1, label: "Oficinas e Palestras" },
+  { value: 3, label: "Pesquisa, Projetos Acadêmicos e Formação" },
+  { value: 4, label: "Produção Cultural" },
+  { value: 2, label: "Projetos Práticos" },
+];
+
 function EDUCLI() {
   return (
     <>
@@ -193,6 +245,60 @@ function EDUCLI() {
               title: "Tipo de Organizaço",
               type: "select",
               options: definicao,
+              isMulti: true,
+            },
+            {
+              key: "faixa_etaria",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Idades",
+              type: "select",
+              options: faixa_etaria,
+              isMulti: true,
+            },
+            {
+              key: "racas_etnias",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Relação Étnica",
+              type: "select",
+              options: racas_etnias,
+              isMulti: true,
+            },
+            {
+              key: "participantes_genero",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Gênero/Sexo",
+              type: "select",
+              options: participantes_genero,
+              isMulti: true,
+            },
+            {
+              key: "temas",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Tema",
+              type: "select",
+              options: temas,
+              isMulti: true,
+            },
+            {
+              key: "midias",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Mídias",
+              type: "select",
+              options: midias,
+              isMulti: true,
+            },
+            {
+              key: "estrategias_educativas",
+              initialFieldState: null,
+              initialToggleState: false,
+              title: "Estratégias Educativas",
+              type: "select",
+              options: estrategias_educativas,
               isMulti: true,
             },
           ],
