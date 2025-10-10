@@ -5,6 +5,8 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
+import { temas, midias, estrategias_educativas } from "../../pages/EDUCLI/utils";
+
 import description_icon from "../../images/single-project/description.png";
 import auto_check_icon from "../../images/single-project/auto_check2.png";
 import fale_icon from "../../images/single-project/educom.png";
@@ -162,6 +164,23 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
         </div>
       </div>}
 
+      {data?.temas?.length && <div className={`${styles.section} ${styles.titled}`}>
+        <div className="width-limiter">
+          <div className={styles.content}>
+            <div className={styles.title}>
+              <div className={styles.icon}>
+                <img src={auto_check_icon} />
+              </div>
+              <div className={styles.title}>Temas</div>
+            </div>
+
+            <div className={styles.text}>
+              {data.temas.map(i => temas[i]?.label || '').join(', ')}
+            </div>
+          </div>
+        </div>
+      </div>}
+
       {data?.midias?.length && <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
@@ -173,11 +192,11 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
             </div>
 
             <div className={styles.text}>
-              {data.midias}
+              {data.midias.map(i => midias[i]?.label || '').join(', ')}
             </div>
           </div>
         </div>
-      </div>}      
+      </div>}
 
       {data?.estrategias_educativas?.length && <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
@@ -190,18 +209,18 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
             </div>
 
             <div className={styles.text}>
-              {data.estrategias_educativas}
+              {data.estrategias_educativas.map(i => estrategias_educativas[i]?.label || '').join(', ')}
             </div>
           </div>
         </div>
-      </div>}   
+      </div>}
 
       {(data?.apresentacao?.length || data?.materiais_didaticos.length) && <div className={`${styles.section} ${styles.titled}`}>
         <div className="width-limiter">
           <div className={styles.content}>
             <div className={styles.title}>
               <div className={styles.icon}>
-                <img src={auto_check_icon} />
+                <img src={description_icon} />
               </div>
               <div className={styles.title}>Para saber mais sobre o trabalho</div>
             </div>
@@ -213,7 +232,7 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
             </div>
           </div>
         </div>
-      </div>} 
+      </div>}
 
       <div className={styles.last}></div>
 
