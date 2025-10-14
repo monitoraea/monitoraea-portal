@@ -61,7 +61,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
   const [menu_mobile_open, _menu_mobile_open] = useState(false);
 
-  const [limit] = useState(6);
+  const [limit] = useState(isMobile ? 5 : 6);
   const [page, _page] = useState(1);
 
   const [consultas_open, _consultas_open] = useState(false);

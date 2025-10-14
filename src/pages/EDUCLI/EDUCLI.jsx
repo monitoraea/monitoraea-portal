@@ -12,7 +12,7 @@ import { content_types } from "../../utils";
 import MapEDUCLI from "../../components/MapEDUCLI";
 
 import Map from "../../components/Map";
-import { Legend } from "./legend";
+import { Legend } from "../../components/Legend";
 import Timeline from "./timeline";
 
 import "./style.scss";
@@ -218,7 +218,7 @@ function EDUCLI() {
               isMulti: true,
             },
           ],
-          legends: [<Legend />],
+          legends: [<Legend layer="pppzcm:educom_clima_count" />],
         }}
       />
 
