@@ -1,5 +1,8 @@
 import { useState, useEffect, createRef } from "react";
 import { Map, TileLayer, WMSTileLayer, ZoomControl } from "react-leaflet";
+
+import { useMediaQuery } from "react-responsive";
+
 import makeAnimated from "react-select/animated";
 
 import axios from "axios";
@@ -27,7 +30,9 @@ const animatedComponents = makeAnimated();
 
 const mapRef = createRef();
 const position = [-15, -42];
+const positionMobile = [-15.559793, -50.58506];
 const zoom = 5;
+const zoomMobile = 4;
 
 const selectDefaults = {
   placeholder: "Selecione...",
@@ -36,23 +41,25 @@ const selectDefaults = {
 };
 
 function prepareFilters(filters, togglers) {
-
   let preparedFilters = "";
 
   for (let filter in filters) {
-
     if (filter === "ids" || (filters[filter] && togglers[filter]))
-      preparedFilters = `${preparedFilters}&f_${filter}=${typeof filters[filter] === 'boolean' ? (filters[filter] ? 1 : 0) : filters[filter]}`;
+      preparedFilters = `${preparedFilters}&f_${filter}=${typeof filters[filter] === "boolean" ? (filters[filter] ? 1 : 0) : filters[filter]}`;
   }
 
   return preparedFilters;
 }
 
 export default function GeneralMap({ config, onFiltersChange }) {
+  const isMobile = useMediaQuery({ maxWidth: 500 });
+
   const [iniciativas, _iniciativas] = useState(null);
   const [iniciativas_ids, _iniciativas_ids] = useState(null);
 
   const [loading, _loading] = useState(true);
+
+  const [menu_mobile_open, _menu_mobile_open] = useState(false);
 
   const [limit] = useState(6);
   const [page, _page] = useState(1);
@@ -148,26 +155,18 @@ export default function GeneralMap({ config, onFiltersChange }) {
     /* reset zoom and position */
     mapRef &&
       mapRef.current &&
-      mapRef.current.leafletElement.setView(position, zoom);
+      mapRef.current.leafletElement.setView(
+        !isMobile ? position : positionMobile,
+        !isMobile ? zoom : zoomMobile,
+      );
 
-    if(onFiltersChange) onFiltersChange(prepareFilters(filters, togglers));
-  }, [filters, togglers]);
-
-  // useEffect(() => {
-  //     console.log({ filters, pFilters: prepareFilters(filters, togglers) })
-  // }, [filters])
-
-  // useEffect(() => {
-  //     if (!selected) return;
-  // }, [selected])
-
-  // useEffect(()=> {
-  //   console.log({ filters, togglers })
-  // }, [filters, togglers]);
+    if (onFiltersChange) onFiltersChange(prepareFilters(filters, togglers));
+  }, [filters, togglers, isMobile]);
 
   const handleSelect = (p) => {
-    _selected(p[config.geo.cql_field || 'id']);
+    _selected(p[config.geo.cql_field || "id"]);
     _bbox(p.bbox);
+    _menu_mobile_open(false);
   };
 
   const onFilterChange = (type, selectedOption, isMulti = true) => {
@@ -205,7 +204,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
   };
 
   const handleToggle = (filter, type) => (checked) => {
-    if(type === 'toggle')_filters(f => ({[filter]: checked, ...f}));
+    if (type === "toggle") _filters((f) => ({ [filter]: checked, ...f }));
     _togglers((togglers) => ({ ...togglers, [filter]: checked }));
   };
 
@@ -275,6 +274,7 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
     _tab("clicked");
     _consultas_open(true);
+    _menu_mobile_open(true);
     _filters({ ids: ids.join(",") });
   };
 
@@ -297,16 +297,80 @@ export default function GeneralMap({ config, onFiltersChange }) {
 
   return (
     <>
-      <section id="mapa">
+      <section id="mapa" className={styles.map_container}>
+        {isMobile && (
+          <div
+            className={`${styles.map_menu} ${menu_mobile_open ? styles.open : ""}`}
+          >
+            <div className={styles.menu_header}>
+              <div>Consultas</div>
+              <div
+                className={styles.close}
+                onClick={() => _menu_mobile_open(false)}
+              >
+                x
+              </div>
+            </div>
+
+            <div className={styles.filter_panel_mobile}>
+              <div className={`row ${styles.filters}`}>
+                {tab === "clicked" && (
+                  <TabClicked closeClickedTab={closeClickedTab} />
+                )}
+                {tab === "filters" && (
+                  <TabFilters
+                    config={config}
+                    togglers={togglers}
+                    fields={fields}
+                    onFilterChange={onFilterChange}
+                    handleToggle={handleToggle}
+                  />
+                )}
+
+                {config.resultsTable && (<ResultsTable
+                  config={config}
+                  loading={loading}
+                  iniciativas={iniciativas}
+                  page={page}
+                  onPageChange={_page}
+                  handleSelect={handleSelect}
+                />)}
+              </div>
+            </div>
+          </div>
+        )}
+        {isMobile && (
+          <div
+            className={`${styles.map_menu_button}`}
+            onClick={() => _menu_mobile_open(true)}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="#fff"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="css-i6dzq1"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </div>
+        )}
+
         <div className={styles.container}>
           <div className={styles["map-container"]}>
             <Map
-              center={position}
+              center={!isMobile ? position : positionMobile}
               zoomControl={false}
-              zoom={zoom}
+              zoom={!isMobile ? zoom : zoomMobile}
               ref={mapRef}
               maxZoom={18}
-              minZoom={3}
+              minZoom={!isMobile ? 3 : 1}
               scrollWheelZoom={false}
               onClick={handleMapClick}
             >
@@ -336,207 +400,66 @@ export default function GeneralMap({ config, onFiltersChange }) {
                   transparent={true}
                   opacity={0.7}
                   styles="ppea-feature"
-                  cql_filter={selected ? (!config.geo.cql_field_array ? `${config.geo.field}=${selected}` : `${config.geo.field} IN (${selected.join(',')})`) : `${config.geo.field}=0`}
+                  cql_filter={
+                    selected
+                      ? !config.geo.cql_field_array
+                        ? `${config.geo.field}=${selected}`
+                        : `${config.geo.field} IN (${selected.join(",")})`
+                      : `${config.geo.field}=0`
+                  }
                 />
               )}
 
-              {config.legends && config.legends?.length && config.legends.map((l, idx) => <Fragment key={idx}>
-                {l}
-              </Fragment>)}
+              {config.legends &&
+                config.legends?.length &&
+                config.legends.map((l, idx) => (
+                  <Fragment key={idx}>{l}</Fragment>
+                ))}
 
-              <ZoomControl position="bottomright" />
+              <ZoomControl position={isMobile ? "bottomleft" : "bottomright"} />
             </Map>
           </div>
 
-          <div
-            className={`p-4 ${styles.filter_panel} ${consultas_open ? styles.open : styles.closed}`}
-          >
-            <div className={`row ${styles.filters}`}>
-              {tab === "clicked" && (
-                <>
-                  <div className={styles.title}>
-                    <div></div>
-                    <div>Lista de iniciativas selecionadas no mapa</div>
-                    <div
-                      className={styles.back2filters}
-                      onClick={closeClickedTab}
-                    >
-                      « voltar aos filtros
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {tab === "filters" && (
-                <>
-                  <div className={styles.title}>
-                    <div></div>
-                    <div>Filtros de Busca</div>
-                  </div>
-
-                  {config.fields.map((f) => (
-                    <div key={f.key} className={`${styles.each} ${f.type === 'toggle' ? styles.full: ''}`}>
-                      <div>
-                        <Toggler
-                          checked={togglers[f.key]}
-                          onToggle={(checked) => handleToggle(f.key, f.type)(checked)}
-                        />
-                      </div>
-
-                      <div>{f.title}</div>
-
-                      {f.type !== 'toggle' && <div>
-                        {f.options && (
-                          <>
-                            {f.type === "select" && (
-                              <div>
-                                <StyledReactSelect
-                                  classNamePrefix={reactSelectClassNamePrefix}
-                                  {...selectDefaults}
-                                  onChange={(selectedOption) =>
-                                    onFilterChange(
-                                      f.key,
-                                      selectedOption,
-                                      !!f.isMulti,
-                                    )
-                                  }
-                                  closeMenuOnSelect={false}
-                                  components={animatedComponents}
-                                  isMulti={!!f.isMulti}
-                                  options={f.options}
-                                  value={fields[f.key]}
-                                />
-                              </div>
-                            )}
-
-                            {f.type === "async_select" && (
-                              <div>
-                                <div>
-                                  <StyledAsyncReactSelect
-                                    classNamePrefix={reactSelectClassNamePrefix}
-                                    {...selectDefaults}
-                                    placeholder="digite..."
-                                    onChange={(selectedOption) =>
-                                      onFilterChange(
-                                        f.key,
-                                        selectedOption,
-                                        !!f.isMulti,
-                                      )
-                                    }
-                                    closeMenuOnSelect={false}
-                                    loadOptions={f.options}
-                                    isClearable
-                                    isMulti={!!f.isMulti}
-                                    value={fields[f.key]}
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </div>}
-
-                    </div>
-                  ))}
-                </>
-              )}
-
-              {config.resultsTable && (
-                <>
-                  <div className={styles["list-header"]}>
-                    {/* headers */}
-                    {config.resultsTable.headers.map((h, idx) => (
-                      <div key={idx}>{h}</div>
-                    ))}
-
-                    {(config.resultsTable.hasGoToMap !== false ||
-                      config.resultsTable.singleUrl?.length) && (
-                      <div>Conecte-se</div>
-                    )}
-                  </div>
-
-                  {!loading &&
-                    !!iniciativas &&
-                    iniciativas.entities.map((p) => (
-                      <div key={p.id} className={styles["list-item"]}>
-                        {/* columns */}
-                        {config.resultsTable?.data &&
-                          typeof config.resultsTable?.data === "function" &&
-                          config.resultsTable
-                            .data(p)
-                            .map((value, idx) => <div key={idx}>{value}</div>)}
-
-                        <div className={styles.final}>
-                          {/* hasGoToMap */}
-                          {config.resultsTable.hasGoToMap !== false && (
-                            <img onClick={() => handleSelect(p)} src={Mapa} />
-                          )}
-                          {/* singleUrl - if no singleUrl, no image */}
-                          <img
-                            onClick={() =>
-                              window.open(
-                                `${config.resultsTable.singleUrl || ""}/${p[config.resultsTable.singleField || 'id']}`,
-                                "_blank",
-                              )
-                            }
-                            src={Acesso}
-                          />
-                        </div>
-                      </div>
-                    ))}
-
-                  {/* total headers*/}
-                  {loading &&
-                    [1, 2, 3, 4, 5].map((m) => (
-                      <div
-                        key={`mock_${m}`}
-                        className={`${styles["list-item"]} ${styles["mock"]}`}
-                      >
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                      </div>
-                    ))}
-
-                  {iniciativas && (
-                    <div className={styles["list-pag"]}>
-                      <div
-                        onClick={() => {
-                          if (iniciativas.hasPrevious) _page(page - 1);
-                        }}
-                        className={`${iniciativas.hasPrevious ? styles.active : ""}`}
-                      >
-                        {"<"}
-                      </div>
-                      <div>página</div>
-                      <div>{page}</div>
-                      <div>/</div>
-                      <div>{iniciativas.pages}</div>
-                      <div
-                        onClick={() => {
-                          if (iniciativas.hasNext) _page(page + 1);
-                        }}
-                        className={`${iniciativas.hasNext ? styles.active : ""}`}
-                      >
-                        {">"}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-
+          {!isMobile && (
             <div
-              className={styles["open-close"]}
-              onClick={() => _consultas_open(!consultas_open)}
+              className={`p-4 ${styles.filter_panel} ${consultas_open ? styles.open : styles.closed}`}
             >
-              <div className={styles.label}>
-                {!consultas_open && <img src={ConsultasR} />}
-                {consultas_open && <img src={Consultas} />}
+              <div className={`row ${styles.filters}`}>
+                {tab === "clicked" && (
+                  <TabClicked closeClickedTab={closeClickedTab} />
+                )}
+
+                {tab === "filters" && (
+                  <TabFilters
+                    config={config}
+                    togglers={togglers}
+                    fields={fields}
+                    onFilterChange={onFilterChange}
+                    handleToggle={handleToggle}
+                  />
+                )}
+
+                {config.resultsTable && (<ResultsTable
+                  config={config}
+                  loading={loading}
+                  iniciativas={iniciativas}
+                  page={page}
+                  onPageChange={_page}
+                  handleSelect={handleSelect}
+                />)}
+              </div>
+
+              <div
+                className={styles["open-close"]}
+                onClick={() => _consultas_open(!consultas_open)}
+              >
+                <div className={styles.label}>
+                  {!consultas_open && <img src={ConsultasR} />}
+                  {consultas_open && <img src={Consultas} />}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </>
@@ -550,4 +473,180 @@ function Toggler({ checked, onToggle }) {
       {checked && <ToggleRight className={styles["toggle-right"]} />}
     </div>
   );
+}
+
+function TabClicked({ closeClickedTab }) {
+  return (
+    <div className={styles.title}>
+      <div></div>
+      <div>Lista de iniciativas selecionadas no mapa</div>
+      <div className={styles.back2filters} onClick={closeClickedTab}>
+        « voltar aos filtros
+      </div>
+    </div>
+  );
+}
+
+function TabFilters({
+  config,
+  togglers,
+  fields,
+  onFilterChange,
+  handleToggle,
+}) {
+  return (
+    <>
+      <div className={styles.title}>
+        <div></div>
+        <div>Filtros de Busca</div>
+      </div>
+
+      {config.fields.map((f) => (
+        <div
+          key={f.key}
+          className={`${styles.each} ${f.type === "toggle" ? styles.full : ""}`}
+        >
+          <div>
+            <Toggler
+              checked={togglers[f.key]}
+              onToggle={(checked) => handleToggle(f.key, f.type)(checked)}
+            />
+          </div>
+
+          <div>{f.title}</div>
+
+          {f.type !== "toggle" && (
+            <div>
+              {f.options && (
+                <>
+                  {f.type === "select" && (
+                    <div>
+                      <StyledReactSelect
+                        classNamePrefix={reactSelectClassNamePrefix}
+                        {...selectDefaults}
+                        onChange={(selectedOption) =>
+                          onFilterChange(f.key, selectedOption, !!f.isMulti)
+                        }
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti={!!f.isMulti}
+                        options={f.options}
+                        value={fields[f.key]}
+                      />
+                    </div>
+                  )}
+
+                  {f.type === "async_select" && (
+                    <div>
+                      <div>
+                        <StyledAsyncReactSelect
+                          classNamePrefix={reactSelectClassNamePrefix}
+                          {...selectDefaults}
+                          placeholder="digite..."
+                          onChange={(selectedOption) =>
+                            onFilterChange(f.key, selectedOption, !!f.isMulti)
+                          }
+                          closeMenuOnSelect={false}
+                          loadOptions={f.options}
+                          isClearable
+                          isMulti={!!f.isMulti}
+                          value={fields[f.key]}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </>
+  );
+}
+function ResultsTable({ config, loading, iniciativas, page, onPageChange, handleSelect }) {
+  return (<>
+    <div className={styles["list-header"]}>
+      {/* headers */}
+      {config.resultsTable.headers.map((h, idx) => (
+        <div key={idx}>{h}</div>
+      ))}
+
+      {(config.resultsTable.hasGoToMap !== false ||
+        config.resultsTable.singleUrl?.length) && (
+        <div>Conecte-se</div>
+      )}
+    </div>
+
+    {!loading &&
+      !!iniciativas &&
+      iniciativas.entities.map((p) => (
+        <div key={p.id} className={styles["list-item"]}>
+          {/* columns */}
+          {config.resultsTable?.data &&
+            typeof config.resultsTable?.data === "function" &&
+            config.resultsTable
+              .data(p)
+              .map((value, idx) => (
+                <div key={idx}>{value}</div>
+              ))}
+
+          <div className={styles.final}>
+            {/* hasGoToMap */}
+            {config.resultsTable.hasGoToMap !== false && (
+              <img onClick={() => handleSelect(p)} src={Mapa} />
+            )}
+            {/* singleUrl - if no singleUrl, no image */}
+            <img
+              onClick={() =>
+                window.open(
+                  `${config.resultsTable.singleUrl || ""}/${p[config.resultsTable.singleField || "id"]}`,
+                  "_blank",
+                )
+              }
+              src={Acesso}
+            />
+          </div>
+        </div>
+      ))}
+
+    {/* total headers*/}
+    {loading &&
+      [1, 2, 3, 4, 5].map((m) => (
+        <div
+          key={`mock_${m}`}
+          className={`${styles["list-item"]} ${styles["mock"]}`}
+        >
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ))}
+
+    {iniciativas && (
+      <div className={styles["list-pag"]}>
+        <div
+          onClick={() => {
+            if (iniciativas.hasPrevious) onPageChange(page - 1);
+          }}
+          className={`${iniciativas.hasPrevious ? styles.active : ""}`}
+        >
+          {"<"}
+        </div>
+        <div>página</div>
+        <div>{page}</div>
+        <div>/</div>
+        <div>{iniciativas.pages}</div>
+        <div
+          onClick={() => {
+            if (iniciativas.hasNext) onPageChange(page + 1);
+          }}
+          className={`${iniciativas.hasNext ? styles.active : ""}`}
+        >
+          {">"}
+        </div>
+      </div>
+    )}
+  </>)
 }

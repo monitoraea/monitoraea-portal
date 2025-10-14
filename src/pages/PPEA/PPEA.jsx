@@ -244,8 +244,6 @@ function PPEA() {
               </div>
             </div>
           </section>
-
-          <>TODO: same map</>
         </>
       )}
 
@@ -303,56 +301,57 @@ function PPEA() {
             </div>
           </section>
           <Dash filtersString={filtersString} />
-          <Map
-            config={{
-              perspective: "ppea",
-              entity: "ppea",
-              geo: {
-                layer: "pppzcm:ppea",
-                field: "politica_id",
-                cql_field: "politica_id",
-              },
-              resultsTable: {
-                headers: ["PPEA Selecionadas", "Organização"],
-                singleUrl: "/iniciativa/ppea",
-                singleField: "politica_id",
-                data: (results) => [results.nome, results.instituicao_nome],
-              },
-              fields: [
-                {
-                  key: "ppea_uf",
-                  initialFieldState: false,
-                  initialToggleState: false,
-                  title: "PPEA Estaduais",
-                  type: "toggle",
-                },
-                {
-                  key: "ppea_mun",
-                  initialFieldState: false,
-                  initialToggleState: false,
-                  title: "PPEA Municipais",
-                  type: "toggle",
-                },
-                {
-                  key: "ppea_reg",
-                  initialFieldState: false,
-                  initialToggleState: false,
-                  title: "PPEA Regionais ou Federais",
-                  type: "toggle",
-                },
-                {
-                  key: "ppea_uc",
-                  initialFieldState: false,
-                  initialToggleState: false,
-                  title: "PPEA a partir de UC",
-                  type: "toggle",
-                },
-              ],
-            }}
-            onFiltersChange={_filtersString}
-          />
         </>
       )}
+
+      <Map
+        config={{
+          perspective: "ppea",
+          entity: "ppea",
+          geo: {
+            layer: "pppzcm:ppea",
+            field: "politica_id",
+            cql_field: "politica_id",
+          },
+          resultsTable: {
+            headers: ["PPEA Selecionadas", "Organização"],
+            singleUrl: "/iniciativa/ppea",
+            singleField: "politica_id",
+            data: (results) => [results.nome, results.instituicao_nome],
+          },
+          fields: [
+            {
+              key: "ppea_uf",
+              initialFieldState: false,
+              initialToggleState: false,
+              title: "PPEA Estaduais",
+              type: "toggle",
+            },
+            {
+              key: "ppea_mun",
+              initialFieldState: false,
+              initialToggleState: false,
+              title: "PPEA Municipais",
+              type: "toggle",
+            },
+            {
+              key: "ppea_reg",
+              initialFieldState: false,
+              initialToggleState: false,
+              title: "PPEA Regionais ou Federais",
+              type: "toggle",
+            },
+            {
+              key: "ppea_uc",
+              initialFieldState: false,
+              initialToggleState: false,
+              title: "PPEA a partir de UC",
+              type: "toggle",
+            },
+          ],
+        }}
+        onFiltersChange={_filtersString}
+      />
 
       <div className={styles["diagrams"]}>
         <div className={styles.d3}>
