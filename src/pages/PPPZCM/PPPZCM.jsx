@@ -17,19 +17,6 @@ import imageLogo from "../../images/pppzcm/image-logo.png";
 import image2 from "../../images/pppzcm/image2.png";
 import download from "../../images/download.png";
 
-import anppea from "../../images/pppzcm/comite/anppea.png";
-import gef_mar from "../../images/pppzcm/comite/gef-mar.png";
-import germany from "../../images/pppzcm/comite/germany.png";
-import iki from "../../images/pppzcm/comite/iki.png";
-import giz from "../../images/pppzcm/comite/giz.png";
-import banco_mundial from "../../images/pppzcm/comite/banco-mundial.png";
-import gef from "../../images/pppzcm/comite/gef.png";
-import funbio from "../../images/pppzcm/comite/funbio.png";
-import governos from "../../images/pppzcm/comite/governos.png";
-import ibama from "../../images/pppzcm/comite/ibama.png";
-import icmbio from "../../images/pppzcm/comite/icmbio.png";
-import mam from "../../images/pppzcm/comite/mam.png";
-
 import mock_photo from "../../images/pppzcm/comite/mock-circle.png";
 import betania from "../../images/pppzcm/comite/people/betania.png";
 import thais from "../../images/pppzcm/comite/people/thais.png";
@@ -119,6 +106,16 @@ function PPPZCM() {
       (
         await axios.get(
           `${import.meta.env.VITE_SERVER}project/ufs_options?${filtersString}`,
+        )
+      ).data,
+    staleTime: 3600000,
+  });
+
+  const { data: ufs_facilitators } = useQuery(["ufs_facilitators"], {
+    queryFn: async () =>
+      (
+        await axios.get(
+          `${import.meta.env.VITE_SERVER}project/facilitators_states`,
         )
       ).data,
     staleTime: 3600000,
@@ -618,7 +615,7 @@ function PPPZCM() {
                       /* closeMenuOnSelect={false} */
                       components={animatedComponents}
                       /* isMulti */
-                      options={[{ value: "-1", label: "Todos" }, ...ufs]}
+                      options={[{ value: "-1", label: "Todos" }, ...ufs_facilitators]}
                       value={uf_selected}
                     />
                   </div>
