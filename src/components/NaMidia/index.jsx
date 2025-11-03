@@ -34,7 +34,7 @@ export default function NaMidia({ staleTime = 3600000, /* 1h */ }) {
                 </div>
 
                 {data.list.map(nm => <div key={nm.id} className={styles['timeline-each']}>
-                   
+
                     <div className={styles['timeline-each-thumb']}>
                         <div className={styles['timeline-each-thumb-image']}>
                             <img src={nm.thumb} alt="imagem de timeline" />

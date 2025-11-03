@@ -6,7 +6,6 @@ import imgsobre_mobile from './sobre_mobile.png';
 import Development from '../../components/Development';
 
 import IniciativaCadastradas from '../../components/IniciativasCadastradas';
-import NaMidia from '../../components/NaMidia';
 
 import './style.scss';
 import styles from './styles.module.scss'
@@ -19,6 +18,7 @@ import MapGeneral from '../../components/MapGeneral';
 import { content_types } from '../../utils';
 
 import { useMediaQuery } from 'react-responsive';
+import Timeline from '../../components/Timeline';
 
 function Home() {
   const isMobile = useMediaQuery({ maxWidth: 991 });
@@ -45,11 +45,11 @@ function Home() {
         className={`content-type-${c}`}
       />)
     }
-    
+
 
     <IniciativaCadastradas />
 
-    <NaMidia />
+    <Timeline />
 
     {/* <Faq /> */}
 

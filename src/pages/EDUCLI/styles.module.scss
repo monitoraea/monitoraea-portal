@@ -88,6 +88,12 @@
             color: $indigo;
             font-weight: bold;
             min-width: 50vh;
+
+            @media screen and (max-width: 500px) {
+                max-width: 80vw;
+                min-width: 80vw;
+                text-align: center;
+            }
         }
 
         .big-numbers {

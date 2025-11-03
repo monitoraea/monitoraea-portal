@@ -9,11 +9,9 @@ import Faq from "../../components/Faq";
 
 import { content_types } from "../../utils";
 
-import MapEDUCLI from "../../components/MapEDUCLI";
-
 import Map from "../../components/Map";
 import { Legend } from "../../components/Legend";
-import Timeline from "./timeline";
+import Timeline from "../../components/Timeline";
 
 import "./style.scss";
 import styles from "./styles.module.scss";
@@ -222,7 +220,7 @@ function EDUCLI() {
         }}
       />
 
-      <Timeline />
+      <Timeline portal="educom_clima" url="educom_clima/timeline" title="Linha do tempo" />
 
       {["news" /* ,'learning' */].map((c) => (
         <ContentByType

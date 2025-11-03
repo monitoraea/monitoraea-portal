@@ -15,7 +15,7 @@ export default function ContentByType({ id, title, portal = "general", className
         staleTime,
     });
 
-    if(!data || !data.entities?.length) return <>{JSON.stringify(data)}</>
+    if(!data || !data.entities?.length) return <></>
 
     return (<section id={id} className={className}>
 

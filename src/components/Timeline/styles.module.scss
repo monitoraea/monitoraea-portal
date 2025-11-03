@@ -1,0 +1,134 @@
+@use '../../app' as *;
+
+.monitoraea_midia {
+    padding-bottom: 10px;
+
+    .width-limiter {
+        max-width: 991px;
+        width: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+
+    .title-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $cristal;
+        border-radius: 30px;
+        font-size: 1.25rem;
+        margin: -40px 10vw;
+        margin-bottom: 30px;
+        max-width: 800px;
+        margin-left: -100px;
+        z-index: 10;
+
+        .left-side {
+            border-radius: 30px;
+            background-color: $indigo;
+            color: #ffffff;
+            padding: 8px 20px 8px 0px;
+            font-weight: 400;
+            min-width: 300px;
+            text-align: right;
+        }
+
+        .right-side {
+            color: $indigo;
+            padding-right: 7px;
+        }
+    }
+
+
+
+    .timeline {
+        .timeline-each {
+
+            .timeline-each-thumb {
+                display: flex;
+                justify-content: center;
+                background: linear-gradient($cristal, $cristal) no-repeat center/4px 100%;
+                padding: 24px 0 12px 0;
+
+                .timeline-each-thumb-image {
+                    width: 120px;
+                    height: 120px;
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    border: solid 4px $cristal;
+                    background-color: #fff;
+                    z-index: 10;
+
+                    img {
+                        display: inline;
+                        margin: 0 auto;
+                        height: 100%;
+                        width: auto;
+                    }
+                }
+            }
+
+            .timeline-each-date {
+                display: flex;
+                justify-content: center;
+                margin-top: -14px;
+                z-index: 9;
+
+                .timeline-each-date-miolo {
+                    display: flex;
+                    justify-content: center;
+
+                    background-color: $anil;
+                    color: $white;
+                    z-index: 2;
+                    padding: 8px 12px;
+                    font-size: $small-font;
+                    border-radius: $border-radius-big;
+                    min-width: 150px;
+                    text-align: right;
+                }
+            }
+
+            .timeline-each-text {
+                display: flex;
+                align-items: center;
+                background-color: $cristal;
+                text-align: justify;
+                padding: 10px 20px;
+                margin-left: 0;
+                margin-top: -4px;
+                margin-bottom: 0;
+            }
+
+            .timeline-each-more {
+                margin-top: -5px;
+                display: flex;
+                justify-content: center;
+
+                a {
+                    color: $anil;
+
+                    &:hover {
+                        color: $indigo;
+                    }
+                }
+            }
+        }
+
+        .timeline-each-thumb.empty {
+            height: 100px;
+            margin-top: -132px;
+            padding: 0;
+        }
+
+        .end {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+            padding: 0;
+        }
+    }
+}

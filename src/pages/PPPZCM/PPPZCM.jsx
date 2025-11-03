@@ -615,7 +615,7 @@ function PPPZCM() {
                       /* closeMenuOnSelect={false} */
                       components={animatedComponents}
                       /* isMulti */
-                      options={[{ value: "-1", label: "Todos" }, ...ufs_facilitators]}
+                      options={[{ value: "-1", label: "Todos" }, ...(ufs_facilitators || [])]}
                       value={uf_selected}
                     />
                   </div>
