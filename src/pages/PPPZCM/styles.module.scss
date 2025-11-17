@@ -1,242 +1,314 @@
-@use '../../app' as *;
+@use "../../app" as *;
 
 .section {
-    padding: 0;
-    background-image: url(../../images/pppzcm/bg.png);
-    background-size: cover;
-    min-height: 400px;
+  padding: 0;
+  background-image: url(../../images/pppzcm/bg.png);
+  background-size: cover;
+  min-height: 400px;
 
-    /* remover */
-    .about {
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding: 20px 0;
-        color: $indigo;
-        font-size: $big-font;
-        padding: 60px 0;
-
-        .text {
-            margin-left: 30px;
-
-            .part2 {
-                margin-top: 100px;
-                margin-bottom: 20px;
-            }
-        }
-
-        .download {
-            position: absolute;
-            right: 0;
-            margin-top: -30px;
-
-            button {
-                display: flex;
-                gap: 5px;
-                align-items: center;
-            }
-        }
+  /* remover */
+  .about {
+    position: relative;
+    display: flex;
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
     }
+
+    align-items: center;
+    padding: 20px 0;
+    @media screen and (max-width: 500px) {
+      padding: 20px 35px 20px 20px;
+      text-align: justify;
+    }
+    color: $indigo;
+    font-size: $big-font;
+    padding: 60px 0;
+
+    .text {
+      margin-left: 30px;
+
+      .part2 {
+        margin-top: 100px;
+        margin-bottom: 20px;
+
+        @media screen and (max-width: 500px) {
+          margin-top: 10px;
+        }
+      }
+    }
+
+    .download {
+      position: absolute;
+      right: 0;
+      margin-top: -30px;
+
+      @media screen and (max-width: 500px) {
+        position: unset;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+      }
+
+      button {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.cadastre {
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .button-wrapper {
-    max-width: 80vw;
+  max-width: 80vw;
 
-    button {
-        color: $white;
-        border: solid 3px $anil;
-        border-radius: $border-radius-big;
-        background-color: $anil;
-        font-size: $less-than-medium-font;
-        font-family: 'Poppins';
-        padding: 8px 20px;
-        cursor: pointer;
+  button {
+    color: $white;
+    border: solid 3px $anil;
+    border-radius: $border-radius-big;
+    background-color: $anil;
+    font-size: $less-than-medium-font;
+    font-family: "Poppins";
+    padding: 8px 20px;
+    cursor: pointer;
 
-        &:hover {
-            background-color: $white;
-            color: $anil;
-        }
+    &:hover {
+      background-color: $white;
+      color: $anil;
     }
+  }
 }
 
 .more-content {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 
-    background-image: url(../../images/pppzcm/bg2.png);
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    background-position: right;
+  background-image: url(../../images/pppzcm/bg2.png);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: right;
 
-    &.type2,
-    &.type3 {
-        background-image: url(../../images/pppzcm/bg4.png);
-        background-position: left;
-        background-color: $cristal;
-
-        .inner {
-            .box {
-                background-color: $anil;
-                color: $white
-            }
-        }
-    }
-
-    &.type3 {
-        background-image: url(../../images/pppzcm/bg4-flip.png);
-        background-position: right;
-    }
-
-    &>div {
-        width: 100%;
-    }
+  &.type2,
+  &.type3 {
+    background-image: url(../../images/pppzcm/bg4.png);
+    background-position: left;
+    background-color: $cristal;
 
     .inner {
-        margin-top: 50px;
-        margin-bottom: 25px;
-        padding-bottom: 50px;
+      .box {
+        background-color: $anil;
+        color: $white;
+      }
 
+      @media screen and (max-width: 500px) {
         .title-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: $indigo;
-            border-radius: $border-radius-big;
-            font-size: $big-font;
-            margin: 0 10vw;
-            margin-bottom: 10px;
-            max-width: 800px;
-            margin-left: -100px;
-
-            padding: 8px 20px;
-            color: $white;
-
-            &.title2 {
-                background-color: $anil;
-            }
+          display: flex;
+          justify-content: flex-end;
+          text-align: right;
+          padding-left: 110px;
         }
-
-        .texto,
-        .box {
-
-            display: flex;
-            color: $indigo;
-            font-size: $big-font;
-            text-align: left;
-            gap: 20px;
-
-            span {
-                color: $anil;
-                font-weight: bold;
-            }
-        }
-
-        .assista {
-            margin-bottom: 5px;
-            font-size: $more-than-big-font;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .box {
-            text-align: center;
-            padding: 15px 10px;
-            background: $cristal;
-            border-radius: 20px;
-        }
+      }
     }
+  }
+
+  &.type3 {
+    background-image: url(../../images/pppzcm/bg4-flip.png);
+    background-position: right;
+  }
+
+  & > div {
+    width: 100%;
+  }
+
+  .inner {
+    margin-top: 50px;
+    margin-bottom: 25px;
+    padding-bottom: 50px;
+
+    .title-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: $indigo;
+      border-radius: $border-radius-big;
+      font-size: $big-font;
+      margin: 0 10vw;
+      margin-bottom: 10px;
+      max-width: 800px;
+      margin-left: -100px;
+
+      padding: 8px 20px;
+      color: $white;
+
+      &.title2 {
+        background-color: $anil;
+      }
+
+      @media screen and (max-width: 500px) {
+        text-align: right;
+        display: block;
+      }
+    }
+
+    .texto,
+    .box {
+      display: flex;
+      color: $indigo;
+      font-size: $big-font;
+      text-align: left;
+      gap: 20px;
+
+      span {
+        color: $anil;
+        font-weight: bold;
+      }
+    }
+
+    .texto {
+      @media screen and (max-width: 500px) {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        text-align: justify;
+      }
+    }
+
+    .assista {
+      margin-bottom: 5px;
+      font-size: $more-than-big-font;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .box {
+      text-align: center;
+      padding: 15px 10px;
+      background: $cristal;
+      border-radius: 20px;
+      @media screen and (max-width: 500px) {
+        margin: 0 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .image {
+      img {
+        width: 80vw;
+      }
+    }
+  }
 }
 
 .icones {
-    margin-top: 60px;
-    margin-bottom: 50px;
+  margin-top: 60px;
+  margin-bottom: 50px;
+  img {
+    width: 45vw;
+  }
+  @media screen and (max-width: 500px) {
+    background-color: white;
     img {
-        width: 45vw;
+      width: 95vw;
     }
+  }
 }
 
 .people {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-columns: repeat(3, 350px);
-    grid-template-rows: repeat(3, 100px);
+  @media screen and (max-width: 500px) {
+    max-width: 80vw;
+  }
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(3, 350px);
+  grid-template-rows: repeat(3, 100px);
+  @media screen and (max-width: 500px) {
+    grid-template-columns: repeat(1, 350px);
+    grid-template-rows: repeat(1, 100px);
+    padding: 0 20px;
+    grid-gap: 15px;
+  }
 
-    .person {
-        border-radius: 5px;
-        display: flex;
-        place-items: center;
+  .person {
+    border-radius: 5px;
+    display: flex;
+    place-items: center;
 
-        .info {
-            text-align: left;
-            font-family: 'Poppins';
-            font-size: $small-font;
+    .info {
+      text-align: left;
+      font-family: "Poppins";
+      font-size: $small-font;
 
-            &>div:first-child {
-                font-weight: bold;
-            }
-        }
-
-        .photo {
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 85px;
-            height: 85px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 10px;
-            border: solid 1px #eee;
-
-            img {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        .email {
-
-            max-width: 250px;
-            overflow-x: hidden;
-
-            a {
-                font-size: $super-smallest-font;
-                color: inherit;
-                text-decoration: underline;
-            }
-        }
-
-
+      & > div:first-child {
+        font-weight: bold;
+      }
     }
+
+    .photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px;
+      border: solid 1px #eee;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .email {
+      max-width: 250px;
+      overflow-x: hidden;
+
+      a {
+        font-size: $super-smallest-font;
+        color: inherit;
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .type3 {
+  .texto {
+    align-items: flex-end;
+    gap: 40px !important;
 
-    .texto {
-        align-items: flex-end;
-        gap: 40px !important;
+    div:first-child {
+      padding-bottom: 10px;
+    }
+  }
 
-        div:first-child {
-            padding-bottom: 10px;
-        }
+  .search {
+    text-align: left;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    @media screen and (max-width: 500px) {
+      padding-left: 20px;
     }
 
-    .search {
-        text-align: left;
-        display: flex;
-        gap: 4px;
-        align-items: center;
-
-        .search_field {
-            min-width: 250px;
-        }
+    .search_field {
+      min-width: 250px;
     }
+  }
 
-    .facilitadores {
-        display: flex;
-        gap: 35px;
-        margin-top: 10px;
-    }
-
+  .facilitadores {
+    display: flex;
+    gap: 35px;
+    margin-top: 10px;
+  }
 }

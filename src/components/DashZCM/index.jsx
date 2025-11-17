@@ -7,7 +7,11 @@ import { useQuery } from "react-query";
 
 import styles from "./styles.module.scss";
 
+import { useMediaQuery } from "react-responsive";
+
 export default function Dash({ filtersString }) {
+  const isMobile = useMediaQuery({ maxWidth: 500 });
+
   const [linhas, _linhas] = useState(null);
 
   const { data: iniciatives } = useQuery(["zcm-initiatives", filtersString], {
@@ -95,63 +99,77 @@ export default function Dash({ filtersString }) {
       <section className={styles["ppea-dash"]}>
         <div className="width-limiter">
           <div className={styles["ppea-dash-inner"]}>
-            <div className={styles["title"]}>
-              Conheça as iniciativas
-              <br />
-              vinculadas à<br />
-              implementação do
-              <br />
-              PPPZCM
-            </div>
-
-            <div className={styles["big-numbers"]}>
-              <div className={styles["box-with-image"]}>
-                <div className={`${styles["box"]} ${styles["box-1"]}`}>
-                  {!iniciatives && <div className={styles.number}>...</div>}
-                  {iniciatives && (
-                    <div className={styles.number}>{iniciatives}</div>
-                  )}
-                  <div className={styles.text}>
-                    iniciativas de
-                    <br />
-                    Educação
-                    <br />
-                    Ambiental
-                  </div>
-                </div>
+            {!isMobile && (
+              <div className={styles["title"]}>
+                Conheça as iniciativas
+                <br />
+                vinculadas à<br />
+                implementação do
+                <br />
+                PPPZCM
               </div>
+            )}
 
-              <div className={styles.second}>
+            {isMobile && (
+              <div className={styles["title"]}>
+                Conheça as iniciativas vinculadas à implementação do PPPZCM
+              </div>
+            )}
+
+            {!isMobile && (
+              <div className={styles["big-numbers"]}>
                 <div className={styles["box-with-image"]}>
-                  <div className={`${styles["box"]}`}>
-                    {!institutions && <div className={styles.number}>...</div>}
-                    {institutions && (
-                      <div className={styles.number}>{institutions}</div>
+                  <div className={`${styles["box"]} ${styles["box-1"]}`}>
+                    {!iniciatives && <div className={styles.number}>...</div>}
+                    {iniciatives && (
+                      <div className={styles.number}>{iniciatives}</div>
                     )}
-                    <div className={styles.text}>organizações</div>
+                    <div className={styles.text}>
+                      iniciativas de
+                      <br />
+                      Educação
+                      <br />
+                      Ambiental
+                    </div>
                   </div>
                 </div>
 
-                <div className={styles["box-with-image"]}>
-                  <div className={`${styles["box"]}`}>
-                    {!members && <div className={styles.number}>...</div>}
-                    {members && <div className={styles.number}>{members}</div>}
-                    <div className={styles.text}>membros de comunidades</div>
+                <div className={styles.second}>
+                  <div className={styles["box-with-image"]}>
+                    <div className={`${styles["box"]}`}>
+                      {!institutions && (
+                        <div className={styles.number}>...</div>
+                      )}
+                      {institutions && (
+                        <div className={styles.number}>{institutions}</div>
+                      )}
+                      <div className={styles.text}>organizações</div>
+                    </div>
+                  </div>
+
+                  <div className={styles["box-with-image"]}>
+                    <div className={`${styles["box"]}`}>
+                      {!members && <div className={styles.number}>...</div>}
+                      {members && (
+                        <div className={styles.number}>{members}</div>
+                      )}
+                      <div className={styles.text}>membros de comunidades</div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                {linhas && (
-                  <Chart
-                    options={linhas.options}
-                    series={linhas.series}
-                    type="treemap"
-                    width="500"
-                  />
-                )}
+                <div>
+                  {linhas && (
+                    <Chart
+                      options={linhas.options}
+                      series={linhas.series}
+                      type="treemap"
+                      width="500"
+                    />
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

@@ -43,6 +43,8 @@ import { useQuery } from "react-query";
 import makeAnimated from "react-select/animated";
 import { useState, useEffect } from "react";
 
+import { useMediaQuery } from "react-responsive";
+
 const animatedComponents = makeAnimated();
 
 const selectDefaults = {
@@ -52,6 +54,8 @@ const selectDefaults = {
 };
 
 function PPPZCM() {
+  const isMobile = useMediaQuery({ maxWidth: 500 });
+
   const [uf_selected, _uf_selected] = useState({ value: "-1", label: "Todos" });
 
   const [ufs, _ufs] = useState(null);
@@ -156,12 +160,33 @@ function PPPZCM() {
                 educativos da Zona Costeira e Marinha do Brasil com o foco no
                 uso sustentável e conservação da biodiversidade.
               </div>
+
+              {isMobile && (
+                <div className={styles.download}>
+                  <div className={styles["button-wrapper"]}>
+                    <button
+                      onClick={() =>
+                        window.open(
+                          "https://pppzcm-files.s3.us-east-2.amazonaws.com/PPPZCM.pdf",
+                          "_blank",
+                        )
+                      }
+                    >
+                      <div className={styles.image}>
+                        <img src={download} />
+                      </div>{" "}
+                      Baixe o documento do PPPZCM
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div className={styles.part2}>
                 O MonitoraEA PPPZCM é o espaço de cadastro, mapeamento e
                 monitoramento de iniciativas vinculados à implementação do
                 PPPZCM.
               </div>
-              <div>
+              <div className={styles["cadastre"]}>
                 <div className={styles["button-wrapper"]}>
                   <button
                     onClick={() =>
@@ -173,23 +198,25 @@ function PPPZCM() {
                 </div>
               </div>
             </div>
-            <div className={styles.download}>
-              <div className={styles["button-wrapper"]}>
-                <button
-                  onClick={() =>
-                    window.open(
-                      "https://pppzcm-files.s3.us-east-2.amazonaws.com/PPPZCM.pdf",
-                      "_blank",
-                    )
-                  }
-                >
-                  <div className={styles.image}>
-                    <img src={download} />
-                  </div>{" "}
-                  Baixe o documento do PPPZCM
-                </button>
+            {!isMobile && (
+              <div className={styles.download}>
+                <div className={styles["button-wrapper"]}>
+                  <button
+                    onClick={() =>
+                      window.open(
+                        "https://pppzcm-files.s3.us-east-2.amazonaws.com/PPPZCM.pdf",
+                        "_blank",
+                      )
+                    }
+                  >
+                    <div className={styles.image}>
+                      <img src={download} />
+                    </div>{" "}
+                    Baixe o documento do PPPZCM
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -314,8 +341,8 @@ function PPPZCM() {
                   Assista ao vídeo e saiba mais
                 </div>
                 <iframe
-                  width="560"
-                  height="315"
+                  width={!isMobile ? "560" : "350"}
+                  height={!isMobile ? "315" : "190"}
                   src="https://www.youtube.com/embed/wiOmAusdq3I?si=kTfSvtzi_SNFx_Lj"
                   title="YouTube video player"
                   frameborder="0"
@@ -589,8 +616,8 @@ function PPPZCM() {
                   Assista ao vídeo e conheça os facilitadores
                 </div>
                 <iframe
-                  width="560"
-                  height="315"
+                  width={!isMobile ? "560" : "350"}
+                  height={!isMobile ? "315" : "190"}
                   src="https://www.youtube.com/embed/zJ6uPdz9sOQ?si=5XW95T5h6KPc6UX_"
                   title="YouTube video player"
                   frameborder="0"
@@ -615,7 +642,10 @@ function PPPZCM() {
                       /* closeMenuOnSelect={false} */
                       components={animatedComponents}
                       /* isMulti */
-                      options={[{ value: "-1", label: "Todos" }, ...(ufs_facilitators || [])]}
+                      options={[
+                        { value: "-1", label: "Todos" },
+                        ...(ufs_facilitators || []),
+                      ]}
                       value={uf_selected}
                     />
                   </div>
@@ -657,27 +687,6 @@ function PPPZCM() {
           portal="pppzcm"
         />
       ))}
-
-      {/* <section>
-        <div className="width-limiter">
-          <div className="section-header">
-            <div className="section-title">Facilitadores</div>
-            <Link to='/facilitadores'>
-              <button className="btn-link">
-                <div className="icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
-                    <path d="M7.05566 9.94455L11.5001 5.50011L7.05566 1.05566" stroke="#599559" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M11.4997 5.5H0.833008" stroke="#599559" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                Ver todas
-              </button>
-            </Link>
-          </div>
-          <p><DynamicContent keyRef="pppzcm.facilitators" /></p>
-          <Loop staleTime={0} simple={true} />
-        </div>
-      </section> */}
 
       <Faq portal="pppzcm" />
     </>
