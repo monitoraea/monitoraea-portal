@@ -327,14 +327,16 @@ export default function GeneralMap({ config, onFiltersChange }) {
                   />
                 )}
 
-                {config.resultsTable && (<ResultsTable
-                  config={config}
-                  loading={loading}
-                  iniciativas={iniciativas}
-                  page={page}
-                  onPageChange={_page}
-                  handleSelect={handleSelect}
-                />)}
+                {config.resultsTable && (
+                  <ResultsTable
+                    config={config}
+                    loading={loading}
+                    iniciativas={iniciativas}
+                    page={page}
+                    onPageChange={_page}
+                    handleSelect={handleSelect}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -439,14 +441,16 @@ export default function GeneralMap({ config, onFiltersChange }) {
                   />
                 )}
 
-                {config.resultsTable && (<ResultsTable
-                  config={config}
-                  loading={loading}
-                  iniciativas={iniciativas}
-                  page={page}
-                  onPageChange={_page}
-                  handleSelect={handleSelect}
-                />)}
+                {config.resultsTable && (
+                  <ResultsTable
+                    config={config}
+                    loading={loading}
+                    iniciativas={iniciativas}
+                    page={page}
+                    onPageChange={_page}
+                    handleSelect={handleSelect}
+                  />
+                )}
               </div>
 
               <div
@@ -564,89 +568,94 @@ function TabFilters({
     </>
   );
 }
-function ResultsTable({ config, loading, iniciativas, page, onPageChange, handleSelect }) {
-  return (<>
-    <div className={styles["list-header"]}>
-      {/* headers */}
-      {config.resultsTable.headers.map((h, idx) => (
-        <div key={idx}>{h}</div>
-      ))}
+function ResultsTable({
+  config,
+  loading,
+  iniciativas,
+  page,
+  onPageChange,
+  handleSelect,
+}) {
+  return (
+    <>
+      <div className={styles["list-header"]}>
+        {/* headers */}
+        {config.resultsTable.headers.map((h, idx) => (
+          <div key={idx}>{h}</div>
+        ))}
 
-      {(config.resultsTable.hasGoToMap !== false ||
-        config.resultsTable.singleUrl?.length) && (
-        <div>Conecte-se</div>
-      )}
-    </div>
+        {(config.resultsTable.hasGoToMap !== false ||
+          config.resultsTable.singleUrl?.length) && <div>Conecte-se</div>}
+      </div>
 
-    {!loading &&
-      !!iniciativas &&
-      iniciativas.entities.map((p) => (
-        <div key={p.id} className={styles["list-item"]}>
-          {/* columns */}
-          {config.resultsTable?.data &&
-            typeof config.resultsTable?.data === "function" &&
-            config.resultsTable
-              .data(p)
-              .map((value, idx) => (
-                <div key={idx}>{value}</div>
-              ))}
+      {!loading &&
+        !!iniciativas &&
+        iniciativas.entities.map((p) => (
+          <div key={p.id} className={styles["list-item"]}>
+            {/* columns */}
+            {config.resultsTable?.data &&
+              typeof config.resultsTable?.data === "function" &&
+              config.resultsTable
+                .data(p)
+                .map((value, idx) => <div key={idx}>{value}</div>)}
 
-          <div className={styles.final}>
-            {/* hasGoToMap */}
-            {config.resultsTable.hasGoToMap !== false && (
-              <img onClick={() => handleSelect(p)} src={Mapa} />
-            )}
-            {/* singleUrl - if no singleUrl, no image */}
-            <img
-              onClick={() =>
-                window.open(
-                  `${config.resultsTable.singleUrl || ""}/${p[config.resultsTable.singleField || "id"]}`,
-                  "_blank",
-                )
-              }
-              src={Acesso}
-            />
+            <div className={styles.final}>
+              {/* hasGoToMap */}
+              {config.resultsTable.hasGoToMap !== false && (
+                <img onClick={() => handleSelect(p)} src={Mapa} />
+              )}
+              {/* singleUrl - if no singleUrl, no image */}
+              <img
+                onClick={() =>
+                  window.open(
+                    `${config.resultsTable.singleUrl || ""}/${p[config.resultsTable.singleField || "id"]}`,
+                    "_blank",
+                  )
+                }
+                src={Acesso}
+              />
+            </div>
+          </div>
+        ))}
+
+      {/* total headers*/}
+      {loading &&
+        [1, 2, 3, 4, 5].map((m) => (
+          <div
+            key={`mock_${m}`}
+            className={`${styles["list-item"]} ${styles["mock"]}`}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        ))}
+
+      {iniciativas && (
+        <div className={styles["list-pag"]}>
+          <div
+            onClick={() => {
+              if (iniciativas.hasPrevious) onPageChange(page - 1);
+            }}
+            className={`${iniciativas.hasPrevious ? styles.active : ""}`}
+          >
+            {"<"}
+          </div>
+          <div>página</div>
+          <div>{page}</div>
+          <div>/</div>
+          <div>{iniciativas.pages}</div>
+          <div
+            onClick={() => {
+              if (iniciativas.hasNext) onPageChange(page + 1);
+            }}
+            className={`${iniciativas.hasNext ? styles.active : ""}`}
+          >
+            {">"}
           </div>
         </div>
-      ))}
-
-    {/* total headers*/}
-    {loading &&
-      [1, 2, 3, 4, 5].map((m) => (
-        <div
-          key={`mock_${m}`}
-          className={`${styles["list-item"]} ${styles["mock"]}`}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      ))}
-
-    {iniciativas && (
-      <div className={styles["list-pag"]}>
-        <div
-          onClick={() => {
-            if (iniciativas.hasPrevious) onPageChange(page - 1);
-          }}
-          className={`${iniciativas.hasPrevious ? styles.active : ""}`}
-        >
-          {"<"}
-        </div>
-        <div>página</div>
-        <div>{page}</div>
-        <div>/</div>
-        <div>{iniciativas.pages}</div>
-        <div
-          onClick={() => {
-            if (iniciativas.hasNext) onPageChange(page + 1);
-          }}
-          className={`${iniciativas.hasNext ? styles.active : ""}`}
-        >
-          {">"}
-        </div>
-      </div>
-    )}
-  </>)
+      )}
+    </>
+  );
 }
