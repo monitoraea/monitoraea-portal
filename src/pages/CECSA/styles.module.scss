@@ -1,73 +1,88 @@
-@use '../../app' as *;
+@use "../../app" as *;
 
 .logo {
-    background-color: #f9ede0;
+  background-color: #f9ede0;
+
+  @media screen and (max-width: 500px) {
+    text-align: center;
+  }
 }
 
 .about-section {
-    border-bottom: 6px solid $anil;
-    padding-bottom: 1rem;
+  border-bottom: 6px solid $anil;
+  padding-bottom: 1rem;
 
-    .about {
-        display: flex;
-        align-items: center;
-        color: $indigo;
-        font-size: $big-font;
+  @media screen and (max-width: 500px) {
+    padding-top: 10px;
+  }
 
-        span {
-            color: $anil;
-            font-weight: bold;
-        }
+  .about {
+    display: flex;
+    align-items: center;
+    color: $indigo;
+    font-size: $big-font;
 
-        .title {
-            font-size: $super-big-font;
-            margin-bottom: 15px;
-        }
-
-        .about-text {
-            display: flex;
-            gap: 50px;
-
-            .column {
-                flex: 1;
-                text-align: justify;
-            }
-        }
+    span {
+      color: $anil;
+      font-weight: bold;
     }
+
+    .title {
+      font-size: $super-big-font;
+      margin-bottom: 15px;
+      @media screen and (max-width: 500px) {
+        text-align: center;
+      }
+    }
+
+    .about-text {
+      display: flex;
+      gap: 50px;
+
+      @media screen and (max-width: 500px) {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .column {
+        flex: 1;
+        text-align: justify;
+      }
+    }
+  }
 }
 
 .buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 
-    .button-wrapper {
-        max-width: 80vw;
-    }
+  .button-wrapper {
+    max-width: 80vw;
+  }
 
-    .download {
-
-        button {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-    }
-    
+  .download {
     button {
-        color: $white;
-        border: solid 3px $anil;
-        border-radius: $border-radius-big;
-        background-color: $anil;
-        font-size: $less-than-medium-font;
-        font-family: 'Poppins';
-        padding: 8px 20px;
-        cursor: pointer;
-        margin-bottom: 20px;
-
-        &:hover {
-            background-color: $white;
-            color: $anil;
-        }
+      display: flex;
+      gap: 5px;
+      align-items: center;
     }
+  }
+
+  button {
+    color: $white;
+    border: solid 3px $anil;
+    border-radius: $border-radius-big;
+    background-color: $anil;
+    font-size: $less-than-medium-font;
+    font-family: "Poppins";
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: $white;
+      color: $anil;
+    }
+  }
 }
