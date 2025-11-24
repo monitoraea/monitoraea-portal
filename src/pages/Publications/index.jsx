@@ -35,11 +35,11 @@ export default function Publications({ staleTime = 3600000 /* 1h */ }) {
   const handleFilters = () => {
     let newFilters = "";
 
-    if (tipo !== "-1") newFilters = `${newFilters}&tipo=${tipo}`;
+    if (tipo != "-1") newFilters = `${newFilters}&tipo=${tipo}`;
 
     if (titulo !== "") newFilters = `${newFilters}&titulo=${titulo}`;
 
-    if (ano !== "-1") newFilters = `${newFilters}&ano=${ano}`;
+    if (ano != "-1") newFilters = `${newFilters}&ano=${ano}`;
 
     // console.log({ newFilters })
 

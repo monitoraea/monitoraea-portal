@@ -1,135 +1,155 @@
-@use '../../app' as *;
+@use "../../app" as *;
 
 .filter {
-    background-color: $cristal;
-    padding: 60px 0 50px 0;
+  background-color: $cristal;
+  padding: 60px 0 50px 0;
 
-    .fields {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  .fields {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        select {
-            border: none;
-            background-color: #fff;
-            font-size: $medium-font;
-            border-radius: 8px;
-            padding: 12px 8px;
-            min-width: 20vh;
-            appearance: none;
-        }
-
-        input {
-            border: none;
-            background-color: #fff;
-            font-size: $medium-font;
-            border-radius: 8px;
-            padding: 12px 8px;
-        }
-
-        button {
-            border: none;
-            background-color: $anil;
-            color: $indigo;
-            border-radius: 8px;
-            font-size: $medium-font;
-            padding: 12px 34px;
-            cursor: pointer;
-            &:hover {
-                background-color: #fff;                
-            }
-        }
+    @media screen and (max-width: 500px) {
+      flex-direction: column;
+      gap: 8px;
     }
+
+    select {
+      border: none;
+      background-color: #fff;
+      font-size: $medium-font;
+      border-radius: 8px;
+      padding: 12px 8px;
+      min-width: 20vh;
+      appearance: none;
+      @media screen and (max-width: 500px) {
+        width: 90vw;
+      }
+    }
+
+    input {
+      border: none;
+      background-color: #fff;
+      font-size: $medium-font;
+      border-radius: 8px;
+      padding: 12px 8px;
+      @media screen and (max-width: 500px) {
+        width: 86vw;
+      }
+    }
+
+    button {
+      border: none;
+      background-color: $anil;
+      color: $indigo;
+      border-radius: 8px;
+      font-size: $medium-font;
+      padding: 12px 34px;
+      cursor: pointer;
+      &:hover {
+        background-color: #fff;
+      }
+      @media screen and (max-width: 500px) {
+        width: 90vw;
+      }
+    }
+  }
 }
 
 .section {
-    margin: 0 0;
-    padding: 0 0;
+  margin: 0 0;
+  padding: 0 0;
 
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 
-    .category {
+  .category {
+    padding: 25px 0 40px 0;
 
-        padding: 25px 0 40px 0;
-
-        .title {
-            color: $indigo;
-            font-size: $super-big-font;
-            font-weight: bold;
-            padding: 0.5rem 0;
-            margin: 8px 0;
-        }
-
-        .items {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            .each {
-                background-color: $cristal;
-                width: 100%;
-                padding: 15px;
-                color: $indigo;
-                font-size: $big-font;
-
-                .first_line {
-
-                    display: flex;
-                    padding-bottom: 5px;
-                    border-bottom: solid 3px #fff;
-
-                    .year {
-                        font-weight: bold;
-                        min-width: 10vh;
-                    }
-
-                }
-
-                .second_line {
-                    display: flex;
-                    padding-top: 8px;
-                    justify-content: flex-start;
-
-                    .sl_content {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 100%;
-                    }
-
-                    .space {
-                        min-width: 10vh;
-                    }
-
-                    .name {
-                        font-weight: bold;
-                    }
-
-                    .access {
-                        min-width: 5vh;
-
-                        button {
-                            border: none;
-                            background: none;
-                            cursor: pointer;
-                        }
-                    }
-                }
-            }
-        }
-
-        &.middle {
-            background-color: $cristal;
-
-            .items {
-                .each {
-                    background-color: #fff;
-
-                    .first_line {
-                        border-bottom: solid 3px $cristal;
-                    }
-                }
-            }
-        }
+    @media screen and (max-width: 500px) {
+      padding: 25px 20px 40px 20px;
     }
+
+    .title {
+      color: $indigo;
+      font-size: $super-big-font;
+      font-weight: bold;
+      padding: 0.5rem 0;
+      margin: 8px 0;
+    }
+
+    .items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .each {
+        background-color: $cristal;
+        width: 100%;
+        padding: 15px;
+        color: $indigo;
+        font-size: $big-font;
+
+        @media screen and (max-width: 500px) {
+          margin: 0 10px;
+          width: unset;
+        }
+
+        .first_line {
+          display: flex;
+          padding-bottom: 5px;
+          border-bottom: solid 3px #fff;
+
+          .year {
+            font-weight: bold;
+            min-width: 10vh;
+          }
+        }
+
+        .second_line {
+          display: flex;
+          padding-top: 8px;
+          justify-content: flex-start;
+
+          .sl_content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          }
+
+          .space {
+            min-width: 10vh;
+          }
+
+          .name {
+            font-weight: bold;
+          }
+
+          .access {
+            min-width: 5vh;
+
+            button {
+              border: none;
+              background: none;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+
+    &.middle {
+      background-color: $cristal;
+
+      .items {
+        .each {
+          background-color: #fff;
+
+          .first_line {
+            border-bottom: solid 3px $cristal;
+          }
+        }
+      }
+    }
+  }
 }
