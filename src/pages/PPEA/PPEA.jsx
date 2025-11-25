@@ -109,10 +109,6 @@ function PPEA() {
   });
 
   useEffect(() => {
-    console.log({ isMobile });
-  }, [isMobile]);
-
-  useEffect(() => {
     _enquads(getEnquads());
   }, [ppea_reg, ppea_uf, ppea_mun, ppea_uc]);
   // TODO: melhorar estes states, vide zcm recortes
