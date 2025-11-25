@@ -22,8 +22,7 @@ import d1 from "../../images/diagram-1.png";
 import { options } from "sanitize-html";
 
 function PPEA() {
-  const isMobile =
-    useMediaQuery({ maxWidth: 991 }) && import.meta.env.MODE === "development";
+  const isMobile = useMediaQuery({ maxWidth: 500 });
 
   const [ppea_uf, _ppea_uf] = useState(false);
   const [ppea_mun, _ppea_mun] = useState(false);
@@ -108,6 +107,10 @@ function PPEA() {
       ).data,
     staleTime: 3600000,
   });
+
+  useEffect(() => {
+    console.log({ isMobile });
+  }, [isMobile]);
 
   useEffect(() => {
     _enquads(getEnquads());
