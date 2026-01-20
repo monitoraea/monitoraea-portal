@@ -1,0 +1,40 @@
+.noprofile {
+    padding: 50px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.profile {
+    display: flex;
+    gap: 40px;
+
+    .avatar {
+        img {
+            width: 20vw;
+        }
+    }
+
+    .data-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        /* Title takes needed space, value fills rest */
+        gap: 8px 1rem;
+        /* Row gap and column gap */
+        align-items: center;
+    }
+
+    .data-grid__title {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .data-grid__value {
+        color: #222;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+}

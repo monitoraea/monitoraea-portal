@@ -23,6 +23,7 @@ import PPPZCM from './pages/PPPZCM/PPPZCM';
 import CIEA from './pages/CIEA/CIEA';
 import Risco from './pages/Risco/Risco';
 import ANPPEA from './pages/ANPPEA/';
+import Profile from './pages/Profile/';
 import Publications from './pages/Publications';
 import Monitora from './pages/Monitora/Monitora';
 import ScrollToTop from './components/ScrollTop';
@@ -72,6 +73,7 @@ function App() {
         <Route path="/sobre/risco_climatico" element={<Risco />} />
         <Route path="/sobre/pppzcm" element={<PPPZCM />} />
         <Route path="/sobre/anppea" element={<ANPPEA />} />
+        <Route path="/perfil/:identifier" element={<Profile />} />
         <Route path="/publicacoes" element={<Publications />} />
         <Route path="/login" element={<Login />} />
       </Routes>
