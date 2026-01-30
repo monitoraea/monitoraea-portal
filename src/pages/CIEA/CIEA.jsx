@@ -51,7 +51,7 @@ function CIEA() {
       <section className={styles["ciea-dash"]}>
         <div className="width-limiter">
           <div className={styles["ciea-dash-inner"]}>
-            <div className={styles["title"]}>Conheça as CIEA do Brasil</div>
+            <div className={styles["title"]}>Conheça os Colegiados de PPEA do Brasil</div>
           </div>
         </div>
       </section>
@@ -67,7 +67,7 @@ function CIEA() {
           },
           resultsTable: {
             headers: ["CIEA Selecionadas", "Região"],
-            singleUrl: "/iniciativa/ciea",
+            singleUrl: "/iniciativa/colegiados",
             data: (results) => [
               results.nome,
               "", // TODO

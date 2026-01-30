@@ -398,7 +398,7 @@ export default function MapPP() {
                       <img onClick={() => handleSelect(p)} src={Mapa} />
                       <img
                         onClick={() =>
-                          window.open(`/iniciativa/ciea/${p.id}`, "_blank")
+                          window.open(`/iniciativa/colegiados/${p.id}`, "_blank")
                         }
                         src={Acesso}
                       />

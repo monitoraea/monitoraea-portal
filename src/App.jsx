@@ -60,7 +60,7 @@ function App() {
         <Route path="/page/:id" element={<NovidadeSingle />} />
         <Route path="/iniciativa/pppzcm/:id" element={<SingleProjeto />} />
         <Route path="/iniciativa/cecsa/:id" element={<SingleCentro />} />
-        <Route path="/iniciativa/ciea/:id" element={<SingleCIEA />} />
+        <Route path="/iniciativa/colegiados/:id" element={<SingleCIEA />} />
         <Route path="/iniciativa/ppea/:id" element={<SinglePPEA />} />
         <Route path="/iniciativa/iniciativa/:id" element={<SingleING />} />
         <Route path="/iniciativa/educom_clima/:id" element={<SingleEC />} />
@@ -69,7 +69,7 @@ function App() {
         <Route path="/sobre/iniciativas" element={<ING />} />
         <Route path="/sobre/educom_clima" element={<EDUCLI />} />
         <Route path="/sobre/centros-nucleos-equipamentos" element={<CECSA />} />
-        <Route path="/sobre/ciea" element={<CIEA />} />
+        <Route path="/sobre/colegiados" element={<CIEA />} />
         <Route path="/sobre/risco_climatico" element={<Risco />} />
         <Route path="/sobre/pppzcm" element={<PPPZCM />} />
         <Route path="/sobre/anppea" element={<ANPPEA />} />
