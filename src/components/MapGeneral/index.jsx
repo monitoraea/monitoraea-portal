@@ -97,9 +97,9 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               <Enter />
             </div>
           </li>
-          <li className={`${perspective === 'ciea' ? styles.active : ''}`} onClick={handlePerspective('ciea')}>
-            <div className={styles.title}>Instâncias e Espaços de articulação e controle social (CA-OG, CIEA e CIMEA)</div>
-            <div className={styles.enter} onClick={() => navigateToPerspective('ciea')}>
+          <li className={`${perspective === 'colegiados' ? styles.active : ''}`} onClick={handlePerspective('colegiados')}>
+            <div className={styles.title}>Colegiados de Políticas Públicas de Educação Ambiental</div>
+            <div className={styles.enter} onClick={() => navigateToPerspective('colegiados')}>
               <Enter />
             </div>
           </li>
@@ -147,7 +147,7 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               opacity={0.5}
             />}
 
-            {perspective === 'ciea' && <WMSTileLayer
+            {perspective === 'colegiados' && <WMSTileLayer
               url={import.meta.env.VITE_GEOSERVER_URL}
               layers="pppzcm:ufs-staging"
               format="image/png"
@@ -189,9 +189,9 @@ export default function MapGeneral({ staleTime = 3600000, /* 1h */ }) {
               <div className={`${styles.perspective}`} onClick={handlePerspective('pppzcm')}>Iniciativas vinculadas ao Projeto Político-Pedagógico da Zona Costeira e Marinha do Brasil</div>
               <div className={styles.acessar}><div className={styles.acessar_button} onClick={() => navigateToPerspective('pppzcm')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
             </div>
-            <div className={`${styles.perspective_container} ${perspective === 'ciea' ? styles.active : ''}`}>
-              <div className={`${styles.perspective}`} onClick={handlePerspective('ciea')}>Instâncias e Espaços de articulação e controle social (CA-OG, CIEA e CIMEA)</div>
-              <div className={styles.acessar}><div className={styles.acessar_button} onClick={() => navigateToPerspective('ciea')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
+            <div className={`${styles.perspective_container} ${perspective === 'colegiados' ? styles.active : ''}`}>
+              <div className={`${styles.perspective}`} onClick={handlePerspective('colegiados')}>Colegiados de Políticas Públicas de Educação Ambiental</div>
+              <div className={styles.acessar}><div className={styles.acessar_button} onClick={() => navigateToPerspective('colegiados')}>Acessar a perspectiva selecionada <img src={seta} /></div></div>
             </div>
             <div className={`${styles.perspective_container} ${perspective === 'centros-nucleos-equipamentos' ? styles.active : ''}`}>
               <div className={`${styles.perspective}`} onClick={handlePerspective('centros-nucleos-equipamentos')}>Centros, Núcleos e Equipamentos de Educação e Cooperação Socioambiental</div>
