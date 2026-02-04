@@ -7,6 +7,7 @@ export const portals = {
   'pppzcm': ['Políticas Públicas e Projetos', 'pppzcm'],
   'ciea': ['Instâncias e Espaços', 'ciea'],
   'cecsa': ['Centros/Núcleos/Equipamentos', 'cecsa'],
+  'cne': ['Centros/Núcleos/Equipamentos', 'cecsa'],
   'risco': ['Risco Climático', 'risco'],
 };
 export const content_types = {
