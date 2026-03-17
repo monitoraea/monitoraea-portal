@@ -19,23 +19,6 @@ import styles from "./styles.module.scss";
 function CIEA() {
   const [filtersString, _filtersString] = useState("");
 
-  const { data: regioes } = useQuery(["regioes"], {
-    queryFn: async () =>
-      (await axios.get(`${import.meta.env.VITE_SERVER}commission/options`))
-        .data,
-    staleTime: 3600000,
-  });
-
-  const { data: ufs } = useQuery(["ufs", { filtersString }], {
-    queryFn: async () =>
-      (
-        await axios.get(
-          `${import.meta.env.VITE_SERVER}commission/ufs?${filtersString}`,
-        )
-      ).data,
-    staleTime: 3600000,
-  });
-
   return (
     <>
       <Header />
@@ -61,40 +44,30 @@ function CIEA() {
           perspective: "ciea",
           entity: "commission",
           geo: {
-            layer: "pppzcm:ufs-staging",
-            field: "id",
-            cql_field: "uf",
+            layer: "pppzcm:colegiados",
+            field: "iniciativa_id",
+            cql_field: "iniciativa_id",
           },
           resultsTable: {
-            headers: ["CIEA Selecionadas", "Região"],
+            headers: ["CIEA Selecionadas"],
             singleUrl: "/iniciativa/colegiados",
+            singleField: "iniciativa_id",
             data: (results) => [
               results.nome,
-              "", // TODO
               // results.regioes.filter((r) => !!r).join(","),
             ],
           },
           fields: [
-            {
-              key: "regioes",
-              initialFieldState: null,
-              initialToggleState: false,
-              title: "Regiões",
-              type: "select",
-              options: regioes,
-              isMulti: true,
-              reset: ["id", "ufs"],
-            },
-            {
-              key: "ufs",
-              initialFieldState: null,
-              initialToggleState: false,
-              title: "Estado",
-              type: "select",
-              options: ufs,
-              isMulti: true,
-              reset: ["id"],
-            },
+            // {
+            //   key: "ufs",
+            //   initialFieldState: null,
+            //   initialToggleState: false,
+            //   title: "Estado",
+            //   type: "select",
+            //   options: ufs,
+            //   isMulti: true,
+            //   reset: ["id"],
+            // },
           ],
         }}
         onFiltersChange={_filtersString}

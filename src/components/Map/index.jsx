@@ -500,10 +500,10 @@ function TabFilters({
 }) {
   return (
     <>
-      <div className={styles.title}>
+      {!!config.fields.length && <div className={styles.title}>
         <div></div>
         <div>Filtros de Busca</div>
-      </div>
+      </div>}
 
       {config.fields.map((f) => (
         <div

@@ -105,7 +105,6 @@ function Single({ staleTime = 3600000 /* 1h */ }) {
             <div>
               <div className={styles.initiative}>{data.nome}</div>
               <div className={styles.institution}>
-                {data.nm_estado}
                 <div
                   className={styles.fale}
                   onClick={() => _showParticipateDialog(true)}
