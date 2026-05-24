@@ -1,7 +1,7 @@
 @use "../../app" as *;
 
 .logo {
-  background-color: #f9ede0;
+  background-color: #d6e5f8;
 
   @media screen and (max-width: 500px) {
     text-align: center;
@@ -30,6 +30,7 @@
     .title {
       font-size: $super-big-font;
       margin-bottom: 15px;
+
       @media screen and (max-width: 500px) {
         text-align: center;
       }
@@ -83,6 +84,25 @@
     &:hover {
       background-color: $white;
       color: $anil;
+    }
+  }
+
+  &.cadastre {
+    button {
+      color: $anil;
+      border: solid 3px $anil;
+      border-radius: $border-radius-big;
+      background-color: $white;
+      font-size: $less-than-medium-font;
+      font-family: "Poppins";
+      padding: 8px 20px;
+      cursor: pointer;
+      margin-bottom: 20px;
+
+      &:hover {
+        background-color: $anil;
+        color: $white;
+      }
     }
   }
 }

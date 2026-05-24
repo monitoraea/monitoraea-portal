@@ -41,7 +41,7 @@ export default function MapPP() {
         <div className="width-limiter">
           <div className={styles["cne-dash-inner"]}>
             <div className={styles["title"]}>
-              Conheça os Centros de Educação e Cooperação Socioambiental em
+              Conheça os Centros de Educação Ambiental em
               atuação no Brasil
             </div>
 

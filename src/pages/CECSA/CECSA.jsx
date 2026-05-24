@@ -20,8 +20,8 @@ import download from "../../images/download.png";
 import "./style.scss";
 import styles from "./styles.module.scss";
 
-import cecsa from "./cecsa.png";
-import cecsa_mobile from "./cecsa_mobile.png";
+import cecsa from "../../images/novo_centros.png";
+import cecsa_mobile from "../../images/novo_centros_mobile.png";
 
 function CECSA() {
   const isMobile = useMediaQuery({ maxWidth: 500 });
@@ -46,15 +46,15 @@ function CECSA() {
 
   const loadNameOptions =
     (url = "cne/list/") =>
-    (inputValue, callback) => {
-      axios
-        .get(
-          `${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${filtersString}`,
-        )
-        .then(function ({ data }) {
-          callback(data);
-        });
-    };
+      (inputValue, callback) => {
+        axios
+          .get(
+            `${import.meta.env.VITE_SERVER}${url}?nome=${inputValue}${filtersString}`,
+          )
+          .then(function ({ data }) {
+            callback(data);
+          });
+      };
 
   return (
     <>
@@ -73,11 +73,14 @@ function CECSA() {
           <div className={styles.about}>
             <div>
               <div className={styles.title}>
-                O que são os Centros de Educação e Cooperação Socioambiental?
+                O que são os Centros de Educação Ambiental?
               </div>
 
               <div className={styles["about-text"]}>
                 <div className={styles.column}>
+                  <p>
+                    O Programa Nacional de Centros de Educação Ambiental foi instituído pela Portaria GM/MMA nº 1.506, de 10 de novembro de 2025.
+                  </p>
                   <p>
                     Os Centros são espaços de cooperação, articulação,
                     elaboração estratégica, formação e desenvolvimento de
@@ -117,18 +120,36 @@ function CECSA() {
                     Buscam articular e dar continuidade às políticas públicas
                     desenvolvidas juntos aos seus territórios relacionais.
                   </p>
+
+                  <div className={`${styles.buttons} ${styles.cadastre}`}>
+                    <div className={styles["button-wrapper"]}>
+                      <button
+                        onClick={() => (window.location.href = "/colabora/minha_area")}
+                      >
+                        Cadastre um Centro de Educação Ambiental
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div className={styles.buttons}>
-            <div className={styles["button-wrapper"]}>
-              <button
-                onClick={() => (window.location.href = "/colabora/minha_area")}
-              >
-                Cadastre um Centro de Educação e Cooperação Socioambiental
-              </button>
+
+            <div className={styles.download}>
+              <div className={styles["button-wrapper"]}>
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://www.in.gov.br/en/web/dou/-/portaria-gm/mma-n-1.506-de-10-de-novembro-de-2025-668061780",
+                      "_blank",
+                    )
+                  }
+                >
+                  Acesse a Portaria GM/MMA Nº 1.506/2025 - Programa Nacional de Centros de Educação Ambiental
+                </button>
+              </div>
             </div>
 
             <div className={styles.download}>
@@ -136,19 +157,19 @@ function CECSA() {
                 <button
                   onClick={() =>
                     window.open(
-                      "https://pppzcm-files.s3.us-east-2.amazonaws.com/Centros.Nucelos.e.Equipamentos.de.Educacao.e.Cooperacao.Socioambiental.pdf",
+                      "https://monitoraea-files.s3.us-east-2.amazonaws.com/centros/rede_internacional_centros_ea.pdf",
                       "_blank",
                     )
                   }
                 >
+                  Baixe o documento que estabelece a Rede Internacional de Centros de Educação Ambiental
                   <div className={styles.image}>
                     <img src={download} />
                   </div>{" "}
-                  Baixe o documento de Centros, Núcelos e Equipamentos de
-                  Educação e Cooperação Socioambiental
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </section>
