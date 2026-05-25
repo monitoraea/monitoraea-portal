@@ -57,12 +57,15 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: center;
+
 
   .button-wrapper {
     max-width: 80vw;
   }
 
   .download {
+    width: 100%;
     button {
       display: flex;
       gap: 5px;
@@ -80,6 +83,18 @@
     padding: 8px 20px;
     cursor: pointer;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    width: 90%;
+
+    div {
+      padding: 0 30px;
+
+      img {
+        width: 20px;
+      }
+    }
 
     &:hover {
       background-color: $white;

@@ -157,12 +157,12 @@ function CECSA() {
                 <button
                   onClick={() =>
                     window.open(
-                      "https://monitoraea-files.s3.us-east-2.amazonaws.com/centros/rede_internacional_centros_ea.pdf",
+                      "https://monitoraea-files.s3.us-east-2.amazonaws.com/centros/carta+de+adesao_digital3.pdf",
                       "_blank",
                     )
                   }
                 >
-                  Baixe o documento que estabelece a Rede Internacional de Centros de Educação Ambiental
+                  Acesse a Carta de Adesão à Rede Internacional de Centros de Educação Ambiental
                   <div className={styles.image}>
                     <img src={download} />
                   </div>{" "}
