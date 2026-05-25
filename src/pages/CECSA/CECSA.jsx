@@ -130,6 +130,21 @@ function CECSA() {
                       </button>
                     </div>
                   </div>
+
+                  <div className={`${styles.buttons} ${styles.cadastre}`}>
+                    <div className={styles["button-wrapper"]}>
+                      <button
+                        onClick={() =>
+                          window.open(
+                            "https://forms.gle/4KKGiQp6f6RVsLxQ8",
+                            "_blank",
+                          )
+                        }
+                      >
+                        Faça sua adesão à Rede
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
