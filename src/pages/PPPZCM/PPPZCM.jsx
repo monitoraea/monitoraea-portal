@@ -31,7 +31,7 @@ import ana_rosa from "../../images/pppzcm/comite/people/ana_rosa.png";
 import nadja from "../../images/pppzcm/comite/people/nadja.png";
 import patricia from "../../images/pppzcm/comite/people/patricia.png";
 
-import logos from "../../images/pppzcm/comite/logos.png";
+import logos from "../../images/pppzcm/comite/logos_temp2026.png";
 
 import {
   reactSelectClassNamePrefix,

@@ -4,7 +4,7 @@ import Arrow from '../../images/arrow_2.svg?react';
 import Dev1 from '../../images/dev_1.png'
 import Dev2 from '../../images/dev_2.png'
 import Dev3 from '../../images/dev_3.png'
-import Dev4 from '../../images/dev_4.png'
+// import Dev4 from '../../images/dev_4.png'
 
 export default function Development() {
     return (<section id="desenvolvimento">
@@ -20,7 +20,7 @@ export default function Development() {
                 <img src={Dev1} alt="Figura Descritiva" />
                 <img src={Dev2} alt="Figura Descritiva" />
                 <img src={Dev3} alt="Figura Descritiva" />
-                <img src={Dev4} alt="Figura Descritiva" />
+                {/* <img src={Dev4} alt="Figura Descritiva" /> */}
             </div>
             <div className="button-more-wrapper">
                 <div>

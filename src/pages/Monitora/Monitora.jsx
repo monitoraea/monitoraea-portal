@@ -30,7 +30,7 @@ import cemaden from '../../images/about/logos/cemaden.png';
 import funbea from '../../images/about/logos/funbea.png';
 import peregum from '../../images/about/logos/peregum.png';
 import cnpq from '../../images/about/logos/cnpq.png';
-import mam from '../../images/about/logos/mam.png';
+// import mam from '../../images/about/logos/mam.png';
 import giz from '../../images/about/logos/giz.png';
 import funbio from '../../images/about/logos/funbio.png';
 
@@ -261,7 +261,7 @@ function Monitora() {
 
           <div className={`${styles.items} ${styles.fomento}`}>
             <img src={cnpq} />
-            <img src={mam} />
+            {/* <img src={mam} /> */}
             <img src={giz} />
             <img src={funbio} />
           </div>
