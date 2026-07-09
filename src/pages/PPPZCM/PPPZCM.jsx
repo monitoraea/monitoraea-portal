@@ -677,7 +677,7 @@ function PPPZCM() {
         </div>
       </div>
 
-      {["news" /* , 'learning' */].map((c) => (
+      {/* { eleições - ["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -686,7 +686,7 @@ function PPPZCM() {
           moreText={content_types[c][3]}
           portal="pppzcm"
         />
-      ))}
+      ))} *//* , 'learning' */}
 
       <Faq portal="pppzcm" />
     </>

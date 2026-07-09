@@ -85,13 +85,13 @@ function Footer() {
                 </ul>
               </div>
 
-              <div className={`${styles.menu}`}>
+              {/* eleição - <div className={`${styles.menu}`}>
                 <div>Fique por dentro</div>
                 <ul>
                   <li><Link to={`/page/81`}>Passo a passo</Link></li>
                   {menu.children.filter(m => m.id === 27)[0].children.map(m => <MenuItem key={m.id} data={m} />)}
                 </ul>
-              </div>
+              </div> */}
 
               <div className={`${styles.menu}`}>
                 <div>Perspectivas de mapeamento</div>

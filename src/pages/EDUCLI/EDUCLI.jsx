@@ -222,7 +222,7 @@ function EDUCLI() {
 
       <Timeline portal="educom_clima" url="educom_clima/timeline" title="Linha do tempo" />
 
-      {["news" /* ,'learning' */].map((c) => (
+      {/* eleições - ["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -231,7 +231,7 @@ function EDUCLI() {
           moreText={content_types[c][3]}
           portal="educom_clima"
         />
-      ))}
+      ))*/ /* ,'learning' */}
 
       <Faq portal="educom_clima" />
     </>

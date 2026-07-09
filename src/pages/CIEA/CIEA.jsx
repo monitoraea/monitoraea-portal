@@ -73,7 +73,7 @@ function CIEA() {
         onFiltersChange={_filtersString}
       />
 
-      {["news" /* ,'learning' */].map((c) => (
+      {/* eleição - {["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -82,7 +82,7 @@ function CIEA() {
           moreText={content_types[c][3]}
           portal="ciea"
         />
-      ))}
+      ))} *//* ,'learning' */}
 
       <Faq portal="ciea" />
     </>

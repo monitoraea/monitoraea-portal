@@ -35,8 +35,8 @@ function Home() {
 
     <MapGeneral />
 
-    {
-      ['news'/* , 'learning' */].map(c => <ContentByType
+    {/* eleição - {
+      ['news'].map(c => <ContentByType
         key={c}
         id={content_types[c][2]}
         contentType={c}
@@ -44,7 +44,7 @@ function Home() {
         moreText={content_types[c][3]}
         className={`content-type-${c}`}
       />)
-    }
+    } */ /* , 'learning' */} 
 
 
     <IniciativaCadastradas />

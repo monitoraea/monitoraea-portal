@@ -111,7 +111,7 @@ function Iniciativas() {
         </div>
       </div>
 
-      {["news" /* ,'learning' */].map((c) => (
+      {/* eleições - ["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -120,7 +120,7 @@ function Iniciativas() {
           moreText={content_types[c][3]}
           portal="ing"
         />
-      ))}
+      ))*/ /* ,'learning' */}
 
       <Faq portal="ing" />
     </>

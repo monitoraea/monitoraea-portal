@@ -80,7 +80,7 @@ function Nav() {
           <>
             <ul className={styles.menu}>
               <li className={styles['menu-item']}><Link to="/">Inicio</Link></li>
-              {menu.children.map(i => <li key={i.id} className={styles['menu-item']}>
+              {menu.children.filter(i => i.id != 27)/* eleição */.map(i => <li key={i.id} className={styles['menu-item']}>
                 <MenuItem data={i} />
 
                 {!!i.children.length && <ul className={styles['sub-menu']}>

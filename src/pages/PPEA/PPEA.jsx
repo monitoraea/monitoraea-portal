@@ -540,7 +540,7 @@ function PPEA() {
         </div>
       </div>
 
-      {["news" /* ,'learning' */].map((c) => (
+     {/* eleição - ["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -549,7 +549,7 @@ function PPEA() {
           moreText={content_types[c][3]}
           portal="pp"
         />
-      ))}
+      ))*/ /* ,'learning' */}
 
       <Faq portal="pp" />
     </>

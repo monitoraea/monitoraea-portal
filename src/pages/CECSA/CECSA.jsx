@@ -272,7 +272,7 @@ function CECSA() {
         onFiltersChange={_filtersString}
       />
 
-      {["news" /* ,'learning' */].map((c) => (
+      {/* eleição - ["news" ].map((c) => (
         <ContentByType
           key={c}
           id={content_types[c][2]}
@@ -281,7 +281,7 @@ function CECSA() {
           moreText={content_types[c][3]}
           portal="cne"
         />
-      ))}
+      ))*/ /* ,'learning' */}
 
       <Faq portal="cne" />
     </>
