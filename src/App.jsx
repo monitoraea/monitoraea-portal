@@ -54,7 +54,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/facilitadores" element={<Facilitadores />} />
+        {/* '<Route path="/facilitadores" element={<Facilitadores />} />
         <Route path="/novidades/:content_type/:portal?" element={<Novidades />} />
         <Route path="/novidade-single/:id" element={<NovidadeSingle />} />
         <Route path="/page/:id" element={<NovidadeSingle />} />
@@ -75,9 +75,9 @@ function App() {
         <Route path="/sobre/anppea" element={<ANPPEA />} />
         <Route path="/perfil/:identifier" element={<Profile />} />
         <Route path="/publicacoes" element={<Publications />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />' */}
       </Routes>
-      <Footer />
+      {/* eleição - <Footer /> */}
     </Router>
   </QueryClientProvider>);
 }

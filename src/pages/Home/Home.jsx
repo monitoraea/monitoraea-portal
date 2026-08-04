@@ -1,60 +1,59 @@
-import Header from '../../components/Header';
+import bg from "../../images/bg_top.jpg";
+import miolo from "../../images/logo_top.png";
+import logomonitoraea from "../../images/logo.png";
 
-import imgsobre from './sobre.png';
-import imgsobre_mobile from './sobre_mobile.png';
-
-import Development from '../../components/Development';
-
-import IniciativaCadastradas from '../../components/IniciativasCadastradas';
-
-import './style.scss';
-import styles from './styles.module.scss'
-
-import ContentByType from '../../components/ContentByType';
-import Faq from '../../components/Faq';
-
-import MapGeneral from '../../components/MapGeneral';
-
-import { content_types } from '../../utils';
-
-import { useMediaQuery } from 'react-responsive';
-import Timeline from '../../components/Timeline';
+import styles from '../../components/Header/index.module.scss'
+import homeStyles from './styles.module.scss'
 
 function Home() {
-  const isMobile = useMediaQuery({ maxWidth: 991 });
+  return (<div className={homeStyles.page}>
+    <div className={`${styles.banner} ${homeStyles.banner}`}>
+      <img className={styles.bg} src={bg} alt="" />
+      <div className={styles.backdrop}></div>
+      <div className={styles.content}>
+        <div className={styles.title}>
+          <img src={miolo} alt="" />
+          <div className={styles.text}>Sistema Brasileiro de Monitoramento e Avaliação em <strong>Educação Ambiental</strong></div>
+        </div>
 
-  /* if (isMobile)  */return (<>
-    <Header />
+        <div className={styles.right}>
+          <div className={styles['social-media']}>
+            {/* <a
+              href="https://www.instagram.com/anppea_monitoraea/"
+              target="_blank"
+            >
+              <img src={instagram} alt="" />
+            </a> */}
+          </div>
+          <button
+            onClick={() => (window.location.href = "/colabora")}
+            className={styles.login}
+          >
+            Acessar
+          </button>
+        </div>
 
-    <section className={styles.sobre}>
-      <div className={styles['width-limiter']}>
-        {!isMobile && <img src={imgsobre} />}
-        {isMobile && <img src={imgsobre_mobile} />}
       </div>
+    </div>
+
+    <section className={homeStyles.comunicado}>
+      <h2>COMUNICADO</h2>
+      <p>Em razão do período de defeso eleitoral, parte dos conteúdos da área pública do Sistema MonitoraEA foi temporariamente indisponibilizada, em observância à legislação eleitoral.</p>
+      <p>As funcionalidades do sistema permanecem normalmente disponíveis, incluindo o cadastro de novos usuários, o acesso à área logada (botão “Acessar”) e todas as operações relacionadas ao registro, monitoramento e autoavaliação das iniciativas.</p>
+      <p>Os conteúdos da área pública serão restabelecidos após o encerramento do período de restrição eleitoral.</p>
     </section>
 
-    <MapGeneral />
+    <footer className={homeStyles.footer}>
+      <div className={`${homeStyles['width-limiter']} ${homeStyles.inner}`}>
+        <img src={logomonitoraea} alt="MonitoraEA" />
+        <div className={homeStyles.contato}>
+          <div>Fale conosco:</div>
+          <a href="mailto:portal.monitoraea@gmail.com">portal.monitoraea@gmail.com</a>
+        </div>
+      </div>
+    </footer>
 
-    {/* eleição - {
-      ['news'].map(c => <ContentByType
-        key={c}
-        id={content_types[c][2]}
-        contentType={c}
-        title={content_types[c][1]}
-        moreText={content_types[c][3]}
-        className={`content-type-${c}`}
-      />)
-    } */ /* , 'learning' */} 
-
-
-    <IniciativaCadastradas />
-
-    <Timeline />
-
-    {/* <Faq /> */}
-
-    <Development />
-  </>)
+  </div>)
 }
 
 export default Home;

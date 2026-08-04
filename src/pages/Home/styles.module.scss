@@ -1,3 +1,5 @@
+@use '../../base' as *;
+
 .width-limiter {
     max-width: 991px;
     width: 100%;
@@ -9,10 +11,95 @@
 
 .sobre {
     padding: 5rem 2rem;
-    
+
     @media screen and (max-width: 500px) {
         padding: 2rem;
     }
 
     background-color: #d6e6f8;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .banner {
+        height: 280px;
+        flex-shrink: 0;
+
+        @media screen and (max-width: 500px) {
+            height: 240px;
+        }
+    }
+}
+
+.comunicado {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $amarelo;
+    color: $black;
+    font-family: "Poppins";
+    padding: 2rem;
+    text-align: center;
+
+    @media screen and (max-width: 500px) {
+        padding: 2rem 1.5rem;
+    }
+
+    h2 {
+        margin: 0 0 1.5rem;
+        font-size: $super-big-font;
+        font-weight: 700;
+    }
+
+    p {
+        max-width: 900px;
+        margin: 0 auto 1.5rem;
+        font-size: $medium-font;
+        font-weight: 600;
+        line-height: 1.6;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.footer {
+    background-color: $indigo;
+    color: $white;
+    font-family: "Poppins";
+    padding: 2.5rem 2rem;
+
+    .inner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        row-gap: 2rem;
+
+        @media screen and (max-width: 500px) {
+            align-items: center;
+        }
+
+        img {
+            max-width: 180px;
+            height: auto;
+        }
+    }
+
+    .contato {
+        text-align: right;
+
+        @media screen and (max-width: 500px) {
+            text-align: center;
+        }
+
+        a {
+            color: $white;
+            text-decoration: underline;
+        }
+    }
 }
